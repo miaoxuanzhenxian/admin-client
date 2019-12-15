@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Login from './pages/login';
+import Login from '@/pages/login';
 import Admin from './pages/addmin';
 
 export default class App extends Component {
