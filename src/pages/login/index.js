@@ -9,10 +9,17 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const form = this.props.form;
+    const values = form.getFieldsValue();
+    const username = form.getFieldValue('username');
+    const password = form.getFieldValue('password');
+    console.log(values, username, password);
+
     alert('发送登录的ajax请求');
   };
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className={style.login}>
         <div className={style["login-header"]}>
@@ -23,17 +30,38 @@ class Login extends Component {
           <h2>用户登录</h2>
           <Form onSubmit={this.handleSubmit} className={style["login-form"]}>
             <Form.Item>
-              <Input
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="用户名"
-              />
+              {
+                getFieldDecorator('username', {
+                  // 1).必须输入
+                  // 2).必须大于等于4位
+                  // 3).必须小于等于12位
+                  // 4).必须是英文、数字或下划线组成
+                  rules: [
+                    { required: true, whitespace: true, message: '用户名是必须的' },
+                    { min: 4, message: '用户名不能小于4位' },
+                    { max: 12, message: '用户名不能大于12位' },
+                    { pattern: /^(\w)+$/, message: '用户名必须是英文、数字或下划线组成' }
+                  ]
+                })(
+                  <Input
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="用户名"
+                  />
+                )
+              }
             </Form.Item>
             <Form.Item>
-              <Input
-                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                type="password"
-                placeholder="密码"
-              />
+              {
+                getFieldDecorator('password', {
+                  rules: []
+                })(
+                  <Input
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type="password"
+                    placeholder="密码"
+                  />
+                )
+              }
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className={style["login-form-button"]}>登录</Button>
@@ -46,10 +74,3 @@ class Login extends Component {
 }
 
 export default Login;
-
-/*
-  // 1).必须输入
-    // 2).必须大于等于4位
-    // 3).必须小于等于12位
-    // 4).必须是英文、数字或下划线组成
-*/
