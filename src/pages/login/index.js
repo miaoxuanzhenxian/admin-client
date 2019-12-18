@@ -8,14 +8,18 @@ import logo from './images/logo.png';
 class Login extends Component {
 
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault();   
+    /* //取出输入的相关数据
     const form = this.props.form;
     const values = form.getFieldsValue();
     const username = form.getFieldValue('username');
     const password = form.getFieldValue('password');
-    console.log(values, username, password);
-
-    alert('发送登录的ajax请求');
+    console.log(values, username, password); */
+    this.props.form.validateFields((err, { username, password }) => {
+      if (!err) {
+        alert(`发送登录的ajax请求, username=${username}, password=${password}`);
+      }
+    });
   }
 
   /*
@@ -26,7 +30,7 @@ class Login extends Component {
     // 2).必须大于等于4位
     // 3).必须小于等于12位
     // 4).必须是英文、数字或下划线组成
-    value = value.trim();
+    // value = value.trim();
     if (!value) {
       callback('密码是必须的');
     } else if (value.length < 4) {
@@ -58,8 +62,9 @@ class Login extends Component {
                   // 2).必须大于等于4位
                   // 3).必须小于等于12位
                   // 4).必须是英文、数字或下划线组成
+                  // initialValue: '',
                   rules: [
-                    { required: true, whitespace: true, message: '用户名是必须的' },
+                    { required: true, message: '用户名是必须的' },
                     { min: 4, message: '用户名不能小于4位' },
                     { max: 12, message: '用户名不能大于12位' },
                     { pattern: /^(\w)+$/, message: '用户名必须是英文、数字或下划线组成' }
@@ -79,6 +84,7 @@ class Login extends Component {
                   // 2).必须大于等于4位
                   // 3).必须小于等于12位
                   // 4).必须是英文、数字或下划线组成
+                  // initialValue: '',
                   rules: [
                     { validator: this.validatePwd }
                   ]
