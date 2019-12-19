@@ -2,7 +2,7 @@
 
 /.idea
 
-api文档.md
+*.md
 # dependencies
 /node_modules
 /.pnp
