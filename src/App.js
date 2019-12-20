@@ -1,21 +1,25 @@
 /*
 应用根组件
 */
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Login from './pages/login';
-import Admin from './pages/addmin';
+import Loading from './components/loading';
+//路由的懒加载，解决首屏加载过慢的问题
+const Login = lazy(() => import('./pages/login'));
+const Admin = lazy(() => import('./pages/admin'));
 
 export default class App extends Component {
 
   render() {
     return (
       <Router>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/" component={Admin} />
-        </Switch>
+        <Suspense fallback={ <Loading /> }>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/" component={Admin} />
+          </Switch>
+        </Suspense>
       </Router>
     )
   }

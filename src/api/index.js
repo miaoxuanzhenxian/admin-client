@@ -5,7 +5,7 @@ import ajax from './ajax';
 
 const baseURL= 'http://localhost:5000';
 export function reqLogin (username, password) {
-  ajax({
+  return ajax({
     method: 'post',
     url: baseURL + '/login',
     data: {
@@ -15,4 +15,6 @@ export function reqLogin (username, password) {
   });
 }
 
-reqLogin('admin','admin');
+reqLogin('admin','admin').then(result => {
+  console.log(result);
+});
