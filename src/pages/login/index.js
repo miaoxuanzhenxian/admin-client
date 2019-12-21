@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Modal, message } from 'antd';
 
 import style from './index.module.less';
 import logo from './images/logo.png';
+import { reqLogin } from '@/api';
 
 @Form.create()
 class Login extends Component {
@@ -15,9 +16,21 @@ class Login extends Component {
     const username = form.getFieldValue('username');
     const password = form.getFieldValue('password');
     console.log(values, username, password); */
-    this.props.form.validateFields((err, { username, password }) => {
+    
+    //对表单所有字段进行点击登录时的统一验证
+    this.props.form.validateFields(async (err, { username, password }) => {
       if (!err) {
-        alert(`发送登录的ajax请求, username=${username}, password=${password}`);
+        const result = await reqLogin(username, password);
+        if (result.status === 0) {
+          //登录成功
+          this.props.history.replace('/');
+          message.success('登陆成功');
+        } else {
+          //登陆失败
+          Modal.error({
+            content: result.msg
+          });
+        }
       }
     });
   }

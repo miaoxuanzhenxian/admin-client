@@ -4,7 +4,10 @@
 import ajax from './ajax';
 
 const baseURL= 'http://localhost:5000';
-export function reqLogin (username, password) {
+
+//请求登录
+export const reqLogin = (username, password) => ajax.post(baseURL + '/login', {username, password});
+/* export function reqLogin (username, password) {
   return ajax({
     method: 'post',
     url: baseURL + '/login',
@@ -13,8 +16,4 @@ export function reqLogin (username, password) {
       password
     }
   });
-}
-
-reqLogin('admin','admin').then(result => {
-  console.log(result);
-});
+} */
