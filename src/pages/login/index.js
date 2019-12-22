@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form, Icon, Input, Button, Modal, message } from 'antd';
 
 import style from './index.module.less';
 import logo from './images/logo.png';
 import { reqLogin } from '@/api';
+import { saveUser, getUser } from '@/utils/storageUtils.js';
+// import Loading from '@/components/loading';
 
 @Form.create()
 class Login extends Component {
@@ -23,6 +26,9 @@ class Login extends Component {
         const result = await reqLogin(username, password);
         if (result.status === 0) {
           //登录成功
+          //将user信息保存到localStorage中
+          // localStorage.setItem('user_key', JSON.stringify(result.data));
+          saveUser(result.data);
           this.props.history.replace('/');
           message.success('登陆成功');
         } else {
@@ -58,9 +64,17 @@ class Login extends Component {
   }
 
   render() {
+    //读取保存的user，如果存在，直接重定向到admin管理界面
+    // const user = JSON.parse(localStorage.getItem('user_key') || '{}');
+    const user = getUser();
+    if (user._id) {
+      return <Redirect to='/' />
+    }
+
     const { getFieldDecorator } = this.props.form;
     return (
       <div className={style.login}>
+        {/* <Loading className={style.loading} spinStyle={{ color: 'pink' }} /> */}
         <div className={style["login-header"]}>
           <img src={logo} alt="logo" />
           <h1>后台管理系统</h1>

@@ -5,9 +5,9 @@ import style from './index.module.less';
 
 export default class Loading extends Component {
   render() {
-    const antIcon = <Icon type="loading" style={{ color: 'blue' }} spin />;
+    const antIcon = <Icon type="loading" style={this.props.spinStyle} spin />;
     return (
-      <div className={style.loading} style={this.props.style}>
+      <div className={style.loading + ` ${this.props.className}`} style={this.props.style}>
         <Spin indicator={ antIcon } /> Loading......
       </div>
     )
