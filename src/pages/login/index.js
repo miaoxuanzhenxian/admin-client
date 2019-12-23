@@ -5,7 +5,8 @@ import { Form, Icon, Input, Button, Modal, message } from 'antd';
 import style from './index.module.less';
 import logo from './images/logo.png';
 import { reqLogin } from '@/api';
-import { saveUser, getUser } from '@/utils/storageUtils.js';
+import { saveUser } from '@/utils/storageUtils.js';
+import memoryUtils from '@/utils/memoryUtils.js';
 // import Loading from '@/components/loading';
 
 @Form.create()
@@ -27,8 +28,12 @@ class Login extends Component {
         if (result.status === 0) {
           //登录成功
           //将user信息保存到localStorage中
-          // localStorage.setItem('user_key', JSON.stringify(result.data));
-          saveUser(result.data);
+          const user = result.data;
+          // localStorage.setItem('user_key', JSON.stringify(user));
+          saveUser(user);
+          //将user保存到内存中
+          memoryUtils.user = user;
+          //跳转到admin管理界面
           this.props.history.replace('/');
           message.success('登陆成功');
         } else {
@@ -66,8 +71,10 @@ class Login extends Component {
   render() {
     //读取保存的user，如果存在，直接重定向到admin管理界面
     // const user = JSON.parse(localStorage.getItem('user_key') || '{}');
-    const user = getUser();
+    const user = memoryUtils.user;
     if (user._id) {
+      /*在render中不能用this.props.history.replace方式跳转路由界面，此方式通常用于事件回调函数中，不能用于render中，
+      在render中，要使用渲染Redirect重定向组件标签的方式（即return 返回Redirect重定向组件标签的方式）来跳转路由界面*/
       return <Redirect to='/' />
     }
 
