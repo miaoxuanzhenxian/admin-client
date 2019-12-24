@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Layout } from 'antd';
 
 // import { getUser } from '@/utils/storageUtils.js';
 import memoryUtils from '@/utils/memoryUtils';
+import LeftNav from '@/components/left-nav';
+import Header from '@/components/header';
+
+
+const { Footer, Sider, Content } = Layout;
 
 export default class Admin extends Component {
 
@@ -14,9 +20,18 @@ export default class Admin extends Component {
       return <Redirect to='/login' />
     }
     return (
-      <div>
-        hello, {user.username}
-      </div>
+      <Layout style={{ height: '100%' }}>
+        <Sider>
+          <LeftNav />
+        </Sider>
+        <Layout>
+          <Header />
+          <Content style={{ backgroundColor: 'white' }}>Content</Content>
+          <Footer style={{ textAlign: 'center', color: 'rgba(0, 0, 0, 0.5)' }}>
+            推荐使用谷歌浏览器，可以获得更佳页面操作体验
+          </Footer>
+        </Layout>
+      </Layout>
     )
   }
 }
