@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { Form, Icon, Input, Button, Modal, message } from 'antd';
 
 import style from './index.module.less';
-import logo from './images/logo.png';
+import logo from '@/assets/images/logo.png';
 import { reqLogin } from '@/api';
 import { saveUser } from '@/utils/storageUtils.js';
 import memoryUtils from '@/utils/memoryUtils.js';
