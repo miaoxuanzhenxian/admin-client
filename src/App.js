@@ -2,7 +2,7 @@
 应用根组件
 */
 import React, { Component, Suspense, lazy } from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Loading from './components/loading';
 //路由的懒加载，解决首屏加载过慢的问题
