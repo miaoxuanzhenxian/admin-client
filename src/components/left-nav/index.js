@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
 class LeftNav extends Component {
   constructor(props) {//为第一次render()之前做一些同步的准备工作,初始化 state
     super(props);
-    this.menuNodes = this.getMenuNodes2(menuList);
+    this.menuNodes = this.getMenuNodes2(menuList);//使得getMenuNodes2（）在LeftNav组件周期内只运行一次，提高运行效率
   }
   /* 
   第一次render()之后执行一次
