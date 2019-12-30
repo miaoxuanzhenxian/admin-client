@@ -16,7 +16,6 @@ const Bar = lazy(() => import('../charts/bar'));
 const Line = lazy(() => import('../charts/line'));
 const Pie = lazy(() => import('../charts/pie'));
 
-
 const { Footer, Sider, Content } = Layout;
 
 export default class Admin extends Component {
@@ -35,7 +34,7 @@ export default class Admin extends Component {
         </Sider>
         <Layout>
           <Header />
-          <Content style={{ backgroundColor: 'pink', position: 'relative', margin: '20px' }}>
+          <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
             <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, color: 'red' }} spinStyle={{ color: 'blue' }} /> }>
               <Switch>
                 <Route path="/home" exact component={Home} />
