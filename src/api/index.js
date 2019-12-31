@@ -17,3 +17,5 @@ export const reqLogin = (username, password) => ajax.post(baseURL + '/login', {u
     }
   });
 } */
+
+//发送jsonp请求得到天气信息

@@ -6,10 +6,26 @@ import style from './index.module.less';
 import { removeUser } from "@/utils/storageUtils";
 import memoryUtils from "@/utils/memoryUtils";
 import menuList from '@/config/menuConfig';
-
+import { formateDate } from '@/utils/dateUtils';
 
 @withRouter
 class Header extends Component {
+
+  state = {
+    currentTime: formateDate(Date.now())
+  }
+
+  componentDidMount() {
+    this.intertvalId = setInterval(() => {
+      this.setState({
+        currentTime: formateDate(Date.now())
+      });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.intertvalId);
+  }
+
   handleLogout = () => {
     Modal.confirm({
       title: '确定退出吗？',
@@ -39,6 +55,7 @@ class Header extends Component {
     return title;
   }
   render() {
+    const { currentTime } = this.state;
     const title = this.getTitle(menuList);
     return (
       <div className={style.header}>
@@ -47,11 +64,9 @@ class Header extends Component {
           <a href="javascript:" onClick={this.handleLogout}>退出</a>
         </div>
         <div className={style["header-bottom"]}>
-          <div className={style["header-bottom-left"]}>
-            {title}
-          </div>
+          <div className={style["header-bottom-left"]}>{title}</div>
           <div className={style["header-bottom-right"]}>
-            <span>2019-12-29 17:40:9</span>
+            <span>{currentTime}</span>
             <img src="http://api.map.baidu.com/images/weather/day/qing.png" alt="weather" />
             <span>晴转多云</span>
           </div>
