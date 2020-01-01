@@ -7,23 +7,42 @@ import { removeUser } from "@/utils/storageUtils";
 import memoryUtils from "@/utils/memoryUtils";
 import menuList from '@/config/menuConfig';
 import { formateDate } from '@/utils/dateUtils';
+import { reqWeather } from '@/api';
 
 @withRouter
 class Header extends Component {
 
   state = {
-    currentTime: formateDate(Date.now())
+    currentTime: formateDate(Date.now()),
+    dayPictureUrl: '', //天气白天图片url
+    weather: '' //天气文本
   }
 
   componentDidMount() {
+    //启动循环定时器
     this.intertvalId = setInterval(() => {
       this.setState({
         currentTime: formateDate(Date.now())
       });
     }, 1000);
+    //发jsonp请求获取天气信息显示
+    this.getWeather('北京');
   }
   componentWillUnmount() {
     clearInterval(this.intertvalId);
+  }
+
+  /*
+  获取天气信息显示
+  */
+  getWeather = async (city) => {
+    //发请求
+    const { dayPictureUrl, weather } = await reqWeather(city);
+    //更新状态
+    this.setState({
+      dayPictureUrl,
+      weather
+    });
   }
 
   handleLogout = () => {
@@ -55,7 +74,7 @@ class Header extends Component {
     return title;
   }
   render() {
-    const { currentTime } = this.state;
+    const { currentTime, dayPictureUrl, weather } = this.state;
     const title = this.getTitle(menuList);
     return (
       <div className={style.header}>
@@ -67,8 +86,8 @@ class Header extends Component {
           <div className={style["header-bottom-left"]}>{title}</div>
           <div className={style["header-bottom-right"]}>
             <span>{currentTime}</span>
-            <img src="http://api.map.baidu.com/images/weather/day/qing.png" alt="weather" />
-            <span>晴转多云</span>
+            <img src={dayPictureUrl} alt="weather" />
+            <span>{weather}</span>
           </div>
         </div>
       </div>
