@@ -108,6 +108,7 @@ class LeftNav extends Component {
   }
 
   render() {
+    console.log(logo)
     return (
       <div className={style["left-nav"]}>
         <Link to="/home" className={style["left-nav-link"]}>

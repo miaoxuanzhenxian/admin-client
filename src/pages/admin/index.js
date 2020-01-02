@@ -35,7 +35,7 @@ export default class Admin extends Component {
         <Layout>
           <Header />
           <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
-            <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, color: 'red' }} spinStyle={{ color: 'blue' }} /> }>
+            <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinStyle={{ color: 'blue' }} /> }>
               <Switch>
                 <Route path="/home" exact component={Home} />
                 <Route path="/category" exact component={Category} />

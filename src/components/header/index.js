@@ -8,6 +8,7 @@ import memoryUtils from "@/utils/memoryUtils";
 import menuList from '@/config/menuConfig';
 import { formateDate } from '@/utils/dateUtils';
 import { reqWeather } from '@/api';
+import LinkButton from '@/components/link-button';
 
 @withRouter
 class Header extends Component {
@@ -80,7 +81,8 @@ class Header extends Component {
       <div className={style.header}>
         <div className={style["header-top"]}>
           欢迎, {memoryUtils.user.username}
-          <a href="javascript:" onClick={this.handleLogout}>退出</a>
+          {/* <a href="javascript:" onClick={this.handleLogout}>退出</a> */}
+          <LinkButton className={style["logout-button"]} onClick={this.handleLogout}>退出</LinkButton>
         </div>
         <div className={style["header-bottom"]}>
           <div className={style["header-bottom-left"]}>{title}</div>
