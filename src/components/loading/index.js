@@ -4,7 +4,7 @@ import { Spin, Icon } from 'antd';
 import style from './index.module.less';
 
 export default function Loading(props) {
-  const antIcon = <Icon type="loading" style={props.spinStyle} spin />;
+  const antIcon = <Icon type="loading" style={props.spinstyle} spin />;
   return (
     <div {...props} className={style.loading + ` ${props.className}`}>
       <Spin indicator={antIcon} /> Loading......
