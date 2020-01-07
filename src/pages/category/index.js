@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, Button, Icon, Table, message, Modal } from 'antd';
 import LinkButton from '@/components/link-button';
 
-import style from './index.module.less';
 import { reqCategorys } from '@/api';
 import AddUpdateForm from './add-update-form';
 
