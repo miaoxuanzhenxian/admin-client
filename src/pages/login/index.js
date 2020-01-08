@@ -69,6 +69,9 @@ class Login extends Component {
   }
 
   render() {
+    /* const testReactNode = (
+      <span style={{ color: 'blue' }}>用户名不能小于4位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    ) */
     //读取保存的user，如果存在，直接重定向到admin管理界面
     // const user = JSON.parse(localStorage.getItem('user_key') || '{}');
     const user = memoryUtils.user;
@@ -97,8 +100,10 @@ class Login extends Component {
                   // 3).必须小于等于12位
                   // 4).必须是英文、数字或下划线组成
                   // initialValue: '',
+                  // validateFirst: true, //当某一规则校验不通过时，是否停止剩下的规则的校验
                   rules: [
                     { required: true, message: '用户名是必须的' },
+                    // { min: 4, message: testReactNode },
                     { min: 4, message: '用户名不能小于4位' },
                     { max: 12, message: '用户名不能大于12位' },
                     { pattern: /^(\w)+$/, message: '用户名必须是英文、数字或下划线组成' }

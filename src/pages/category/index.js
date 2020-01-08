@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Icon, Table, message, Modal } from 'antd';
 import LinkButton from '@/components/link-button';
 
-import { reqCategorys } from '@/api';
+import { reqCategorys, reqAddCategory } from '@/api';
 import AddUpdateForm from './add-update-form';
 
 export default class Category extends Component {
@@ -61,7 +61,31 @@ export default class Category extends Component {
     点击确定(ok)的回调: 去添加/修改分类
   */
   handleOk = () => {
-
+    //进行表单统一整体验证
+    this.form.validateFields(async (err, values) => {
+      if (!err) {
+        //验证通过，得到输入数据
+        const { categoryName } = values;
+        //发添加分类的请求
+        const result = await reqAddCategory(categoryName);
+        this.setState({
+          showStatus: 0
+        });
+        //根据相应结果，做不同处理
+        const { status, msg } = result;
+        if (status === 0) {
+          //重新获取分类列表显示
+          this.getCategorys();
+          message.success('添加分类成功');
+        } else if (status === 1) {
+          //重新获取分类列表显示
+          this.getCategorys();
+          message.info(msg);
+        } else {
+          message.error('添加分类失败');
+        }
+      }
+    });
   }
 
   /*
@@ -112,7 +136,7 @@ export default class Category extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
           >
-            <AddUpdateForm />
+            <AddUpdateForm setForm={form => this.form = form} />
           </Modal>
         </Card>
       </div>
