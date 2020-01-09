@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Icon, Table, message, Modal } from 'antd';
 import LinkButton from '@/components/link-button';
 
-import { reqCategorys, reqAddCategory } from '@/api';
+import { reqCategorys, reqAddCategory, reqUpdateCategory } from '@/api';
 import AddUpdateForm from './add-update-form';
 
 export default class Category extends Component {
@@ -30,7 +30,10 @@ export default class Category extends Component {
       {
         title: '操作',
         width: '300px',
-        render: () => <LinkButton>修改分类</LinkButton>
+        render: (category) => <LinkButton onClick={() => {
+          this.category = category; //保存当前分类，使其它地方都可读取到
+          this.setState({ showStatus: 2 });
+        }}>修改分类</LinkButton>
       },
     ];
   }
@@ -66,23 +69,36 @@ export default class Category extends Component {
       if (!err) {
         //验证通过，得到输入数据
         const { categoryName } = values;
-        //发添加分类的请求
-        const result = await reqAddCategory(categoryName);
+
+        const { showStatus } = this.state;
+        let result;
+        if (showStatus === 1) { //添加分类
+          //发添加分类的请求
+          result = await reqAddCategory(categoryName);
+        } else { //修改分类
+          const categoryId = this.category._id;
+          result = await reqUpdateCategory({ categoryId, categoryName });
+        }
+        //重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+        this.form.resetFields();
+        
         this.setState({
           showStatus: 0
         });
+
         //根据相应结果，做不同处理
         const { status, msg } = result;
+        const action = showStatus === 1 ? '添加' : '修改';
         if (status === 0) {
           //重新获取分类列表显示
           this.getCategorys();
-          message.success('添加分类成功');
+          message.success(action + '分类成功');
         } else if (status === 1) {
           //重新获取分类列表显示
           this.getCategorys();
           message.info(msg);
         } else {
-          message.error('添加分类失败');
+          message.error(action + '分类失败');
         }
       }
     });
@@ -95,6 +111,8 @@ export default class Category extends Component {
     this.setState({
       showStatus: 0
     });
+    //重置一组输入表单控件的值,即重置输入数据(变成了初始值)，重置为initialVale的值，相当于没有输入，即相当于没有在表单框中输入过数据
+    this.form.resetFields();
   }
 
   componentDidMount() {
@@ -111,9 +129,14 @@ export default class Category extends Component {
   render() {
     //取出状态数据
     const { categorys, loading, showStatus } = this.state;
+    //读取修改(更新)名称
+    const category = this.category || {};
     //Card右上角的结构
     const extra = (
-      <Button type="primary" onClick={() => { this.setState({ showStatus: 1 }) }}>
+      <Button type="primary" onClick={() => {
+        this.setState({ showStatus: 1 });
+        this.category = null;
+      }}>
         <Icon type="plus" />
         添加
       </Button>
@@ -136,7 +159,7 @@ export default class Category extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
           >
-            <AddUpdateForm setForm={form => this.form = form} />
+            <AddUpdateForm setForm={form => this.form = form} categoryName={category.name} />
           </Modal>
         </Card>
       </div>

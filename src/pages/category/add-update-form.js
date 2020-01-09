@@ -6,7 +6,8 @@ import { Form, Input } from 'antd';
 class AddUpdateForm extends Component {
 
   static propTypes = {
-    setForm: propTypes.func.isRequired
+    setForm: propTypes.func.isRequired,
+    categoryName: propTypes.string
   }
 
   constructor(props) {
@@ -18,12 +19,14 @@ class AddUpdateForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { categoryName } = this.props;
     return (
       <div>
         <Form>
           <Form.Item>
             {
               getFieldDecorator('categoryName', {
+                initialValue: categoryName || '',
                 rules: [
                   { required: true, message: '分类名称必须输入' }
                 ]
