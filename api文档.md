@@ -320,7 +320,7 @@
             "pageSize": 5,
             "list": [
                 {
-                    "status": 1,
+                    "status": 1,  //注释：1是在售状态，2是已下架状态
                     "imgs": [
                         "image-1559402396338.jpg"
                     ],

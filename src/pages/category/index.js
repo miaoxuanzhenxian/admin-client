@@ -145,11 +145,11 @@ export default class Category extends Component {
       <div>
         <Card extra={extra}>
           <Table
+            bordered
             loading={loading}
             columns={this.columns}
             dataSource={categorys}
             rowKey="_id"
-            bordered
             pagination={{ defaultPageSize: 6, showQuickJumper: true }}
           />
 
