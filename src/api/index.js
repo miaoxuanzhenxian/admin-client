@@ -43,3 +43,10 @@ export const reqAddCategory = (categoryName) => ajax.post(BASE + '/manage/catego
 
 //修改分类（更新品类名称）
 export const reqUpdateCategory = ({ categoryId, categoryName }) => ajax.post(BASE + '/manage/category/update', { categoryId, categoryName });
+
+//获取商品分页列表(后台分页)
+export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list', {
+  params: { // 包含所有query参数的对象
+    pageNum, pageSize
+  }
+})
