@@ -77,6 +77,7 @@ export default class Category extends Component {
           result = await reqAddCategory(categoryName);
         } else { //修改分类
           const categoryId = this.category._id;
+          //发修改（更新）分类的请求
           result = await reqUpdateCategory({ categoryId, categoryName });
         }
         //重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据

@@ -3,7 +3,8 @@ import { Card, Select, Input, Button, Icon, Table, message } from 'antd';
 
 import style from './index.module.less';
 import LinkButton from '@/components/link-button';
-import { reqProducts } from '@/api';
+import { reqProducts, reqSearchProducts } from '@/api';
+import { PAGE_SIZE } from '@/utils/constants'
 
 const { Option } = Select
 
@@ -15,7 +16,9 @@ export default class Product extends Component {
     this.state = {
       loading: false,
       total: 0, //商品的总数量
-      products: [] //商品列表
+      products: [], //商品列表
+      searchType: 'productName', // 默认是按商品名称搜索
+      searchName: '', // 搜索的关键字
     }
 
     this.initColumns()
@@ -39,6 +42,7 @@ export default class Product extends Component {
       },
       {
         title: '状态',
+        width: '100px',
         dataIndex: 'status',
         render: (status) => {
           let btnText = '下架'
@@ -69,11 +73,22 @@ export default class Product extends Component {
   }
 
   /*
-    异步获取指定页码商品列表显示（后台分页）
+    异步获取指定页码商品分页(可能带搜索)列表显示
   */
   getProducts = async (pageNum) => {
-    // 发请求获取指定页码商品列表数据
-    const result = await reqProducts(pageNum, 3);
+    // 保存当前请求的页码
+    this.pageNum = pageNum
+
+    const { searchType, searchName } = this.state
+    let result
+    // 发请求获取数据
+    if (!searchName) {
+      // 发获取商品分页列表(后台分页)请求
+      result = await reqProducts(pageNum, PAGE_SIZE);
+    } else {
+      // 发搜索产品分页列表请求
+      result = await reqSearchProducts({ pageNum, pageSize: PAGE_SIZE, searchType, searchName })
+    }
     if (result.status === 0) {
       // 取出数据
       const { total, list } = result.data
@@ -91,19 +106,33 @@ export default class Product extends Component {
     //获取第一页商品列表显示
     this.getProducts(1)
   }
-
+  
   render() {
     //取出状态数据
-    const { loading, total, products } = this.state
+    const { loading, total, products, searchType, searchName } = this.state
     //Card左上角结构
     const title = (
       <span>
-        <Select className={style['search-select']} value="1">
-          <Option value="1">按名称搜索</Option>
-          <Option value="2">按描述搜索</Option>
+        <Select
+          className={style['search-select']}
+          value={searchType}
+          onChange={value => this.setState({ searchType: value })}
+        >
+          <Option value="productName">按名称搜索</Option>
+          <Option value="productDesc">按描述搜索</Option>
         </Select>
-        <Input className={style['search-input']} placeholder="关键字" />
-        <Button type="primary">搜索</Button>
+        <Input
+          className={style['search-input']}
+          placeholder="关键字"
+          value={searchName}
+          onChange={e => this.setState({ searchName: e.target.value })}
+        />
+        <Button
+          type="primary"
+          onClick={this.getProducts.bind(this, 1)}
+        >
+          搜索
+        </Button>
       </span>
     )
     //Card右上角结构
@@ -124,9 +153,10 @@ export default class Product extends Component {
             rowKey='_id'
             pagination={{
               total,
-              defaultPageSize: 3,
+              defaultPageSize: PAGE_SIZE,
               showQuickJumper: true,
-              onChange: this.getProducts
+              onChange: this.getProducts,
+              current: this.pageNum,
             }}
           />
         </Card>
