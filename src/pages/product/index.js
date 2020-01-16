@@ -3,7 +3,7 @@ import { Card, Select, Input, Button, Icon, Table, message } from 'antd';
 
 import style from './index.module.less';
 import LinkButton from '@/components/link-button';
-import { reqProducts, reqSearchProducts } from '@/api';
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api';
 import { PAGE_SIZE } from '@/utils/constants'
 
 const { Option } = Select
@@ -24,6 +24,20 @@ export default class Product extends Component {
     this.initColumns()
   }
 
+  updateStatus = async (productId, status) => {
+    // 计算更新后的值
+    status = status === 1 ? 2 : 1
+    // 请求更新
+    const result = await reqUpdateStatus(productId, status);
+    if (result.status === 0) {
+      message.success('更新商品状态成功!')
+      // 获取当前页显示
+      this.getProducts(this.pageNum)
+    } else {
+      message.error('更新商品状态失败!')
+    }
+  } 
+
   initColumns = () => {
     this.columns = [
       {
@@ -43,8 +57,7 @@ export default class Product extends Component {
       {
         title: '状态',
         width: '100px',
-        dataIndex: 'status',
-        render: (status) => {
+        render: ({ _id, status }) => {
           let btnText = '下架'
           let text = '在售'
           if (status === 2) {
@@ -53,7 +66,9 @@ export default class Product extends Component {
           }
           return (
             <span>
-              <Button type="primary">{btnText}</Button> <br />
+              <Button type="primary" onClick={this.updateStatus.bind(this, _id, status)}>
+                {btnText}
+              </Button> <br />
               <span>{text}</span>
             </span>
           )
@@ -106,7 +121,7 @@ export default class Product extends Component {
     //获取第一页商品列表显示
     this.getProducts(1)
   }
-  
+
   render() {
     //取出状态数据
     const { loading, total, products, searchType, searchName } = this.state

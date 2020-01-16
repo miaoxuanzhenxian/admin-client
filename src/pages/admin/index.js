@@ -7,6 +7,9 @@ import memoryUtils from '@/utils/memoryUtils';
 import LeftNav from '@/components/left-nav';
 import Header from '@/components/header';
 import Loading from '@/components/loading';
+
+const { Sider, Content, Footer } = Layout;
+
 const Home = lazy(() => import('../home'));
 const Category = lazy(() => import('../category'));
 const Product = lazy(() => import('../product'));
@@ -16,7 +19,6 @@ const Bar = lazy(() => import('../charts/bar'));
 const Line = lazy(() => import('../charts/line'));
 const Pie = lazy(() => import('../charts/pie'));
 
-const { Footer, Sider, Content } = Layout;
 
 export default class Admin extends Component {
 

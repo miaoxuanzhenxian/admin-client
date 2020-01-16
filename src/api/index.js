@@ -66,3 +66,6 @@ export const reqSearchProducts = ({
     [searchType]: searchName
   }
 })
+
+/* 对商品进行上架/下架处理(设置对应status的值，status为1表示在售状态，2表示已下架状态) */
+export const reqUpdateStatus = (productId, status) => ajax.post(BASE + '/manage/product/updateStatus', { productId, status })
