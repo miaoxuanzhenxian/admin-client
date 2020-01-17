@@ -62,7 +62,7 @@ class Header extends Component {
     let title = '';
     const pathname = this.props.location.pathname;
     for (const item of menuList) {
-      if (item.key === pathname) {
+      if (pathname.indexOf(item.key) === 0) { // 使用pathname.indexOf主要是为了防止当路由路径pathname为/product/addupdate等时出现无法匹配/product而造成的无法获取对应的表单项的标题title为商品管理的问题
         title = item.title;
         break;
       } else if (item.children) {

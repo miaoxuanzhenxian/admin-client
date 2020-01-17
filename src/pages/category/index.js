@@ -135,7 +135,7 @@ export default class Category extends Component {
     //Card右上角的结构
     const extra = (
       <Button type="primary" onClick={() => {
-        this.setState({ showStatus: 1 });
+        this.setState({ showStatus: 1 }); //this.setSate()是异步的
         this.category = null;
       }}>
         <Icon type="plus" />

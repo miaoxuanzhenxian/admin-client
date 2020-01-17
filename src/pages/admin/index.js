@@ -41,7 +41,7 @@ export default class Admin extends Component {
               <Switch>
                 <Route path="/home" exact component={Home} />
                 <Route path="/category" exact component={Category} />
-                <Route path="/product" exact component={Product} />
+                <Route path="/product" component={Product} />
                 <Route path="/role" exact component={Role} />
                 <Route path="/user" exact component={User} />
                 <Route path="/charts/bar" exact component={Bar} />

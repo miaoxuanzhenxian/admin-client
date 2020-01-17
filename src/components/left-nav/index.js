@@ -46,8 +46,8 @@ class LeftNav extends Component {
           </Menu.Item>
         )
       }
-      const citem = item.children.find(citem => citem.key === path);
-      if (citem) {
+      const cItem = item.children.find(cItem => cItem.key === path);
+      if (cItem) {
         this.openKey = item.key;
       }
       return (
@@ -85,8 +85,8 @@ class LeftNav extends Component {
         );
       } else {
         // 如果当前请求路由与当前菜单的某个子菜单的key匹配, 将菜单的key保存为openKey
-        const citem = item.children.find(citem => citem.key === path);
-        if (citem) {
+        const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0); // 使用path.indexOf主要是为了防止当路由路径path为/product/addupdate等时出现无法匹配/product而造成的无法打开对应的折叠表单项的问题
+        if (cItem) {
           this.openKey = item.key;
         }
         pre.push(
@@ -108,6 +108,10 @@ class LeftNav extends Component {
   }
 
   render() {
+    // 得到当前请求路径, 作为选中菜单项的key
+    let selectKey = this.props.location.pathname  // /product/xxx
+    if (selectKey.indexOf('/product') === 0) selectKey = '/product' // 使用selectKey.indexOf主要是为了防止当路由路径selectKey为/product/addupdate等时出现无法匹配/product而造成的无法选中对应的表单项的问题
+
     return (
       <div className={style["left-nav"]}>
         <Link to="/home" className={style["left-nav-link"]}>
@@ -116,7 +120,7 @@ class LeftNav extends Component {
         </Link>
 
         <Menu
-          selectedKeys={[this.props.location.pathname]}
+          selectedKeys={[selectKey]}
           defaultOpenKeys={[this.openKey]}
           mode="inline"
           theme="dark"
