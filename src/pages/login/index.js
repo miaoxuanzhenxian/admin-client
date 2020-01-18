@@ -85,13 +85,13 @@ class Login extends Component {
     return (
       <div className={style.login}>
         {/* <Loading className={style.loading} spinStyle={{ color: 'pink' }} /> */}
-        <div className={style["login-header"]}>
+        <div className={style['login-heade']}>
           <img src={logo} alt="logo" />
           <h1>后台管理系统</h1>
         </div>
-        <div className={style["login-content"]}>
+        <div className={style['login-content']}>
           <h2>用户登录</h2>
-          <Form onSubmit={this.handleSubmit} className={style["login-form"]}>
+          <Form onSubmit={this.handleSubmit} className={style['login-form']}>
             <Form.Item>
               {
                 getFieldDecorator('username', {
@@ -137,7 +137,7 @@ class Login extends Component {
               }
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" className={style["login-form-button"]}>登录</Button>
+              <Button type="primary" htmlType="submit" className={style['login-form-button']}>登录</Button>
             </Form.Item>
           </Form>
         </div>

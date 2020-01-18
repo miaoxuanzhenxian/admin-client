@@ -46,7 +46,8 @@ class LeftNav extends Component {
           </Menu.Item>
         )
       }
-      const cItem = item.children.find(cItem => cItem.key === path);
+      // 如果当前请求路由与当前菜单的某个子菜单的key匹配, 将菜单的key保存为openKey
+      const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0);
       if (cItem) {
         this.openKey = item.key;
       }
