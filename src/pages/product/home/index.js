@@ -13,6 +13,7 @@ import style from './index.module.less';
 import LinkButton from '@/components/link-button';
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api';
 import { PAGE_SIZE } from '@/utils/constants'
+import memoryUtils from '@/utils/memoryUtils'
 
 const { Option } = Select
 /* 
@@ -89,7 +90,13 @@ export default class ProductHome extends Component {
         width: 100,
         render: (product) => (
           <span>
-            <LinkButton onClick={() => this.props.history.push('/product/detail')}>
+            <LinkButton
+              onClick={() => {
+                // 在内存中保存product
+                memoryUtils.product = product
+                this.props.history.push('/product/detail')
+              }}
+            >
               详情
             </LinkButton> <br />
             <LinkButton>修改</LinkButton>

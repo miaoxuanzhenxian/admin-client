@@ -85,7 +85,7 @@ class Login extends Component {
     return (
       <div className={style.login}>
         {/* <Loading className={style.loading} spinStyle={{ color: 'pink' }} /> */}
-        <div className={style['login-heade']}>
+        <div className={style['login-header']}>
           <img src={logo} alt="logo" />
           <h1>后台管理系统</h1>
         </div>
