@@ -13,8 +13,8 @@ export default class Category extends Component {
 
     this.state = {
       categorys: [],
-      loading: false, //是否正在请求加载中
-      showStatus: 0 // 0: 不显示, 1: 显示添加, 2: 显示修改
+      loading: false, // 是否正在请求加载中,初始为关闭状态，不显示loading
+      showStatus: 0, // 0: 不显示, 1: 显示添加, 2: 显示修改
     }
   }
 
@@ -42,7 +42,7 @@ export default class Category extends Component {
     异步获取分类列表显示
   */
   getCategorys = async () => {
-    //显示loading
+    //开启loading，显示loading
     this.setState({ loading: true });
     //发异步ajax请求
     const result = await reqCategorys();
@@ -52,11 +52,11 @@ export default class Category extends Component {
       //更新状态categorys数据
       this.setState({
         categorys,
-        loading: false //成功了后隐藏loading
+        loading: false //成功了后关闭loading，不显示loading（其实就是删除loading组件）
       });
     } else {
       message.error('获取分类列表失败');
-      this.setState({ loading: false }); //获取分类列表失败后隐藏loading
+      this.setState({ loading: false }); //获取分类列表失败后关闭loading，不显示loading（其实就是删除loading组件）
     }
   }
 
@@ -82,7 +82,7 @@ export default class Category extends Component {
         }
         //重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
         this.form.resetFields();
-        
+
         this.setState({
           showStatus: 0
         });
@@ -142,6 +142,7 @@ export default class Category extends Component {
         添加
       </Button>
     );
+
     return (
       <div>
         <Card extra={extra}>

@@ -25,7 +25,7 @@ export default class ProductHome extends Component {
     super(props)
 
     this.state = {
-      loading: false,
+      loading: false, // 是否正在请求加载中,初始为关闭状态，不显示loading
       total: 0, //商品的总数量
       products: [], //商品列表
       searchType: 'productName', // 默认是按商品名称搜索
@@ -110,6 +110,8 @@ export default class ProductHome extends Component {
     异步获取指定页码商品分页(可能带搜索)列表显示
   */
   getProducts = async (pageNum) => {
+    //开启loading，显示loading
+    this.setState({ loading: true })
     // 保存当前请求的页码
     this.pageNum = pageNum
 
@@ -129,10 +131,12 @@ export default class ProductHome extends Component {
       // 更新状态
       this.setState({
         total,
-        products: list
+        products: list,
+        loading: false, //成功了后关闭loading,不显示loading（其实就是删除loading组件）
       })
     } else {
       message.error(`获取第${pageNum}页商品列表失败`)
+      this.setState({ loading: false }) //获取商品列表失败后关闭loading,不显示loading（其实就是删除loading组件）
     }
   }
 
@@ -171,7 +175,7 @@ export default class ProductHome extends Component {
     )
     //Card右上角结构
     const extra = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => this.props.history.push('/product/addupdate')}>
         <Icon type="plus" />
         添加商品
       </Button>
