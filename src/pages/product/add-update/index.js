@@ -35,6 +35,19 @@ class ProductAddUpdate extends Component {
     }
   }
 
+  /* 
+    对价格进行自定义验证
+  */
+  validatePrice = (rule, value, callback) => {
+    if (!value) {
+      callback('必须输入价格')
+    } else if (value * 1 <= 0) { // 乘以1可以使得字符串类型转换为数字类型，当然在此其实不需要乘以1，它会在字符串与数字比较大小时，会自动将字符串自动隐式类型转换为数字类型后再去比较，只有当自动隐式类型转换不了时，我们才加上乘以1，使其能转化为数字类型。
+      callback('价格必须大于0')
+    } else {
+      callback()
+    }
+  }
+
   componentDidMount() {
     this.getCategorys()
   }
@@ -79,7 +92,7 @@ class ProductAddUpdate extends Component {
             <Item label="商品价格">
               {getFieldDecorator('price', {
                 rules: [
-                  { required: true, message: '必须输入商品价格!' },
+                  { validator: this.validatePrice },
                 ],
               })(<Input type="number" placeholder="商品价格" addonAfter="元" />)}
             </Item>

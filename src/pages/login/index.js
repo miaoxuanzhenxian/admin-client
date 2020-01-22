@@ -13,14 +13,14 @@ import memoryUtils from '@/utils/memoryUtils.js';
 class Login extends Component {
 
   handleSubmit = e => {
-    e.preventDefault();   
+    e.preventDefault();
     /* //取出输入的相关数据
     const form = this.props.form;
     const values = form.getFieldsValue();
     const username = form.getFieldValue('username');
     const password = form.getFieldValue('password');
     console.log(values, username, password); */
-    
+
     //对表单所有字段进行点击登录时的统一验证
     this.props.form.validateFields(async (err, { username, password }) => {
       if (!err) {
