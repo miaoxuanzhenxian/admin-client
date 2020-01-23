@@ -40,12 +40,28 @@ class ProductAddUpdate extends Component {
   */
   validatePrice = (rule, value, callback) => {
     if (!value) {
-      callback('必须输入价格')
+      callback()
     } else if (value * 1 <= 0) { // 乘以1可以使得字符串类型转换为数字类型，当然在此其实不需要乘以1，它会在字符串与数字比较大小时，会自动将字符串自动隐式类型转换为数字类型后再去比较，只有当自动隐式类型转换不了时，我们才加上乘以1，使其能转化为数字类型。
       callback('价格必须大于0')
     } else {
       callback()
     }
+  }
+
+  /*
+    处理表单提交的回调
+  */
+  handleSubmit = e => {
+    // 阻止事件的默认行为(提交表单)
+    e.preventDefault()
+
+    // 进行统一的表单验证
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { name, desc, price, categoryId } = values
+        console.log('发送请求', name, desc, price, categoryId)
+      }
+    })
   }
 
   componentDidMount() {
@@ -74,7 +90,7 @@ class ProductAddUpdate extends Component {
     return (
       <div>
         <Card title={title}>
-          <Form {...formLayout}>
+          <Form {...formLayout} onSubmit={this.handleSubmit}>
             <Item label="商品名称">
               {getFieldDecorator('name', {
                 rules: [
@@ -92,6 +108,7 @@ class ProductAddUpdate extends Component {
             <Item label="商品价格">
               {getFieldDecorator('price', {
                 rules: [
+                  { required: true, message: '必须输入价格!' },
                   { validator: this.validatePrice },
                 ],
               })(<Input type="number" placeholder="商品价格" addonAfter="元" />)}
@@ -118,7 +135,7 @@ class ProductAddUpdate extends Component {
               <div>商品详情组件</div>
             </Item>
             <Item>
-              <Button type="primary">提交</Button>
+              <Button type="primary" htmlType="submit">提交</Button>
             </Item>
           </Form>
         </Card>

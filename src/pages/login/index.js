@@ -12,6 +12,9 @@ import memoryUtils from '@/utils/memoryUtils.js';
 @Form.create()
 class Login extends Component {
 
+  /*
+    处理表单提交的回调
+  */
   handleSubmit = e => {
     e.preventDefault();
     /* //取出输入的相关数据
@@ -21,7 +24,7 @@ class Login extends Component {
     const password = form.getFieldValue('password');
     console.log(values, username, password); */
 
-    //对表单所有字段进行点击登录时的统一验证
+    //对表单所有字段进行点击登录时的统一整体验证
     this.props.form.validateFields(async (err, { username, password }) => {
       if (!err) {
         const result = await reqLogin(username, password);
