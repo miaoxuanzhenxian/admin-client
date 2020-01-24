@@ -10,7 +10,7 @@ const { SubMenu } = Menu;
 
 @withRouter
 class LeftNav extends Component {
-  constructor(props) {//为第一次render()之前做一些同步的准备工作,初始化 state
+  constructor(props) {//为第一次开始执行render()之前做一些同步的准备工作,初始化 state,组件的整个生命周期(从挂载到卸载)内只执行一次constructor生命周期函数
     super(props);
     this.menuNodes = this.getMenuNodes2(menuList);//使得getMenuNodes2（）在LeftNav组件周期内只运行一次，提高运行效率
   }

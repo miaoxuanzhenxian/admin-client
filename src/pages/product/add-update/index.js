@@ -3,6 +3,7 @@ import { Card, Icon, Form, Input, Select, Button, message, } from 'antd';
 
 import LinkButton from '@/components/link-button';
 import { reqCategorys } from '@/api'
+import memoryUtils from '@/utils/memoryUtils';
 
 const { Item } = Form
 const { Option } = Select
@@ -12,9 +13,15 @@ const { Option } = Select
 */
 @Form.create()
 class ProductAddUpdate extends Component {
+  constructor(props) {
+    super(props)
 
-  state = {
-    categorys: []
+    this.state = {
+      categorys: []
+    }
+
+    this.product = memoryUtils.product
+    this.isUpdate = !!this.product._id
   }
 
   /*
@@ -71,6 +78,8 @@ class ProductAddUpdate extends Component {
   render() {
     const { categorys } = this.state
 
+    const { isUpdate, product } = this
+
     const { getFieldDecorator } = this.props.form
 
     const title = (
@@ -78,7 +87,7 @@ class ProductAddUpdate extends Component {
         <LinkButton onClick={this.props.history.goBack}>
           <Icon type="arrow-left" />
         </LinkButton>
-        <span>添加商品</span>
+        <span>{isUpdate ? '修改商品' : '添加商品'}</span>
       </span>
     )
 
@@ -93,6 +102,7 @@ class ProductAddUpdate extends Component {
           <Form {...formLayout} onSubmit={this.handleSubmit}>
             <Item label="商品名称">
               {getFieldDecorator('name', {
+                initialValue: product.name,
                 rules: [
                   { required: true, message: '必须输入商品名称!' },
                 ],
@@ -100,6 +110,7 @@ class ProductAddUpdate extends Component {
             </Item>
             <Item label="商品描述">
               {getFieldDecorator('desc', {
+                initialValue: product.desc,
                 rules: [
                   { required: true, message: '必须输入商品描述!' },
                 ],
@@ -107,6 +118,7 @@ class ProductAddUpdate extends Component {
             </Item>
             <Item label="商品价格">
               {getFieldDecorator('price', {
+                initialValue: product.price,
                 rules: [
                   { required: true, message: '必须输入价格!' },
                   { validator: this.validatePrice },
@@ -115,7 +127,7 @@ class ProductAddUpdate extends Component {
             </Item>
             <Item label="商品分类">
               {getFieldDecorator('categoryId', {
-                initialValue: '',
+                initialValue: product.categoryId || '',
                 rules: [
                   { required: true, message: '必须选择商品分类!' },
                 ],

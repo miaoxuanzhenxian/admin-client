@@ -9,13 +9,13 @@ export default class Category extends Component {
   constructor(props) {
     super(props)
 
-    this.initColumns();
-
     this.state = {
       categorys: [],
       loading: false, // 是否正在请求加载中,初始为关闭状态，不显示loading
       showStatus: 0, // 0: 不显示, 1: 显示添加, 2: 显示修改
     }
+
+    this.initColumns();
   }
 
   /*
