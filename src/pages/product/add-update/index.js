@@ -4,6 +4,7 @@ import { Card, Icon, Form, Input, Select, Button, message, } from 'antd';
 import LinkButton from '@/components/link-button';
 import { reqCategorys } from '@/api'
 import memoryUtils from '@/utils/memoryUtils';
+import PicturesWall from './pictures-wall'
 
 const { Item } = Form
 const { Option } = Select
@@ -141,7 +142,7 @@ class ProductAddUpdate extends Component {
               )}
             </Item>
             <Item label="商品图片">
-              <div>商品图片组件</div>
+              <PicturesWall />
             </Item>
             <Item label="商品详情">
               <div>商品详情组件</div>
