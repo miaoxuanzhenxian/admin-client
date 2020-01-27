@@ -8,6 +8,7 @@ import {
   Table,
   message,
 } from 'antd';
+import throttle from 'lodash.throttle'; // lodash和qs这两个库属于基本的工具库，在我们前面所下的许多依赖包里都已经下载引用了这两个包，因此不需要再重新下载了，可以直接引用。并且lodash这个库可以模块化的按需引用。
 
 import style from './index.module.less';
 import LinkButton from '@/components/link-button';
@@ -35,7 +36,7 @@ export default class ProductHome extends Component {
     this.initColumns()
   }
 
-  updateStatus = async (productId, status) => {
+  updateStatus = throttle(async (productId, status) => {
     // 计算更新后的值
     status = status === 1 ? 2 : 1
     // 请求更新
@@ -47,7 +48,7 @@ export default class ProductHome extends Component {
     } else {
       message.error('更新商品状态失败!')
     }
-  }
+  }, 2000)
 
   initColumns = () => {
     this.columns = [
