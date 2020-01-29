@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal, message } from 'antd';
+
+import { reqDeleteImg } from '@/api';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -21,14 +23,13 @@ export default class PicturesWall extends Component {
         status: 'done', // 状态有：uploading done error removed
         url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', // 图片的url
       }, */
-      {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      },
     ],
   };
+
+  /*
+    获取所有已上传图片文件名的数组
+  */
+  getImgs = () => this.state.fileList.map(file => file.name)
 
   handleCancel = () => this.setState({ previewVisible: false });
 
@@ -50,7 +51,7 @@ export default class PicturesWall extends Component {
   /* 
     在file的状态发生改变的监听回调
   */
-  handleChange = ({ file, fileList }) => { // file: 当前操作(上传/删除)的file文件对象; fileList: 当前的文件列表
+  handleChange = async ({ file, fileList }) => { // file: 当前操作(上传/删除)的file文件对象; fileList: 当前的文件列表
     // file与fileList中最后一个file不是同一个对象，代表不同对象
     // 如果上传成功
     if (file.status === 'done') {
@@ -61,6 +62,13 @@ export default class PicturesWall extends Component {
       // 保存到上传的file对象
       lastFile.name = name
       lastFile.url = url
+    } else if (file.status === 'removed') {
+      const result = await reqDeleteImg(file.name)
+      if (result.status === 0) {
+        message.success('删除图片成功')
+      } else {
+        message.error('删除图片失败')
+      }
     }
 
     // 更新状态

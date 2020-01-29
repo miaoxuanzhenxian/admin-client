@@ -21,6 +21,9 @@ class ProductAddUpdate extends Component {
       categorys: []
     }
 
+    // 创建ref容器, 并保存到组件对象
+    this.pwRef = React.createRef()
+
     this.product = memoryUtils.product
     this.isUpdate = !!this.product._id
   }
@@ -67,6 +70,11 @@ class ProductAddUpdate extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { name, desc, price, categoryId } = values
+
+        // 收集上传的图片文件名的数组
+        const imgs = this.pwRef.current.getImgs()
+        console.log('imgs', imgs)
+        
         console.log('发送请求', name, desc, price, categoryId)
       }
     })
@@ -142,7 +150,8 @@ class ProductAddUpdate extends Component {
               )}
             </Item>
             <Item label="商品图片">
-              <PicturesWall />
+              {/* 将容器交给需要标记的标签对象, 在解析时就会自动将自己这个标签对象保存到容器对象中的current属性中，作为current的属性值存在(属性名为: current, 属性值标签对象) */}
+              <PicturesWall ref={this.pwRef} />
             </Item>
             <Item label="商品详情">
               <div>商品详情组件</div>
