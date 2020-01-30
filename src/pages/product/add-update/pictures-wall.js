@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Upload, Icon, Modal, message } from 'antd';
+import propTypes from 'prop-types';
 
 import { reqDeleteImg } from '@/api';
+import { BASE_IMG } from '@/utils/constants';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -13,18 +15,46 @@ function getBase64(file) {
 }
 
 export default class PicturesWall extends Component {
-  state = {
-    previewVisible: false, // 标识是否显示大图预览
-    previewImage: '', // 大图的url或者base64值
-    fileList: [
-      /* { // 文件信息对象 file
-        uid: '-1', // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
-        name: 'xxx.png', // 文件名
+
+  static propTypes = {
+    imgs: propTypes.array
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      previewVisible: false, // 标识是否显示大图预览
+      previewImage: '', // 大图的url或者base64值
+      fileList: [
+        /* { // 文件信息对象 file
+          uid: '-1', // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
+          name: 'xxx.png', // 文件名
+          status: 'done', // 状态有：uploading done error removed
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', // 图片的url
+        }, */
+      ],
+    };
+
+    this.initFileList() // 初始化fileList
+  }
+
+  /*
+    初始化fileList,根据传入的imgs生成fileList并更新
+  */
+  initFileList = () => {
+    const imgs = this.props.imgs
+    if (imgs && imgs.length > 0) {
+      const fileList = imgs.map((img, index) => ({
+        uid: -index, // 文件唯一标识，建议设置为负数，防止和内部产生的 id 冲突
+        name: img, // 文件名
         status: 'done', // 状态有：uploading done error removed
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', // 图片的url
-      }, */
-    ],
-  };
+        url: BASE_IMG + img // 图片的url
+      }))
+
+      this.setState({ fileList })
+    }
+  }
 
   /*
     获取所有已上传图片文件名的数组

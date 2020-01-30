@@ -151,7 +151,7 @@ class ProductAddUpdate extends Component {
             </Item>
             <Item label="商品图片">
               {/* 将容器交给需要标记的标签对象, 在解析时就会自动将自己这个标签对象保存到容器对象中的current属性中，作为current的属性值存在(属性名为: current, 属性值标签对象) */}
-              <PicturesWall ref={this.pwRef} />
+              <PicturesWall ref={this.pwRef} imgs={product.imgs} />
             </Item>
             <Item label="商品详情">
               <div>商品详情组件</div>
