@@ -3,7 +3,7 @@ import { Upload, Icon, Modal, message } from 'antd';
 import propTypes from 'prop-types';
 
 import { reqDeleteImg } from '@/api';
-import { BASE_IMG } from '@/utils/constants';
+import { BASE_URL, BASE_IMG } from '@/utils/constants';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -36,11 +36,11 @@ export default class PicturesWall extends Component {
       ],
     };
 
-    this.initFileList() // 初始化fileList
+    this.initFileList() // 初始化this.state中的fileList状态
   }
 
   /*
-    初始化fileList,根据传入的imgs生成fileList并更新
+    初始化this.state中的fileList状态,根据传入的imgs生成fileList并重新赋值给this.state中的fileList
   */
   initFileList = () => {
     const imgs = this.props.imgs
@@ -52,7 +52,8 @@ export default class PicturesWall extends Component {
         url: BASE_IMG + img // 图片的url
       }))
 
-      this.setState({ fileList })
+      // 重新赋值给this.state中的fileList
+      this.state.fileList = fileList
     }
   }
 
@@ -117,14 +118,14 @@ export default class PicturesWall extends Component {
     return (
       <div className="clearfix">
         <Upload
-          action="http://localhost:5000/manage/img/upload" // 上传图片的url
+          action={BASE_URL + "/manage/img/upload"} // 上传图片的url
           name="image" // 图片文件对应参数名
           listType="picture-card" // 显示风格
           fileList={fileList} // 已上传的所有图片文件信息对象的数组
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
-          {fileList.length >= 8 ? null : uploadButton}
+          {fileList.length >= 3 ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />

@@ -5,6 +5,7 @@ import LinkButton from '@/components/link-button';
 import { reqCategorys } from '@/api'
 import memoryUtils from '@/utils/memoryUtils';
 import PicturesWall from './pictures-wall'
+import RichTextEditor from './rich-text-editor';
 
 const { Item } = Form
 const { Option } = Select
@@ -22,7 +23,8 @@ class ProductAddUpdate extends Component {
     }
 
     // 创建ref容器, 并保存到组件对象
-    this.pwRef = React.createRef()
+    this.pwRef = React.createRef() // PicturesWall组件标签的容器对象
+    this.rteRef = React.createRef() // RichTextEditor组件标签的容器对象
 
     this.product = memoryUtils.product
     this.isUpdate = !!this.product._id
@@ -74,7 +76,7 @@ class ProductAddUpdate extends Component {
         // 收集上传的图片文件名的数组
         const imgs = this.pwRef.current.getImgs()
         console.log('imgs', imgs)
-        
+
         console.log('发送请求', name, desc, price, categoryId)
       }
     })
@@ -153,8 +155,9 @@ class ProductAddUpdate extends Component {
               {/* 将容器交给需要标记的标签对象, 在解析时就会自动将自己这个标签对象保存到容器对象中的current属性中，作为current的属性值存在(属性名为: current, 属性值标签对象) */}
               <PicturesWall ref={this.pwRef} imgs={product.imgs} />
             </Item>
-            <Item label="商品详情">
-              <div>商品详情组件</div>
+            <Item label="商品详情" wrapperCol={{ span: 20 }}>
+              {/* 富文本编辑器组件 */}
+              <RichTextEditor ref={this.rteRef} detail={product.detail} />
             </Item>
             <Item>
               <Button type="primary" htmlType="submit">提交</Button>
