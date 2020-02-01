@@ -1,5 +1,6 @@
 /*
   所有请求接口的函数：接口请求函数
+  函数的返回值都是promise对象
 */
 import ajax from './ajax';
 import jsonp from 'jsonp';
@@ -79,3 +80,9 @@ export const reqCategory = (categoryId) => ajax(BASE_URL + '/manage/category/inf
 
 /* 删除图片 */
 export const reqDeleteImg = (name) => ajax.post(BASE_URL + '/manage/img/delete', { name })
+
+/* 添加/修改更新商品 */
+export const reqAddProduct = (product) => ajax.post(
+  BASE_URL + '/manage/product/' + (product._id ? 'update' : 'add'),
+  product
+)

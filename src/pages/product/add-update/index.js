@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Icon, Form, Input, Select, Button, message, } from 'antd';
 
 import LinkButton from '@/components/link-button';
-import { reqCategorys } from '@/api'
+import { reqCategorys, reqAddProduct } from '@/api'
 import memoryUtils from '@/utils/memoryUtils';
 import PicturesWall from './pictures-wall'
 import RichTextEditor from './rich-text-editor';
@@ -69,15 +69,33 @@ class ProductAddUpdate extends Component {
     e.preventDefault()
 
     // 进行统一的表单验证
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const { name, desc, price, categoryId } = values
 
         // 收集上传的图片文件名的数组
         const imgs = this.pwRef.current.getImgs()
-        console.log('imgs', imgs)
 
-        console.log('发送请求', name, desc, price, categoryId)
+        // 收集输入的商品详情的标签字符串
+        const detail = this.rteRef.current.getDetail()
+        
+        // 封装product对象
+        const product = {categoryId, name, desc, price, detail, imgs}
+        if (this.isUpdate) {
+          product._id = this.product._id
+        }
+
+        // 发送添加或修改商品请求
+        const result = await reqAddProduct(product)
+        const action = this.isUpdate ? '修改' : '添加'
+        if (result.status === 0) {
+          message.success(action + '商品成功')
+          this.props.history.replace('/product')
+        } else if (result.status === 1) {
+          message.info(result.msg)
+        } else {
+          message.error(action + '商品失败')
+        }
       }
     })
   }

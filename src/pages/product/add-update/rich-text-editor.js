@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'
-import { Editor } from 'react-draft-wysiwyg'
-import draftToHtml from 'draftjs-to-html'
-import htmlToDraft from 'html-to-draftjs'
+import { Editor } from 'react-draft-wysiwyg' // 只需下載react-draft-wysiwyg包和draftjs-to-html包即可，別的包都被这两个包所依赖，在下载这两个包时就会将其它包也下载下来，因此不需要在下载其它包了，只需引入即可。注意：要下载0.8版本的draftjs-to-html包，不能下载高于0.8版本的，例如不能为0.9版本的。原因如下。
+import draftToHtml from 'draftjs-to-html'  // 注意：下载draftjs-to-html包时，要下载0.8版本的，不要下高于0.8这个版本的，因为高于0.8这个版本的在处理图片的对齐问题时有bug，例如将图片右对齐时，再保存后，会发现图片还是显示为中间对齐而不是右对齐，因此要下载draftjs-to-html包为0.8版本的，而不能高于0.8版本，例如不能为0.9版本的。
+import htmlToDraft from 'html-to-draftjs' 
 import propTypes from 'prop-types';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
@@ -43,7 +43,7 @@ export default class RichTextEditor extends Component {
   /*
     获取详情数据
   */
-  getEditorState = () => draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
+  getDetail = () => draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
 
   onEditorStateChange = (editorState) => {
     this.setState({
