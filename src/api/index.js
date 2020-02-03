@@ -86,3 +86,6 @@ export const reqAddProduct = (product) => ajax.post(
   BASE_URL + '/manage/product/' + (product._id ? 'update' : 'add'),
   product
 )
+
+/* 获取角色列表 */
+export const reqRoles = () => ajax(BASE_URL + '/manage/role/list')

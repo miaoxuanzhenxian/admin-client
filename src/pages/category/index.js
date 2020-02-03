@@ -51,8 +51,8 @@ export default class Category extends Component {
       const categorys = result.data;
       //更新状态categorys数据
       this.setState({
+        loading: false, //成功了后关闭loading，不显示loading（其实就是删除loading组件）
         categorys,
-        loading: false //成功了后关闭loading，不显示loading（其实就是删除loading组件）
       });
     } else {
       message.error('获取分类列表失败');

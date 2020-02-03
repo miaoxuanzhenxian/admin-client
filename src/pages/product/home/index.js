@@ -139,9 +139,9 @@ export default class ProductHome extends Component {
       const { total, list } = result.data
       // 更新状态
       this.setState({
+        loading: false, //成功了后关闭loading,不显示loading（其实就是删除loading组件）
         total,
         products: list,
-        loading: false, //成功了后关闭loading,不显示loading（其实就是删除loading组件）
       })
     } else {
       message.error(`获取第${pageNum}页商品列表失败`)

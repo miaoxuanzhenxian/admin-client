@@ -6,7 +6,7 @@ import style from './index.module.less';
 import { removeUser } from "@/utils/storageUtils";
 import memoryUtils from "@/utils/memoryUtils";
 import menuList from '@/config/menuConfig';
-import { formateDate } from '@/utils/dateUtils';
+import { formatDate } from '@/utils/dateUtils';
 import { reqWeather } from '@/api';
 import LinkButton from '@/components/link-button';
 
@@ -14,7 +14,7 @@ import LinkButton from '@/components/link-button';
 class Header extends Component {
 
   state = {
-    currentTime: formateDate(Date.now()),
+    currentTime: formatDate(Date.now()),
     dayPictureUrl: '', //天气白天图片url
     weather: '' //天气文本
   }
@@ -23,7 +23,7 @@ class Header extends Component {
     //启动循环定时器
     this.intertvalId = setInterval(() => {
       this.setState({
-        currentTime: formateDate(Date.now())
+        currentTime: formatDate(Date.now())
       });
     }, 1000);
     //发jsonp请求获取天气信息显示
