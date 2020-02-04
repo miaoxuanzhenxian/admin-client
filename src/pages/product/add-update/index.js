@@ -120,7 +120,8 @@ class ProductAddUpdate extends Component {
       </span>
     )
 
-    const formLayout = {
+    // 指定Form中所有Item的布局
+    const formItemLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 8 }
     }
@@ -128,7 +129,7 @@ class ProductAddUpdate extends Component {
     return (
       <div>
         <Card title={title}>
-          <Form {...formLayout} onSubmit={this.handleSubmit}>
+          <Form {...formItemLayout} onSubmit={this.handleSubmit}>
             <Item label="商品名称">
               {getFieldDecorator('name', {
                 initialValue: product.name,

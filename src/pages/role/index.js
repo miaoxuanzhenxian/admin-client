@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Button, Table, message } from 'antd';
+import { Card, Button, Table, message, Modal } from 'antd';
 
 import { formatDate } from '@/utils/dateUtils';
 import LinkButton from '@/components/link-button';
-import { reqRoles } from '@/api';
+import { reqRoles, reqAddRole } from '@/api';
+import AddForm from './add-form'
 
 export default class Role extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Role extends Component {
 
     this.state = {
       roles: [], // 所有角色的列表
+      isShowAdd: false, // 是否显示添加界面
     }
 
     this.initColumns() // 初始化table列数组
@@ -64,16 +66,43 @@ export default class Role extends Component {
     }
   }
 
+  /*
+    添加角色
+  */
+  addRole = () => {
+    // 进行表单统一验证, 只能通过了才向下处理
+    this.form.validateFields(async (err, values) => {
+      if (!err) {
+        const result = await reqAddRole(values.roleName)
+
+        // 隐藏弹框
+        this.setState({ isShowAdd: false })
+
+        this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+        
+        if (result.status === 0) {
+          message.success('添加角色成功')
+          this.getRoles()
+        } else if (result.status === 1) {
+          message.info(result.msg)
+          this.getRoles()
+        } else {
+          message.error('添加角色失败')
+        }
+      }
+    })
+  }
+
   componentDidMount() {
     this.getRoles() // 异步获取获取角色列表显示
   }
 
   render() {
     // 取出状态数据
-    const { roles, loading } = this.state
+    const { roles, loading, isShowAdd } = this.state
 
     const title = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => this.setState({ isShowAdd: true })}>
         创建角色
       </Button>
     )
@@ -92,6 +121,18 @@ export default class Role extends Component {
               showQuickJumper: true
             }}
           />
+
+          <Modal
+            title='添加角色'
+            visible={isShowAdd}
+            onOk={this.addRole}
+            onCancel={() => {
+              this.setState({ isShowAdd: false })
+              this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+            }}
+          >
+            <AddForm setForm={(form) => this.form = form} />
+          </Modal>
         </Card>
       </div>
     )

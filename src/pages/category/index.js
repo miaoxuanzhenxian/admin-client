@@ -80,7 +80,8 @@ export default class Category extends Component {
           //发修改（更新）分类的请求
           result = await reqUpdateCategory({ categoryId, categoryName });
         }
-        //重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+
+        // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
         this.form.resetFields();
 
         this.setState({
@@ -91,13 +92,13 @@ export default class Category extends Component {
         const { status, msg } = result;
         const action = showStatus === 1 ? '添加' : '修改';
         if (status === 0) {
-          //重新获取分类列表显示
-          this.getCategorys();
           message.success(action + '分类成功');
-        } else if (status === 1) {
           //重新获取分类列表显示
           this.getCategorys();
+        } else if (status === 1) {
           message.info(msg);
+          //重新获取分类列表显示
+          this.getCategorys();
         } else {
           message.error(action + '分类失败');
         }
