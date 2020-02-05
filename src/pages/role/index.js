@@ -5,6 +5,7 @@ import { formatDate } from '@/utils/dateUtils';
 import LinkButton from '@/components/link-button';
 import { reqRoles, reqAddRole } from '@/api';
 import AddForm from './add-form'
+import AuthForm from './auth_form'
 
 export default class Role extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class Role extends Component {
     this.state = {
       roles: [], // 所有角色的列表
       isShowAdd: false, // 是否显示添加界面
+      isShowAuth: false, // 是否显示设置权限界面
     }
 
     this.initColumns() // 初始化table列数组
@@ -44,9 +46,18 @@ export default class Role extends Component {
       },
       {
         title: '操作',
-        render: () => <LinkButton>设置权限</LinkButton>
+        render: (role) => <LinkButton onClick={() => this.showAuth(role)}>设置权限</LinkButton>
       },
     ]
+  }
+
+  /*
+    显示权限设置列表
+  */
+  showAuth = (role) => {
+    // 将当前需要设置的角色保存到组件对象上
+    this.role = role
+    this.setState({ isShowAuth: true })
   }
 
   /*
@@ -79,7 +90,7 @@ export default class Role extends Component {
         this.setState({ isShowAdd: false })
 
         this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
-        
+
         if (result.status === 0) {
           message.success('添加角色成功')
           this.getRoles()
@@ -99,7 +110,9 @@ export default class Role extends Component {
 
   render() {
     // 取出状态数据
-    const { roles, loading, isShowAdd } = this.state
+    const { roles, loading, isShowAdd, isShowAuth } = this.state
+
+    const role = this.role || {}
 
     const title = (
       <Button type="primary" onClick={() => this.setState({ isShowAdd: true })}>
@@ -132,6 +145,17 @@ export default class Role extends Component {
             }}
           >
             <AddForm setForm={(form) => this.form = form} />
+          </Modal>
+
+          <Modal
+            title="设置角色权限"
+            visible={isShowAuth}
+            onCancel={() => {
+              this.setState({ isShowAuth: false })
+            }}
+          >
+            {/* 为了在 prop 更改时“重置”某些 state，建议使用 key 使组件完全不受控代替componentWillReceiveProps()生命周期函数，因为此生命周期函数即将过时，因此做法如下：组件接收到新的标签属性时,即接收到的不同role._id的role对象时，即当 key的值 变化时， React 会创建一个新的而不是更新一个既有的组件。每次 key的值role._id 更改，都会重新创建 AuthForm组件 ，并将其状态重置为最新的 role的 值。每次 key的值 变化，表单里的所有组件都会用新的初始值重新创建。大部分情况下，这是处理 prop 更改时重置 state 的最好的办法。这听起来很慢，但是这点的性能是可以忽略的。如果在组件树的更新上有很重的逻辑，这样反而会更快，因为省略了子组件 diff。*/}
+            <AuthForm role={role} />
           </Modal>
         </Card>
       </div>
