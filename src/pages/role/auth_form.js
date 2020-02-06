@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import propTypes from 'prop-types'
 import { Form, Input, Tree } from 'antd'
 
@@ -6,7 +6,7 @@ import menuList from '@/config/menuConfig'
 
 const { TreeNode } = Tree
 
-const menuLisExcHom = menuList.filter(item => !item.public)
+const menuLisExcPub = menuList.filter(item => !item.public)
 
 export default class AuthForm extends PureComponent {
 
@@ -24,11 +24,17 @@ export default class AuthForm extends PureComponent {
     // 根据传入角色的menus来更新checkedKeys状态
     this.state.checkedKeys = this.props.role.menus
 
-    this.treeNodes = this.getTreeNodes(menuLisExcHom)
+    this.treeNodes = this.getTreeNodes(menuLisExcPub)
   }
 
-  getTreeNodes = (menuLisExcHom) => {
-    return menuLisExcHom.reduce((pre, item) => {
+  /*
+    暴露menus，获取menus,即获取checkedKeys
+  */
+  getMenus = () => this.state.checkedKeys
+
+
+  getTreeNodes = (menuLisExcPub) => {
+    return menuLisExcPub.reduce((pre, item) => {
       pre.push(
         <TreeNode title={item.title} key={item.key}>
           {item.children ? this.getTreeNodes(item.children) : null}

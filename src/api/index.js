@@ -92,3 +92,6 @@ export const reqRoles = () => ajax(BASE_URL + '/manage/role/list')
 
 /* 添加角色 */
 export const reqAddRole = (roleName) => ajax.post(BASE_URL + '/manage/role/add', { roleName })
+
+/* 更新角色(给角色设置权限) */
+export const reqUpdateRole = (role) => ajax.post(BASE_URL + '/manage/role/update', role)

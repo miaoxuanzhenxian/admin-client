@@ -3,9 +3,10 @@ import { Card, Button, Table, message, Modal } from 'antd';
 
 import { formatDate } from '@/utils/dateUtils';
 import LinkButton from '@/components/link-button';
-import { reqRoles, reqAddRole } from '@/api';
+import { reqRoles, reqAddRole, reqUpdateRole } from '@/api';
 import AddForm from './add-form'
 import AuthForm from './auth_form'
+import memoryUtils from '@/utils/memoryUtils'
 
 export default class Role extends Component {
   constructor(props) {
@@ -18,6 +19,8 @@ export default class Role extends Component {
     }
 
     this.initColumns() // 初始化table列数组
+
+    this.authRef = React.createRef() // AuthForm组件标签的容器对象
   }
 
   /* 
@@ -104,6 +107,29 @@ export default class Role extends Component {
     })
   }
 
+  /*
+    给角色授权，更新角色(给角色设置权限)
+  */
+  updateRole = async () => {
+    const role = this.role
+    // 更新role对象相关属性
+    role.menus = this.authRef.current.getMenus()
+    role.auth_time = Date.now()
+    role.auth_name = memoryUtils.user.username
+    
+    // 请求更新角色
+    const result = await reqUpdateRole(role)
+
+    this.setState({ isShowAuth: false })
+
+    if (result.status === 0) {
+      message.success('角色授权成功')
+      this.getRoles()
+    } else {
+      message.error('角色授权失败')
+    }
+  }
+
   componentDidMount() {
     this.getRoles() // 异步获取获取角色列表显示
   }
@@ -130,7 +156,7 @@ export default class Role extends Component {
             dataSource={roles}
             rowKey="_id"
             pagination={{
-              defaultPageSize: 6,
+              defaultPageSize: 2,
               showQuickJumper: true
             }}
           />
@@ -150,12 +176,13 @@ export default class Role extends Component {
           <Modal
             title="设置角色权限"
             visible={isShowAuth}
+            onOk={this.updateRole}
             onCancel={() => {
               this.setState({ isShowAuth: false })
             }}
           >
             {/* 为了在 prop 更改时“重置”某些 state，建议使用 key 使组件完全不受控代替componentWillReceiveProps()生命周期函数，因为此生命周期函数即将过时，因此做法如下：组件接收到新的标签属性时,即接收到的不同role._id的role对象时，即当 key的值 变化时， React 会创建一个新的而不是更新一个既有的组件。每次 key的值role._id 更改，都会重新创建 AuthForm组件 ，并将其状态重置为最新的 role的 值。每次 key的值 变化，表单里的所有组件都会用新的初始值重新创建。大部分情况下，这是处理 prop 更改时重置 state 的最好的办法。这听起来很慢，但是这点的性能是可以忽略的。如果在组件树的更新上有很重的逻辑，这样反而会更快，因为省略了子组件 diff。*/}
-            <AuthForm role={role} />
+            <AuthForm ref={this.authRef} role={role} />
           </Modal>
         </Card>
       </div>
