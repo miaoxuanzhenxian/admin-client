@@ -116,7 +116,7 @@ export default class Role extends Component {
     role.menus = this.authRef.current.getMenus()
     role.auth_time = Date.now()
     role.auth_name = memoryUtils.user.username
-    
+
     // 请求更新角色
     const result = await reqUpdateRole(role)
 
@@ -147,45 +147,43 @@ export default class Role extends Component {
     )
 
     return (
-      <div>
-        <Card title={title}>
-          <Table
-            bordered
-            loading={loading}
-            columns={this.columns}
-            dataSource={roles}
-            rowKey="_id"
-            pagination={{
-              defaultPageSize: 2,
-              showQuickJumper: true
-            }}
-          />
+      <Card title={title}>
+        <Table
+          bordered
+          loading={loading}
+          columns={this.columns}
+          dataSource={roles}
+          rowKey="_id"
+          pagination={{
+            defaultPageSize: 6,
+            showQuickJumper: true
+          }}
+        />
 
-          <Modal
-            title='添加角色'
-            visible={isShowAdd}
-            onOk={this.addRole}
-            onCancel={() => {
-              this.setState({ isShowAdd: false })
-              this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
-            }}
-          >
-            <AddForm setForm={(form) => this.form = form} />
-          </Modal>
+        <Modal
+          title='添加角色'
+          visible={isShowAdd}
+          onOk={this.addRole}
+          onCancel={() => {
+            this.setState({ isShowAdd: false })
+            this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+          }}
+        >
+          <AddForm setForm={(form) => this.form = form} />
+        </Modal>
 
-          <Modal
-            title="设置角色权限"
-            visible={isShowAuth}
-            onOk={this.updateRole}
-            onCancel={() => {
-              this.setState({ isShowAuth: false })
-            }}
-          >
-            {/* 为了在 prop 更改时“重置”某些 state，建议使用 key 使组件完全不受控代替componentWillReceiveProps()生命周期函数，因为此生命周期函数即将过时，因此做法如下：组件接收到新的标签属性时,即接收到的不同role._id的role对象时，即当 key的值 变化时， React 会创建一个新的而不是更新一个既有的组件。每次 key的值role._id 更改，都会重新创建 AuthForm组件 ，并将其状态重置为最新的 role的 值。每次 key的值 变化，表单里的所有组件都会用新的初始值重新创建。大部分情况下，这是处理 prop 更改时重置 state 的最好的办法。这听起来很慢，但是这点的性能是可以忽略的。如果在组件树的更新上有很重的逻辑，这样反而会更快，因为省略了子组件 diff。*/}
-            <AuthForm ref={this.authRef} role={role} />
-          </Modal>
-        </Card>
-      </div>
+        <Modal
+          title="设置角色权限"
+          visible={isShowAuth}
+          onOk={this.updateRole}
+          onCancel={() => {
+            this.setState({ isShowAuth: false })
+          }}
+        >
+          {/* 为了在 prop 更改时“重置”某些 state，建议使用 key 使组件完全不受控代替componentWillReceiveProps()生命周期函数，因为此生命周期函数即将过时，因此做法如下：组件接收到新的标签属性时,即接收到的不同role._id的role对象时，即当 key的值 变化时， React 会创建一个新的而不是更新一个既有的组件。每次 key的值role._id 更改，都会重新创建 AuthForm组件 ，并将其状态重置为最新的 role的 值。每次 key的值 变化，表单里的所有组件都会用新的初始值重新创建。大部分情况下，这是处理 prop 更改时重置 state 的最好的办法。这听起来很慢，但是这点的性能是可以忽略的。如果在组件树的更新上有很重的逻辑，这样反而会更快，因为省略了子组件 diff。*/}
+          <AuthForm ref={this.authRef} role={role} />
+        </Modal>
+      </Card>
     )
   }
 }
