@@ -169,7 +169,7 @@ export default class Role extends Component {
             this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
           }}
         >
-          <AddForm setForm={(form) => this.form = form} />
+          <AddForm setForm={form => this.form = form} />
         </Modal>
 
         <Modal

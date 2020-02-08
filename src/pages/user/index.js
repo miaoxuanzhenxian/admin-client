@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Button, Table, message } from 'antd';
+import { Card, Button, Table, message, Modal } from 'antd';
 
 import LinkButton from '@/components/link-button';
 import { reqUsers } from '@/api';
 import { formatDate } from '@/utils/dateUtils';
+import UserForm from './user-form'
 
 export default class User extends Component {
 
@@ -13,6 +14,8 @@ export default class User extends Component {
     this.state = {
       loading: false,
       users: [], // 所有用户列表
+      roles: [], // 所有角色列表
+      isShow: false, // 是否显示确认框
     }
 
     this.initColumns()
@@ -45,9 +48,11 @@ export default class User extends Component {
       },
       {
         title: '操作',
-        render: () => (
+        render: (user) => (
           <span>
-            <LinkButton>修改</LinkButton>
+            <LinkButton onClick={this.showUpdate.bind(this, user)}>
+              修改
+            </LinkButton>
             <LinkButton>删除</LinkButton>
           </span>
         )
@@ -72,6 +77,7 @@ export default class User extends Component {
 
       this.setState({
         users,
+        roles,
         loading: false
       })
     } else {
@@ -80,16 +86,44 @@ export default class User extends Component {
     }
   }
 
+  /*
+    显示添加界面
+  */
+  showAdd = () => {
+    this.user = null
+    this.setState({ isShow: true })
+  }
+
+  /*
+    显示修改界面
+  */
+  showUpdate = (user) => {
+    this.user = user // 保存user
+    this.setState({ isShow: true })
+  }
+
+  /*
+    取消显示界面
+  */
+  handleCancel = () => {
+    this.setState({ isShow: false })
+    this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+  }
+
   componentDidMount() {
     this.getUsers() // 异步获取所有用户列表显示
   }
 
   render() {
 
-    const { loading, users } = this.state
+    const { loading, users, roles, isShow } = this.state
+
+    const user = this.user || {}
 
     const title = (
-      <Button type="primary">创建用户</Button>
+      <Button type="primary" onClick={this.showAdd}>
+        创建用户
+      </Button>
     )
 
     return (
@@ -106,6 +140,18 @@ export default class User extends Component {
               showQuickJumper: true
             }}
           />
+
+          <Modal
+            title="添加用户"
+            visible={isShow}
+            onCancel={this.handleCancel}
+          >
+            <UserForm
+              user={user}
+              roles={roles}
+              setForm={form => this.form = form}
+            />
+          </Modal>
         </Card>
       </div>
     )
