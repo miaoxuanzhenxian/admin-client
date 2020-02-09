@@ -82,7 +82,7 @@ export const reqCategory = (categoryId) => ajax(BASE_URL + '/manage/category/inf
 export const reqDeleteImg = (name) => ajax.post(BASE_URL + '/manage/img/delete', { name })
 
 /* 添加/修改更新商品 */
-export const reqAddProduct = (product) => ajax.post(
+export const reqAddOrUpdateProduct = (product) => ajax.post(
   BASE_URL + '/manage/product/' + (product._id ? 'update' : 'add'),
   product
 )
@@ -98,3 +98,9 @@ export const reqUpdateRole = (role) => ajax.post(BASE_URL + '/manage/role/update
 
 /* 获取所有用户列表 */
 export const reqUsers = () => ajax(BASE_URL + '/manage/user/list')
+
+/* 添加或修改(更新)用户 */
+export const reqAddOrUpdateUser = (user) => ajax.post(
+  BASE_URL + '/manage/user/' + (user._id ? 'update' : 'add'),
+  user
+)

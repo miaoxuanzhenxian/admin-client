@@ -71,33 +71,36 @@ export default class Category extends Component {
         const { categoryName } = values;
 
         const { showStatus } = this.state;
-        let result;
+        let result, action
         if (showStatus === 1) { //添加分类
+          action = '添加'
           //发添加分类的请求
           result = await reqAddCategory(categoryName);
         } else { //修改分类
+          action = '修改'
           const categoryId = this.category._id;
           //发修改（更新）分类的请求
           result = await reqUpdateCategory({ categoryId, categoryName });
         }
 
-        // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
-        this.form.resetFields();
-
-        this.setState({
-          showStatus: 0
-        });
-
-        //根据相应结果，做不同处理
+        // 根据相应结果，做不同处理
         const { status, msg } = result;
-        const action = showStatus === 1 ? '添加' : '修改';
         if (status === 0) {
           message.success(action + '分类成功');
-          //重新获取分类列表显示
+
+          // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+          this.form.resetFields();
+
+          // 隐藏确认框(注意：这里antd框架是用display:none来隐藏Modal模态对话框实现的，而不是删除掉这个元素)
+          this.setState({
+            showStatus: 0
+          });
+
+          // 重新获取最新的分类列表显示
           this.getCategorys();
         } else if (status === 1) {
-          message.info(msg);
-          //重新获取分类列表显示
+          message.error(msg);
+          // 重新获取分类列表显示
           this.getCategorys();
         } else {
           message.error(action + '分类失败');

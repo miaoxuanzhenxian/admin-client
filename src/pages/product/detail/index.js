@@ -40,6 +40,10 @@ export default class ProductDetail extends Component {
     this.getCategory()
   }
 
+  componentWillUnmount() {
+    this.setState = () => { }
+  }
+
   render() {
     const { categoryName } = this.state
     const product = memoryUtils.product

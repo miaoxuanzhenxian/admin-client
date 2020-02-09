@@ -13,7 +13,7 @@ import throttle from 'lodash.throttle'; // lodash和qs这两个库属于基本�
 import style from './index.module.less';
 import LinkButton from '@/components/link-button';
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api';
-import { PAGE_SIZE } from '@/utils/constants'
+import { PRODUCT_PAGE_SIZE } from '@/utils/constants'
 import memoryUtils from '@/utils/memoryUtils'
 
 const { Option } = Select
@@ -129,10 +129,10 @@ export default class ProductHome extends Component {
     // 发请求获取数据
     if (!searchName) {
       // 发获取商品分页列表(后台分页)请求
-      result = await reqProducts(pageNum, PAGE_SIZE);
+      result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE);
     } else {
       // 发搜索产品分页列表请求
-      result = await reqSearchProducts({ pageNum, pageSize: PAGE_SIZE, searchType, searchName })
+      result = await reqSearchProducts({ pageNum, pageSize: PRODUCT_PAGE_SIZE, searchType, searchName })
     }
     if (result.status === 0) {
       // 取出数据
@@ -152,6 +152,10 @@ export default class ProductHome extends Component {
   componentDidMount() {
     //获取第一页商品列表显示
     this.getProducts(1)
+  }
+
+  componentWillUnmount() {
+    this.setState = () => { }
   }
 
   render() {
@@ -203,7 +207,7 @@ export default class ProductHome extends Component {
             rowKey='_id'
             pagination={{
               total,
-              defaultPageSize: PAGE_SIZE,
+              defaultPageSize: PRODUCT_PAGE_SIZE,
               showQuickJumper: true,
               onChange: this.getProducts,
               current: this.pageNum,

@@ -88,17 +88,18 @@ export default class Role extends Component {
     this.form.validateFields(async (err, values) => {
       if (!err) {
         const result = await reqAddRole(values.roleName)
-
-        // 隐藏弹框
-        this.setState({ isShowAdd: false })
-
-        this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
-
         if (result.status === 0) {
           message.success('添加角色成功')
+
+          // 隐藏弹框
+          this.setState({ isShowAdd: false })
+
+          this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
+
+          // 重新获取最新的角色列表显示
           this.getRoles()
         } else if (result.status === 1) {
-          message.info(result.msg)
+          message.error(result.msg)
           this.getRoles()
         } else {
           message.error('添加角色失败')
@@ -132,6 +133,10 @@ export default class Role extends Component {
 
   componentDidMount() {
     this.getRoles() // 异步获取获取角色列表显示
+  }
+
+  componentWillUnmount() {
+    this.setState = () => { }
   }
 
   render() {

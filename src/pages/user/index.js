@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Table, message, Modal } from 'antd';
 
 import LinkButton from '@/components/link-button';
-import { reqUsers } from '@/api';
+import { reqUsers, reqAddOrUpdateUser } from '@/api';
 import { formatDate } from '@/utils/dateUtils';
 import UserForm from './user-form'
 
@@ -110,8 +110,39 @@ export default class User extends Component {
     this.form.resetFields() // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
   }
 
+  /*
+    添加或修改(更新)用户
+  */
+  addOrUpdateUser = () => {
+    this.form.validateFields(async (err, values) => {
+      if (!err) {
+        let action = '添加'
+        if (this.user) {
+          values._id = this.user._id
+          action = '修改'
+        }
+        const result = await reqAddOrUpdateUser(values)
+        if (result.status === 0) {
+          message.success(action + '用户成功')
+          this.setState({ isShow: false })
+          this.form.resetFields()
+          this.getUsers()
+        } else if (result.status === 1) {
+          message.error(result.msg)
+          this.getUsers()
+        } else {
+          message.error(action + '用户失败')
+        }
+      }
+    })
+  }
+
   componentDidMount() {
     this.getUsers() // 异步获取所有用户列表显示
+  }
+
+  componentWillUnmount() {
+    this.setState = () => { }
   }
 
   render() {
@@ -142,9 +173,10 @@ export default class User extends Component {
           />
 
           <Modal
-            title="添加用户"
+            title={user._id ? '修改用户' : "添加用户"}
             visible={isShow}
             onCancel={this.handleCancel}
+            onOk={this.addOrUpdateUser}
           >
             <UserForm
               user={user}
@@ -153,7 +185,7 @@ export default class User extends Component {
             />
           </Modal>
         </Card>
-      </div>
+      </div >
     )
   }
 }

@@ -1,4 +1,4 @@
-import store from 'store';//使用store这个插件处理localStorage会比原生的api简单一些，并且兼容性更好，几乎兼容所有浏览器
+import store from 'store'; // 使用store这个插件处理localStorage会比原生的api简单一些，并且兼容性更好，几乎兼容所有浏览器
 /*
   处理localStorage的user数据
 */
