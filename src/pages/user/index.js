@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Table, message, Modal } from 'antd';
 
 import LinkButton from '@/components/link-button';
-import { reqUsers, reqAddOrUpdateUser } from '@/api';
+import { reqUsers, reqAddOrUpdateUser, reqDeleteUser } from '@/api';
 import { formatDate } from '@/utils/dateUtils';
 import UserForm from './user-form'
 
@@ -53,7 +53,9 @@ export default class User extends Component {
             <LinkButton onClick={this.showUpdate.bind(this, user)}>
               修改
             </LinkButton>
-            <LinkButton>删除</LinkButton>
+            <LinkButton onClick={this.deleteUser.bind(this, user)}>
+              删除
+            </LinkButton>
           </span>
         )
       },
@@ -137,6 +139,24 @@ export default class User extends Component {
     })
   }
 
+  /*
+    删除指定用户
+  */
+  deleteUser = (user) => {
+    Modal.confirm({
+      title: `确认删除${user.username}吗?`,
+      onOk: async () => {
+        const result = await reqDeleteUser(user._id)
+        if (result.status === 0) {
+          message.success('删除用户成功')
+          this.getUsers()
+        } else {
+          message.error('删除用户失败')
+        }
+      }
+    })
+  }
+
   componentDidMount() {
     this.getUsers() // 异步获取所有用户列表显示
   }
@@ -158,34 +178,32 @@ export default class User extends Component {
     )
 
     return (
-      <div>
-        <Card title={title}>
-          <Table
-            bordered
-            loading={loading}
-            columns={this.columns}
-            dataSource={users}
-            rowKey="_id"
-            pagination={{
-              defaultPageSize: 2,
-              showQuickJumper: true
-            }}
-          />
+      <Card title={title}>
+        <Table
+          bordered
+          loading={loading}
+          columns={this.columns}
+          dataSource={users}
+          rowKey="_id"
+          pagination={{
+            defaultPageSize: 6,
+            showQuickJumper: true
+          }}
+        />
 
-          <Modal
-            title={user._id ? '修改用户' : "添加用户"}
-            visible={isShow}
-            onCancel={this.handleCancel}
-            onOk={this.addOrUpdateUser}
-          >
-            <UserForm
-              user={user}
-              roles={roles}
-              setForm={form => this.form = form}
-            />
-          </Modal>
-        </Card>
-      </div >
+        <Modal
+          title={user._id ? '修改用户' : "添加用户"}
+          visible={isShow}
+          onCancel={this.handleCancel}
+          onOk={this.addOrUpdateUser}
+        >
+          <UserForm
+            user={user}
+            roles={roles}
+            setForm={form => this.form = form}
+          />
+        </Modal>
+      </Card>
     )
   }
 }

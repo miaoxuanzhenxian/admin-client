@@ -104,3 +104,6 @@ export const reqAddOrUpdateUser = (user) => ajax.post(
   BASE_URL + '/manage/user/' + (user._id ? 'update' : 'add'),
   user
 )
+
+/* 删除用户 */
+export const reqDeleteUser = (userId) => ajax.post(BASE_URL + '/manage/user/delete', { userId })

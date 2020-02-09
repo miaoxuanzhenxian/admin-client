@@ -78,9 +78,9 @@ class ProductAddUpdate extends Component {
 
         // 收集输入的商品详情的标签字符串
         const detail = this.rteRef.current.getDetail()
-
+        
         // 封装product对象
-        const product = { categoryId, name, desc, price, detail, imgs }
+        const product = {categoryId, name, desc, price, detail, imgs}
         if (this.isUpdate) {
           product._id = this.product._id
         }

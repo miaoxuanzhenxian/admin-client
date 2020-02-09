@@ -36,20 +36,6 @@ export default class ProductHome extends Component {
     this.initColumns()
   }
 
-  updateStatus = throttle(async (productId, status) => {
-    // 计算更新后的值
-    status = status === 1 ? 2 : 1
-    // 请求更新
-    const result = await reqUpdateStatus(productId, status);
-    if (result.status === 0) {
-      message.success('更新商品状态成功!')
-      // 获取当前页显示
-      this.getProducts(this.pageNum)
-    } else {
-      message.error('更新商品状态失败!')
-    }
-  }, 2000)
-
   initColumns = () => {
     this.columns = [
       {
@@ -114,6 +100,23 @@ export default class ProductHome extends Component {
       },
     ]
   }
+
+  /* 
+    更新商品状态
+  */
+  updateStatus = throttle(async (productId, status) => {
+    // 计算更新后的值
+    status = status === 1 ? 2 : 1
+    // 请求更新
+    const result = await reqUpdateStatus(productId, status);
+    if (result.status === 0) {
+      message.success('更新商品状态成功!')
+      // 获取当前页显示
+      this.getProducts(this.pageNum)
+    } else {
+      message.error('更新商品状态失败!')
+    }
+  }, 2000)
 
   /*
     异步获取指定页码商品分页(可能带搜索)列表显示
