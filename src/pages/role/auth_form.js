@@ -6,8 +6,6 @@ import menuList from '@/config/menuConfig'
 
 const { TreeNode } = Tree
 
-const menuLisExcPub = menuList.filter(item => !item.public)
-
 export default class AuthForm extends PureComponent {
 
   static propTypes = {
@@ -24,7 +22,7 @@ export default class AuthForm extends PureComponent {
     // 根据传入角色的menus来更新checkedKeys状态
     this.state.checkedKeys = this.props.role.menus
 
-    this.treeNodes = this.getTreeNodes(menuLisExcPub)
+    this.treeNodes = this.getTreeNodes(menuList)
   }
 
   /*
@@ -33,13 +31,15 @@ export default class AuthForm extends PureComponent {
   getMenus = () => this.state.checkedKeys
 
 
-  getTreeNodes = (menuLisExcPub) => {
-    return menuLisExcPub.reduce((pre, item) => {
-      pre.push(
-        <TreeNode title={item.title} key={item.key}>
-          {item.children ? this.getTreeNodes(item.children) : null}
-        </TreeNode>
-      )
+  getTreeNodes = (menuList) => {
+    return menuList.reduce((pre, item) => {
+      if (!item.public) {
+        pre.push(
+          <TreeNode title={item.title} key={item.key}>
+            {item.children ? this.getTreeNodes(item.children) : null}
+          </TreeNode>
+        )
+      }
       return pre
     }, [])
   }

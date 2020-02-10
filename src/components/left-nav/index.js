@@ -5,6 +5,7 @@ import { Menu, Icon } from 'antd';
 import style from './index.module.less';
 import logo from '@/assets/images/logo.png';
 import menuList from '@/config/menuConfig';
+import memoryUtils from '@/utils/memoryUtils';
 
 const { SubMenu } = Menu;
 
@@ -67,6 +68,23 @@ class LeftNav extends Component {
     });
   } */
 
+  /*
+    判断当前用户是否有此item对应的权限
+  */
+  hasAuth = (item) => {
+    // 得到当前用户的所有权限
+    const user = memoryUtils.user
+    const menus = user.role.menus
+    // 1. 如果当前用户是admin
+    // 2. 如果item是公开的
+    // 3. 当前用户有此item的权限
+    if (user.username === 'admin' || item.public || menus.indexOf(item.key) !== -1) {
+      return true
+    } else if (item.children) { // 4. 如果当前用户有item的某个子节点的权限, 当前item也应该显示
+      return !!item.children.find(cItem => menus.indexOf(cItem.key) !== -1)
+    }
+    return false
+  }
 
   /*
   根据指定菜单数据列表产生<Menu>的子节点数组
@@ -75,34 +93,36 @@ class LeftNav extends Component {
   getMenuNodes2 = (menuList) => {
     const path = this.props.location.pathname;
     return menuList.reduce((pre, item) => {
-      if (!item.children) {
-        pre.push(
-          <Menu.Item key={item.key}>
-            <Link to={item.key}>
-              <Icon type={item.icon} />
-              <span>{item.title}</span>
-            </Link>
-          </Menu.Item>
-        );
-      } else {
-        // 如果当前请求路由与当前菜单的某个子菜单的key匹配, 将菜单的key保存为openKey
-        const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0); // 使用path.indexOf主要是为了防止当路由路径path为/product/addupdate等时出现无法匹配/product而造成的无法打开对应的折叠表单项的问题
-        if (cItem) {
-          this.openKey = item.key;
-        }
-        pre.push(
-          <SubMenu
-            key={item.key}
-            title={
-              <span>
+      if (this.hasAuth(item)) { // 判断当前用户是否有此item对应的权限
+        if (!item.children) {
+          pre.push(
+            <Menu.Item key={item.key}>
+              <Link to={item.key}>
                 <Icon type={item.icon} />
                 <span>{item.title}</span>
-              </span>
-            }
-          >
-            {this.getMenuNodes2(item.children)}
-          </SubMenu>
-        )
+              </Link>
+            </Menu.Item>
+          );
+        } else {
+          // 如果当前请求路由与当前菜单的某个子菜单的key匹配, 将菜单的key保存为openKey
+          const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0); // 使用path.indexOf主要是为了防止当路由路径path为/product/addupdate等时出现无法匹配/product而造成的无法打开对应的折叠表单项的问题
+          if (cItem) {
+            this.openKey = item.key;
+          }
+          pre.push(
+            <SubMenu
+              key={item.key}
+              title={
+                <span>
+                  <Icon type={item.icon} />
+                  <span>{item.title}</span>
+                </span>
+              }
+            >
+              {this.getMenuNodes2(item.children)}
+            </SubMenu>
+          )
+        }
       }
       return pre;
     }, []);
