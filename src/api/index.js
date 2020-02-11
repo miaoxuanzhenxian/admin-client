@@ -68,6 +68,13 @@ export const reqSearchProducts = ({
   }
 })
 
+/* 根据商品ID获取商品 */
+export const reqProduct = (productId) => ajax(BASE_URL + '/manage/product/info', {
+  params: {
+    productId
+  }
+})
+
 /* 对商品进行上架/下架处理(设置对应status的值，status为1表示在售状态，2表示已下架状态) */
 export const reqUpdateStatus = (productId, status) => ajax.post(BASE_URL + '/manage/product/updateStatus', { productId, status })
 

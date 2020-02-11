@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom';
-import { Card, Icon, List, message } from 'antd';
+import { Card, Icon, List, message } from 'antd'
 
-import LinkButton from '@/components/link-button';
-import style from './index.module.less';
+import LinkButton from '@/components/link-button'
+import style from './index.module.less'
 import memoryUtils from '@/utils/memoryUtils'
 import { BASE_IMG } from '@/utils/constants'
-import { reqCategory } from '@/api'
+import { reqCategory, reqProduct } from '@/api'
 
 const { Item } = List
 
@@ -17,27 +16,44 @@ export default class ProductDetail extends Component {
 
   state = {
     categoryName: '',
+    product: memoryUtils.product
   }
 
-  getCategory = async () => {
-    const product = memoryUtils.product
-    const categoryId = product && product.categoryId
-    if (categoryId) {
-      const result = await reqCategory(categoryId)
+  /* 根据分类ID获取分类 */
+  getCategory = async (categoryId) => {
+    const result = await reqCategory(categoryId)
+    if (result.status === 0) {
+      const data = result.data
+      const categoryName = data && data.name
+      this.setState({
+        categoryName
+      })
+    } else {
+      message.error('获取分类失败')
+    }
+  }
+
+  /* 根据商品ID获取商品 */
+  getProduct = async () => {
+    let product = this.state.product
+    if (product._id) { // 如果商品有数据, 获取对应的分类
+      this.getCategory(product.categoryId) // 根据分类ID获取分类
+    } else { // 如果当前product状态没有数据, 根据路由参数中id参数请求获取商品并更新
+      const result = await reqProduct(this.props.match.params.id)
       if (result.status === 0) {
-        const data = result.data
-        const categoryName = data && data.name
-        this.setState({
-          categoryName
-        })
+        product = result.data
+        if (product) {
+          this.setState({ product })
+          this.getCategory(product.categoryId) // 根据分类ID获取分类
+        }
       } else {
-        message.error(result.msg)
+        message.error('获取商品失败')
       }
     }
   }
 
   componentDidMount() {
-    this.getCategory()
+    this.getProduct() // 根据商品ID获取商品
   }
 
   componentWillUnmount() {
@@ -45,12 +61,8 @@ export default class ProductDetail extends Component {
   }
 
   render() {
-    const { categoryName } = this.state
-    const product = memoryUtils.product
-    if (!product || !product._id) {
-      return <Redirect to="/product" />
-    }
-
+    const { categoryName, product } = this.state
+  
     const title = (
       <span>
         <LinkButton onClick={this.props.history.goBack}>
@@ -83,7 +95,7 @@ export default class ProductDetail extends Component {
               <span className={style['detail-left']}>商品图片:</span>
               <span>
                 {
-                  product.imgs.map(img => <img className={style['detail-img']} key={img} src={BASE_IMG + img} alt="img" />)
+                  product.imgs && product.imgs.map(img => <img className={style['detail-img']} key={img} src={BASE_IMG + img} alt="img" />)
                 }
               </span>
             </Item>
