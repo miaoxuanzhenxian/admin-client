@@ -17,7 +17,6 @@ const User = lazy(() => import('../user'));
 const Bar = lazy(() => import('../charts/bar'));
 const Line = lazy(() => import('../charts/line'));
 const Pie = lazy(() => import('../charts/pie'));
-const NotFound = lazy(() => import('../not-found'))
 
 
 export default class Admin extends Component {
