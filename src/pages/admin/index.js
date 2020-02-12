@@ -39,7 +39,6 @@ export default class Admin extends Component {
           <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
             <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} /> }>
               <Switch>
-                <Redirect from="/" to="/home" exact />
                 <Route path="/home" exact component={Home} />
                 <Route path="/category" exact component={Category} />
                 <Route path="/product" component={Product} />
@@ -48,7 +47,7 @@ export default class Admin extends Component {
                 <Route path="/charts/bar" exact component={Bar} />
                 <Route path="/charts/line" exact component={Line} />
                 <Route path="/charts/pie" exact component={Pie} />
-                <Route component={NotFound} />
+                <Redirect to="/home" />
               </Switch>
             </Suspense>
           </Content>
