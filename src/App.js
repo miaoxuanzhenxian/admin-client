@@ -1,26 +1,69 @@
 /*
 应用根组件
 */
-import React, { Component, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import Loading from './components/loading';
-//路由的懒加载，解决首屏加载过慢的问题
-const Login = lazy(() => import('./pages/login'));
-const Admin = lazy(() => import('./pages/admin'));
+import React, { Component } from 'react'
 
 export default class App extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      count: 0
+    }
+
+    this.numberSelectRef = React.createRef()
+  }
+
+  increment = () => {
+    const num = this.numberSelectRef.current.value * 1
+    this.setState({
+      count: this.state.count + num
+    })
+  }
+
+  decrement = () => {
+    const num = this.numberSelectRef.current.value * 1
+    this.setState({
+      count: this.state.count - num
+    })
+  }
+
+  incrementIfOdd = () => {
+    const { count } = this.state
+    if (count % 2 === 1) {
+      const num = this.numberSelectRef.current.value * 1
+      this.setState({
+        count: count + num
+      })
+    }
+  }
+
+  incrementAsync = () => {
+    const num = this.numberSelectRef.current.value * 1
+    setTimeout(() => {
+      this.setState({
+        count: this.state.count + num
+      })
+    }, 1000);
+  }
+
   render() {
+    const { count } = this.state
+
     return (
-      <Router>
-        <Suspense fallback={<Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} />}>
-          <Switch>
-            <Route path="/login" exact component={Login} />
-            <Route path="/" component={Admin} />
-          </Switch>
-        </Suspense>
-      </Router>
+      <div>
+        <p>click {count} times</p>
+        <select ref={this.numberSelectRef}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select> &nbsp;
+        <button onClick={this.increment}>+</button> &nbsp;
+        <button onClick={this.decrement}>-</button> &nbsp;
+        <button onClick={this.incrementIfOdd}>increment if odd</button> &nbsp;
+        <button onClick={this.incrementAsync}>increment async</button>
+      </div>
     )
   }
 }
