@@ -2,7 +2,6 @@ import React, { Component, lazy, Suspense } from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
-// import { getUser } from '@/utils/storageUtils.js';
 import memoryUtils from '@/utils/memoryUtils';
 import LeftNav from '@/components/left-nav';
 import Header from '@/components/header';
@@ -18,6 +17,7 @@ const User = lazy(() => import('../user'));
 const Bar = lazy(() => import('../charts/bar'));
 const Line = lazy(() => import('../charts/line'));
 const Pie = lazy(() => import('../charts/pie'));
+const NotFound = lazy(() => import('../not-found'))
 
 
 export default class Admin extends Component {
@@ -39,6 +39,7 @@ export default class Admin extends Component {
           <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
             <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} /> }>
               <Switch>
+                <Redirect from="/" to="/home" exact />
                 <Route path="/home" exact component={Home} />
                 <Route path="/category" exact component={Category} />
                 <Route path="/product" component={Product} />
@@ -47,7 +48,7 @@ export default class Admin extends Component {
                 <Route path="/charts/bar" exact component={Bar} />
                 <Route path="/charts/line" exact component={Line} />
                 <Route path="/charts/pie" exact component={Pie} />
-                <Redirect to="/home" />
+                <Route component={NotFound} />
               </Switch>
             </Suspense>
           </Content>

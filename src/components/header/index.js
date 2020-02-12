@@ -88,7 +88,7 @@ class Header extends Component {
           <div className={style["header-bottom-left"]}>{title}</div>
           <div className={style["header-bottom-right"]}>
             <span>{currentTime}</span>
-            <img src={dayPictureUrl} alt="weather" />
+            {dayPictureUrl ? <img src={dayPictureUrl} alt="weather" /> : null}
             <span>{weather}</span>
           </div>
         </div>
