@@ -2,49 +2,54 @@
 应用根组件
 */
 import React, { Component } from 'react'
-import propTypes from 'prop-types';
-
-import { increment, decrement, } from './redux/actions';
 
 export default class App extends Component {
 
-  static propTypes = {
-    store: propTypes.object.isRequired
-  }
-
   constructor(props) {
     super(props)
-  
+
+    this.state = {
+      count: 0
+    }
+
     this.numberSelectRef = React.createRef()
   }
 
   increment = () => {
     const num = this.numberSelectRef.current.value * 1
-    this.props.store.dispatch(increment(num))
+    this.setState({
+      count: this.state.count + num
+    })
   }
 
   decrement = () => {
     const num = this.numberSelectRef.current.value * 1
-    this.props.store.dispatch(decrement(num))
+    this.setState({
+      count: this.state.count - num
+    })
   }
 
   incrementIfOdd = () => {
-    const count = this.props.store.getState()
+    const { count } = this.state
     if (count % 2 === 1) {
       const num = this.numberSelectRef.current.value * 1
-      this.props.store.dispatch(increment(num))
+      this.setState({
+        count: count + num
+      })
     }
   }
 
   incrementAsync = () => {
     const num = this.numberSelectRef.current.value * 1
     setTimeout(() => {
-      this.props.store.dispatch(increment(num))
+      this.setState({
+        count: this.state.count + num
+      })
     }, 1000);
   }
 
   render() {
-    const count = this.props.store.getState()
+    const { count } = this.state
 
     return (
       <div>
