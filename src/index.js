@@ -1,16 +1,16 @@
 /*
-入口js
+  入口js
 */
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
-import App from './App';
-import store from './redux/store';
+import App from './containters/App'
+import store from './redux/store'
 
-// 初次也需渲染组件
-ReactDOM.render(<App store={store} />, document.getElementById('root'));
-
-// 绑定监视store内部状态数据改变的监听
-store.subscribe(() => { // 重新渲染标签
-  ReactDOM.render(<App store={store} />, document.getElementById('root'));
-})
+ReactDOM.render((
+  // Provider会将接收到store对象提供给所有的容器组件
+  <Provider store={store}>
+    <App />
+  </Provider>
+), document.getElementById('root'))
