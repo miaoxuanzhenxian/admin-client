@@ -5,7 +5,7 @@
 import { connect } from 'react-redux';
 
 import Counter from '../components/counter';
-import { increment, decrement, } from '../redux/actions';
+import { increment, decrement, incrementAsync, } from '../redux/actions';
 
  /* 
   将特定state数据映射(转换)成标签的一般属性传递给UI组件(Counter)，标签的一般属性是指标签的属性值是非函数类型的属性，标签的函数属性是指标签的属性值是函数类型的属性
@@ -38,7 +38,7 @@ export default connect(
 
 export default connect(
   state => ({ count: state }),
-  { increment, decrement } // 编码是很简洁的, 但不太好理解
+  { increment, decrement, incrementAsync, } // 编码是很简洁的, 但不太好理解
 )(Counter)
 
 /* 
