@@ -7,7 +7,8 @@ import {
   DECREMENT,
 } from './action-types';
 
-export default function count(state = 1, action) {
+const initCount = 1
+export default function count(state = initCount, action) {
   switch (action.type) {
     case INCREMENT:
       return state + action.num
