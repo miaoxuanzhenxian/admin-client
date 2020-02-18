@@ -49,6 +49,8 @@ export default class Admin extends Component {
                 <Route path="/charts/line" exact component={Line} />
                 <Route path="/charts/pie" exact component={Pie} />
                 <Route component={NotFound} />
+                {/* 有要求时，按照项目要求做，但没有要求弄404 NOtFound页面时，我们通常就不弄404 NOtFound了，而是直接在最后重定向到首页，这样让没有匹配的就不再去匹配404 NOtFound了，而是直接重定向跳转到home首页即可，这样更简单，更简洁，更安全，更没有bug，更没有隐患，做项目速度更快 */}
+                {/* <Redirect to="/home" />  */}
               </Switch>
             </Suspense>
           </Content>
