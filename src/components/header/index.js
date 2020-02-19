@@ -46,6 +46,9 @@ class Header extends Component {
     });
   }
 
+  /* 
+    退出登陆
+  */
   handleLogout = () => {
     Modal.confirm({
       title: '确定退出吗？',
@@ -58,7 +61,11 @@ class Header extends Component {
       }
     });
   }
-  getTitle = (menuList) => {
+
+  /* 
+    根据当前请求的path得到对应的title
+  */
+  /* getTitle = (menuList) => {
     let title = '';
     const pathname = this.props.location.pathname;
     for (const item of menuList) {
@@ -73,7 +80,25 @@ class Header extends Component {
       }
     }
     return title;
+  } */
+  getTitle = (menuList) => {
+    let title = '';
+    const pathname = this.props.location.pathname;
+    for (const item of menuList) {
+      if (item.key === pathname) {
+        title = item.title
+        break
+      } else if (item.children) {
+        const cItem = item.children.find(cItem => pathname.indexOf(cItem.key) === 0)
+        if (cItem) {
+          title = cItem.title
+          break
+        }
+      }
+    }
+    return title
   }
+
   render() {
     const { currentTime, dayPictureUrl, weather } = this.state;
     const title = this.getTitle(menuList);
