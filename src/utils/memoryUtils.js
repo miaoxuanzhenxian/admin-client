@@ -1,4 +1,4 @@
-import { getUser } from './storageUtils';
+import { getUser } from './storageUtils'
 
 // 初始时取一次并保存为user
 const user = getUser()
