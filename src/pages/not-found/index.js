@@ -1,12 +1,28 @@
+/*
+  前台404页面
+ */
 import React, { Component } from 'react'
 import { Row, Col, Button } from 'antd'
+import { connect } from 'react-redux'
 
+import { setHeaderTitle } from '@/redux/actions'
 import style from './index.module.less'
 
-export default class NotFound extends Component {
+@connect(
+  state => ({}),
+  { setHeaderTitle }
+)
+class NotFound extends Component {
 
+  constructor(props) {
+    super(props)
+  
+    this.props.setHeaderTitle('404')
+  }
+  
   goHome = () => {
     this.props.history.replace('/')
+    this.props.setHeaderTitle('首页')
   }
 
   render() {
@@ -24,3 +40,5 @@ export default class NotFound extends Component {
     )
   }
 }
+
+export default NotFound

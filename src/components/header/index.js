@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Modal } from 'antd';
+import { connect } from 'react-redux'
 
 import style from './index.module.less';
 import { removeUser } from "@/utils/storageUtils";
 import memoryUtils from "@/utils/memoryUtils";
-import menuList from '@/config/menuConfig';
+// import menuList from '@/config/menuConfig';
 import { formatDate } from '@/utils/dateUtils';
 import { reqWeather } from '@/api';
 import LinkButton from '@/components/link-button';
 
+@connect(
+  state => ({ headerTitle: state.headerTitle }),
+  {}
+)
 @withRouter
 class Header extends Component {
 
@@ -17,20 +22,6 @@ class Header extends Component {
     currentTime: formatDate(Date.now()),
     dayPictureUrl: '', //天气白天图片url
     weather: '' //天气文本
-  }
-
-  componentDidMount() {
-    //启动循环定时器
-    this.intertvalId = setInterval(() => {
-      this.setState({
-        currentTime: formatDate(Date.now())
-      });
-    }, 1000);
-    //发jsonp请求获取天气信息显示
-    this.getWeather('北京');
-  }
-  componentWillUnmount() {
-    clearInterval(this.intertvalId);
   }
 
   /*
@@ -46,6 +37,9 @@ class Header extends Component {
     });
   }
 
+  /* 
+   退出登陆
+ */
   handleLogout = () => {
     Modal.confirm({
       title: '确定退出吗？',
@@ -56,27 +50,27 @@ class Header extends Component {
         memoryUtils.user = {}
         this.props.history.replace('/login');
       }
-    });
+    })
   }
-  getTitle = (menuList) => {
-    let title = '';
-    const pathname = this.props.location.pathname;
-    for (const item of menuList) {
-      if (pathname.indexOf(item.key) === 0) { // 使用pathname.indexOf主要是为了防止当路由路径pathname为/product/addupdate等时出现无法匹配/product而造成的无法获取对应的表单项的标题title为商品管理的问题
-        title = item.title;
-        break;
-      } else if (item.children) {
-        title = this.getTitle(item.children);
-        if (title) {
-          break;
-        }
-      }
-    }
-    return title;
+
+  componentDidMount() {
+    //启动循环定时器
+    this.intertvalId = setInterval(() => {
+      this.setState({
+        currentTime: formatDate(Date.now())
+      });
+    }, 1000);
+    //发jsonp请求获取天气信息显示
+    this.getWeather('北京');
   }
+
+  componentWillUnmount() {
+    clearInterval(this.intertvalId);
+  }
+
   render() {
-    const { currentTime, dayPictureUrl, weather } = this.state;
-    const title = this.getTitle(menuList);
+    const { currentTime, dayPictureUrl, weather } = this.state
+    const title = this.props.headerTitle
     return (
       <div className={style.header}>
         <div className={style["header-top"]}>

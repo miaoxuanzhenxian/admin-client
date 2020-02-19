@@ -4,6 +4,9 @@
 import { combineReducers } from 'redux'
 
 import { getUser } from '../utils/storageUtils'
+import { 
+  SET_HEADER_TITLE,
+} from './action-types'
 
 /*
   管理应用头部标题的reducer函数
@@ -11,9 +14,8 @@ import { getUser } from '../utils/storageUtils'
 const initHeaderTitle = '首页'
 function headerTitle(state = initHeaderTitle, action) {
   switch (action.type) {
-    /* case value:
-
-      break; */
+    case SET_HEADER_TITLE:
+      return action.data
     default:
       return state
   }
