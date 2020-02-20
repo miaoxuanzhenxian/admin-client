@@ -1,31 +1,34 @@
-import React, { Component, lazy, Suspense } from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
-import { Layout } from 'antd';
+import React, { Component, lazy, Suspense } from 'react'
+import { Redirect, Switch, Route } from 'react-router-dom'
+import { Layout } from 'antd'
+import { connect } from 'react-redux'
 
-import memoryUtils from '@/utils/memoryUtils';
-import LeftNav from '@/components/left-nav';
-import Header from '@/components/header';
-import Loading from '@/components/loading';
+import LeftNav from '@/components/left-nav'
+import Header from '@/components/header'
+import Loading from '@/components/loading'
 
-const { Sider, Content, Footer } = Layout;
+const { Sider, Content, Footer } = Layout
 
-const Home = lazy(() => import('../home'));
-const Category = lazy(() => import('../category'));
-const Product = lazy(() => import('../product'));
-const Role = lazy(() => import('../role'));
-const User = lazy(() => import('../user'));
-const Bar = lazy(() => import('../charts/bar'));
-const Line = lazy(() => import('../charts/line'));
-const Pie = lazy(() => import('../charts/pie'));
+const Home = lazy(() => import('../home'))
+const Category = lazy(() => import('../category'))
+const Product = lazy(() => import('../product'))
+const Role = lazy(() => import('../role'))
+const User = lazy(() => import('../user'))
+const Bar = lazy(() => import('../charts/bar'))
+const Line = lazy(() => import('../charts/line'))
+const Pie = lazy(() => import('../charts/pie'))
 const NotFound = lazy(() => import('../not-found'))
 
-
-export default class Admin extends Component {
+@connect(
+  state => ({ user: state.user }),
+  {}
+)
+class Admin extends Component {
 
   render() {
     //读取保存的user，如果不存在，直接重定向到login登录界面
     // const user = JSON.parse(localStorage.getItem('user_key') || '{}');
-    const user = memoryUtils.user;
+    const user = this.props.user
     if (!user._id) {
       return <Redirect to='/login' />
     }
@@ -37,7 +40,7 @@ export default class Admin extends Component {
         <Layout>
           <Header />
           <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
-            <Suspense fallback={ <Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} /> }>
+            <Suspense fallback={<Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} />}>
               <Switch>
                 <Redirect from="/" to="/home" exact />
                 <Route path="/home" component={Home} />
@@ -62,3 +65,5 @@ export default class Admin extends Component {
     )
   }
 }
+
+export default Admin

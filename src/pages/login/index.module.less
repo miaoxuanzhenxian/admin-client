@@ -27,13 +27,31 @@
       margin-bottom: 0;
     }
   }
-
   .login-content {
     width: 400px;
     height: 300px;
     margin: 50px auto;
     padding: 30px;
     background-color: #fff;
+    position: relative;
+    .error-msg {
+      visibility: hidden; // 使用visibility: hidden不会隐藏元素空间，只是隐藏元素的样式等，因此不会发生重排，只会发生重绘，因此效率较高、性能较好；而display: none会隐藏元素的空间，也会隐藏元素的样式等，因此不但会发生重排，也会发生重绘，因此效率较低、性能较差；所以在元素的显示与隐藏上，在样式上，优先使用visibility(能使用visibility就使用visibility)，这样不会发生重排，只会发生重绘，效率较高、性能较好
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background-color: #f60c1a;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      transform: translateY(-30px);
+      transition: all .3s;
+      &.show {
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
     h2 {
       font-size: 25px;
       font-weight: bold;

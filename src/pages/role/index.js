@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
-import { Card, Button, Table, message, Modal } from 'antd';
+import React, { Component } from 'react'
+import { Card, Button, Table, message, Modal } from 'antd'
+import { connect } from 'react-redux'
 
-import { formatDate } from '@/utils/dateUtils';
-import LinkButton from '@/components/link-button';
-import { reqRoles, reqAddRole, reqUpdateRole } from '@/api';
+import { formatDate } from '@/utils/dateUtils'
+import LinkButton from '@/components/link-button'
+import { reqRoles, reqAddRole, reqUpdateRole } from '@/api'
 import AddForm from './add-form'
 import AuthForm from './auth_form'
-import memoryUtils from '@/utils/memoryUtils'
 
-export default class Role extends Component {
+@connect(
+  state => ({ user: state.user }),
+  {}
+)
+class Role extends Component {
   constructor(props) {
     super(props)
 
@@ -116,7 +120,7 @@ export default class Role extends Component {
     // 更新role对象相关属性
     role.menus = this.authRef.current.getMenus()
     role.auth_time = Date.now()
-    role.auth_name = memoryUtils.user.username
+    role.auth_name = this.props.user.username
 
     // 请求更新角色
     const result = await reqUpdateRole(role)
@@ -192,3 +196,5 @@ export default class Role extends Component {
     )
   }
 }
+
+export default Role

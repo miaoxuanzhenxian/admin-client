@@ -1,7 +1,7 @@
-import { getUser } from './storageUtils'
+// import { getUser } from './storageUtils'
 
 // 初始时取一次并保存为user
-const user = getUser()
+// const user = getUser()
 export default {
   /*
     用来内存中存储登陆用户的信息,实现只读取localStorage对应的文件数据一次，剩下的其它的都从内存中读取，
@@ -10,6 +10,6 @@ export default {
     剩下的其它的都从内存中读取，提高运行效率;通常我们会用redux代替此种内存读写的方式。
     具体用哪种方式看情况，灵活变通，以最短的时间不择手段的最快完成全部基本功能为最先原则，其它都往后放。
   */
-  user,
+  // user,
   product: {}, // 需要查看的商品对象 
 }

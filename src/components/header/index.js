@@ -3,17 +3,18 @@ import { withRouter } from 'react-router-dom';
 import { Modal } from 'antd';
 import { connect } from 'react-redux'
 
+import { logout } from '@/redux/actions'
 import style from './index.module.less';
-import { removeUser } from "@/utils/storageUtils";
-import memoryUtils from "@/utils/memoryUtils";
-// import menuList from '@/config/menuConfig';
 import { formatDate } from '@/utils/dateUtils';
 import { reqWeather } from '@/api';
 import LinkButton from '@/components/link-button';
 
 @connect(
-  state => ({ headerTitle: state.headerTitle }),
-  {}
+  state => ({
+    headerTitle: state.headerTitle,
+    user: state.user
+  }),
+  { logout }
 )
 @withRouter
 class Header extends Component {
@@ -34,7 +35,7 @@ class Header extends Component {
     this.setState({
       dayPictureUrl,
       weather
-    });
+    })
   }
 
   /* 
@@ -46,9 +47,7 @@ class Header extends Component {
       okText: '确定',
       cancelText: '取消',
       onOk: () => {
-        removeUser();
-        memoryUtils.user = {}
-        this.props.history.replace('/login');
+        this.props.logout()
       }
     })
   }
@@ -70,16 +69,16 @@ class Header extends Component {
 
   render() {
     const { currentTime, dayPictureUrl, weather } = this.state
-    const title = this.props.headerTitle
+    const { headerTitle, user } = this.props
     return (
       <div className={style.header}>
         <div className={style["header-top"]}>
-          欢迎, {memoryUtils.user.username}
+          欢迎, {user.username}
           {/* <a href="javascript:" onClick={this.handleLogout}>退出</a> */}
           <LinkButton className={style["logout-button"]} onClick={this.handleLogout}>退出</LinkButton>
         </div>
         <div className={style["header-bottom"]}>
-          <div className={style["header-bottom-left"]}>{title}</div>
+          <div className={style["header-bottom-left"]}>{headerTitle}</div>
           <div className={style["header-bottom-right"]}>
             <span>{currentTime}</span>
             {dayPictureUrl ? <img src={dayPictureUrl} alt="weather" /> : null}

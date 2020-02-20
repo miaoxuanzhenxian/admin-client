@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Form, Icon, Input, Button, Modal, message } from 'antd';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import { Form, Icon, Input, Button, } from 'antd'
+import { connect } from 'react-redux'
 
-import style from './index.module.less';
-import logo from '@/assets/images/logo.png';
-import { reqLogin } from '@/api';
-import { saveUser } from '@/utils/storageUtils.js';
-import memoryUtils from '@/utils/memoryUtils.js';
-// import Loading from '@/components/loading';
+import { login } from '@/redux/actions'
+import style from './index.module.less'
+import logo from '@/assets/images/logo.png'
+// import Loading from '@/components/loading'
 
+@connect(
+  state => ({ user: state.user }),
+  { login }
+)
 @Form.create()
 class Login extends Component {
 
@@ -25,28 +28,11 @@ class Login extends Component {
     console.log(values, username, password); */
 
     //对表单所有字段进行点击登录时的统一整体验证
-    this.props.form.validateFields(async (err, { username, password }) => {
-      if (!err) {
-        const result = await reqLogin(username, password);
-        if (result.status === 0) {
-          //登录成功
-          //将user信息保存到localStorage中
-          const user = result.data;
-          // localStorage.setItem('user_key', JSON.stringify(user));
-          saveUser(user);
-          //将user保存到内存中
-          memoryUtils.user = user;
-          //跳转到admin管理界面
-          this.props.history.replace('/');
-          message.success('登陆成功');
-        } else {
-          //登陆失败
-          Modal.error({
-            content: result.msg
-          });
-        }
+    this.props.form.validateFields((err, { username, password }) => {
+      if (!err) { // 验证通过
+        this.props.login(username, password)
       }
-    });
+    })
   }
 
   /*
@@ -67,7 +53,7 @@ class Login extends Component {
     } else if (!/^(\w)+$/.test(value)) {
       callback('密码必须是英文、数字或下划线组成');
     } else {
-      callback(); //验证通过
+      callback() //验证通过
     }
   }
 
@@ -77,14 +63,14 @@ class Login extends Component {
     ) */
     //读取保存的user，如果存在，直接重定向到admin管理界面
     // const user = JSON.parse(localStorage.getItem('user_key') || '{}');
-    const user = memoryUtils.user;
-    if (user._id) {
+    const user = this.props.user
+    if (user._id) { // 如果登錄
       /*在render中不能用this.props.history.replace方式跳转路由界面，此方式通常用于事件回调函数中，不能用于render中，
       在render中，要使用渲染Redirect重定向组件标签的方式（即return 返回Redirect重定向组件标签的方式）来跳转路由界面*/
-      return <Redirect to='/' />
+      return <Redirect to="/" /> // 自动跳转到指定的路由路径，自动跳转到admin
     }
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
     return (
       <div className={style.login}>
         {/* <Loading className={style.loading} spinStyle={{ color: 'pink' }} /> */}
@@ -93,6 +79,8 @@ class Login extends Component {
           <h1>后台管理系统</h1>
         </div>
         <div className={style['login-content']}>
+          {/* {user.msg ? <div style={{ color: 'red' }}>{user.msg}</div> : null} */}
+          <div className={style['error-msg'] + ' ' + (user.msg ? style.show : '')}>{user.msg}</div>
           <h2>用户登录</h2>
           <Form onSubmit={this.handleSubmit} className={style['login-form']}>
             <Form.Item>

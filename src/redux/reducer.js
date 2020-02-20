@@ -4,8 +4,11 @@
 import { combineReducers } from 'redux'
 
 import { getUser } from '../utils/storageUtils'
-import { 
+import {
   SET_HEADER_TITLE,
+  RECEIVE_USER,
+  SHOW_MSG,
+  LOGOUT,
 } from './action-types'
 
 /*
@@ -25,11 +28,14 @@ function headerTitle(state = initHeaderTitle, action) {
   管理登录用户的reducer函数
 */
 const initUser = getUser() // 读取local中保存user作为初始值
-function user(state=initUser, action) {
+function user(state = initUser, action) {
   switch (action.type) {
-    /* case value:
-      
-      break; */
+    case RECEIVE_USER:
+      return action.user
+    case SHOW_MSG:
+      return { ...state, msg: action.msg }
+    case LOGOUT:
+      return { msg: '请重新登录' }
     default:
       return state
   }

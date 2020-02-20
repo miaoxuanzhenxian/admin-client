@@ -7,12 +7,11 @@ import { setHeaderTitle } from '@/redux/actions'
 import style from './index.module.less'
 import logo from '@/assets/images/logo.png'
 import menuList from '@/config/menuConfig'
-import memoryUtils from '@/utils/memoryUtils'
 
 const { SubMenu } = Menu;
 
 @connect(
-  state => ({}),
+  state => ({ user: state.user }),
   { setHeaderTitle, }
 )
 @withRouter
@@ -79,7 +78,7 @@ class LeftNav extends Component {
   */
   hasAuth = (item) => {
     // 得到当前用户的所有权限
-    const user = memoryUtils.user
+    const user = this.props.user
     const menus = user.role.menus
     // 1. 如果当前用户是admin
     // 2. 如果item是公开的
