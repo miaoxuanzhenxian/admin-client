@@ -7,8 +7,11 @@ import { getUser } from '../utils/storageUtils'
 import {
   SET_HEADER_TITLE,
   RECEIVE_USER,
-  SHOW_MSG,
+  SHOW_USER_ERROR,
   LOGOUT,
+  RECEIVE_PRODUCT,
+  SHOW_PRODUCT_ERROR,
+  CLEAR_PRODUCT,
 } from './action-types'
 
 /*
@@ -32,10 +35,27 @@ function user(state = initUser, action) {
   switch (action.type) {
     case RECEIVE_USER:
       return action.user
-    case SHOW_MSG:
+    case SHOW_USER_ERROR:
       return { ...state, msg: action.msg }
     case LOGOUT:
       return { msg: '请重新登录' }
+    default:
+      return state
+  }
+}
+
+/*
+  管理商品product的reducer函数
+*/
+const initProduct = {}
+function product(state = initProduct, action) {
+  switch (action.type) {
+    case RECEIVE_PRODUCT:
+      return action.product
+    case SHOW_PRODUCT_ERROR:
+      return { ...state, msg: action.msg }
+    case CLEAR_PRODUCT:
+      return {}
     default:
       return state
   }
@@ -52,4 +72,5 @@ combineReducers()返回的是一个新的reducer函数(总reducer函数)
 export default combineReducers({
   headerTitle,
   user,
+  product,
 })

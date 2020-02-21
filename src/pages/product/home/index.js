@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Card,
   Select,
@@ -7,20 +7,26 @@ import {
   Icon,
   Table,
   message,
-} from 'antd';
-import throttle from 'lodash.throttle'; // lodash和qs这两个库属于基本的工具库，在我们前面所下的许多依赖包里都已经下载引用了这两个包，因此不需要再重新下载了，可以直接引用。并且lodash这个库可以模块化的按需引用。
+} from 'antd'
+import throttle from 'lodash.throttle' // lodash和qs这两个库属于基本的工具库，在我们前面所下的许多依赖包里都已经下载引用了这两个包，因此不需要再重新下载了，可以直接引用。并且lodash这个库可以模块化的按需引用。
+import { connect } from 'react-redux'
 
-import style from './index.module.less';
-import LinkButton from '@/components/link-button';
-import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api';
+import { receiveProduct, clearProduct } from '@/redux/actions'
+import style from './index.module.less'
+import LinkButton from '@/components/link-button'
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api'
 import { PRODUCT_PAGE_SIZE } from '@/utils/constants'
-import memoryUtils from '@/utils/memoryUtils'
 
 const { Option } = Select
+
 /* 
 商品管理的首页组件
 */
-export default class ProductHome extends Component {
+@connect(
+  state => ({}),
+  { receiveProduct, clearProduct }
+)
+class ProductHome extends Component {
 
   constructor(props) {
     super(props)
@@ -79,8 +85,7 @@ export default class ProductHome extends Component {
           <span>
             <LinkButton
               onClick={() => {
-                // 在内存中保存product
-                memoryUtils.product = product
+                this.props.receiveProduct(product) // 在内存redux中保存product
                 this.props.history.push('/product/detail/' + product._id)
               }}
             >
@@ -88,8 +93,7 @@ export default class ProductHome extends Component {
             </LinkButton> <br />
             <LinkButton
               onClick={() => {
-                // 在内存中保存product
-                memoryUtils.product = product
+                this.props.receiveProduct(product) // 在内存redux中保存product
                 this.props.history.push('/product/addupdate')
               }}
             >
@@ -192,7 +196,7 @@ export default class ProductHome extends Component {
     //Card右上角结构
     const extra = (
       <Button type="primary" onClick={() => {
-        memoryUtils.product = {}
+        this.props.clearProduct() // 清除内存redux中的product，将其置为空对象{}
         this.props.history.push('/product/addupdate')
       }}>
         <Icon type="plus" />
@@ -221,3 +225,5 @@ export default class ProductHome extends Component {
     )
   }
 }
+
+export default ProductHome

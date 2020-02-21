@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
 import { Card, Icon, List, message } from 'antd'
+import { connect } from 'react-redux'
 
+import { productFromId } from '@/redux/actions'
 import LinkButton from '@/components/link-button'
 import style from './index.module.less'
-import memoryUtils from '@/utils/memoryUtils'
 import { BASE_IMG } from '@/utils/constants'
-import { reqCategory, reqProduct } from '@/api'
+import { reqCategory } from '@/api'
 
 const { Item } = List
 
 /* 
 商品详情路由组件
 */
-export default class ProductDetail extends Component {
+@connect(
+  state => ({
+    product: state.product,
+  }),
+  { productFromId }
+)
+class ProductDetail extends Component {
 
   state = {
     categoryName: '',
-    product: memoryUtils.product
   }
 
   /* 根据分类ID获取分类 */
@@ -35,20 +41,12 @@ export default class ProductDetail extends Component {
 
   /* 根据商品ID获取商品 */
   getProduct = async () => {
-    let product = this.state.product
+    let product = this.props.product
     if (product._id) { // 如果商品有数据, 获取对应的分类
       this.getCategory(product.categoryId) // 根据分类ID获取分类
     } else { // 如果当前product状态没有数据, 根据路由参数中id参数请求获取商品并更新
-      const result = await reqProduct(this.props.match.params.id)
-      if (result.status === 0) {
-        product = result.data
-        if (product) {
-          this.setState({ product })
-          this.getCategory(product.categoryId) // 根据分类ID获取分类
-        }
-      } else {
-        message.error('获取商品失败')
-      }
+      const result = await this.props.productFromId(this.props.match.params.id)
+      result && this.getCategory(result.product.categoryId)
     }
   }
 
@@ -61,14 +59,16 @@ export default class ProductDetail extends Component {
   }
 
   render() {
-    const { categoryName, product } = this.state
-  
+    const { categoryName } = this.state
+    const { product } = this.props
+
     const title = (
       <span>
         <LinkButton onClick={this.props.history.goBack}>
           <Icon type="arrow-left" />
         </LinkButton>
         <span>商品详情</span>
+        <span className={style['error-msg'] + ' ' + (product.msg ? style.show : '')}>{product.msg}</span>
       </span>
     )
     return (
@@ -109,3 +109,5 @@ export default class ProductDetail extends Component {
     )
   }
 }
+
+export default ProductDetail

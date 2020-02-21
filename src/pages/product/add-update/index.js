@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Card, Icon, Form, Input, Select, Button, message, } from 'antd';
+import { Card, Icon, Form, Input, Select, Button, message, } from 'antd'
+import { connect } from 'react-redux'
 
-import LinkButton from '@/components/link-button';
+import LinkButton from '@/components/link-button'
 import { reqCategorys, reqAddOrUpdateProduct } from '@/api'
-import memoryUtils from '@/utils/memoryUtils';
 import PicturesWall from './pictures-wall'
-import RichTextEditor from './rich-text-editor';
+import RichTextEditor from './rich-text-editor'
 
 const { Item } = Form
 const { Option } = Select
@@ -13,6 +13,10 @@ const { Option } = Select
 /* 
 商品详情路由组件
 */
+@connect(
+  state => ({ product: state.product }),
+  {}
+)
 @Form.create()
 class ProductAddUpdate extends Component {
   constructor(props) {
@@ -26,7 +30,7 @@ class ProductAddUpdate extends Component {
     this.pwRef = React.createRef() // PicturesWall组件标签的容器对象
     this.rteRef = React.createRef() // RichTextEditor组件标签的容器对象
 
-    this.product = memoryUtils.product
+    this.product = this.props.product
     this.isUpdate = !!this.product._id
   }
 
@@ -78,9 +82,9 @@ class ProductAddUpdate extends Component {
 
         // 收集输入的商品详情的标签字符串
         const detail = this.rteRef.current.getDetail()
-        
+
         // 封装product对象
-        const product = {categoryId, name, desc, price, detail, imgs}
+        const product = { categoryId, name, desc, price, detail, imgs }
         if (this.isUpdate) {
           product._id = this.product._id
         }
@@ -191,4 +195,5 @@ class ProductAddUpdate extends Component {
     )
   }
 }
+
 export default ProductAddUpdate

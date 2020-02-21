@@ -1,4 +1,22 @@
 .product-detail {
+  .error-msg {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 21%;
+    width: 366px;
+    line-height: 36px;
+    background-color: #f60c1a;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    transform: translateY(-30px);
+    transition: all .3s;
+    &.show {
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
   .detail-left {
     font-size: 20px;
     font-weight: bold;
