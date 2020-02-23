@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import style from './index.module.less';
+import React, { Component } from 'react'
+import style from './index.module.less'
 
 export default class Pie extends Component {
   render() {

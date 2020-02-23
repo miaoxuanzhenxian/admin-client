@@ -6,7 +6,7 @@ const ProductAddUpdate = lazy(() => import('./add-update'))
 const ProductDetail = lazy(() => import('./detail'))
 
 /*
- * 商品管理
+  商品管理
  */
 export default class Product extends Component {
   render() {

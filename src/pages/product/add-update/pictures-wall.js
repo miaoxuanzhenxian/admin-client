@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Upload, Icon, Modal, message } from 'antd';
-import propTypes from 'prop-types';
+import { Upload, Icon, Modal, message } from 'antd'
+import propTypes from 'prop-types'
 
-import { reqDeleteImg } from '@/api';
-import { BASE_URL, BASE_IMG } from '@/utils/constants';
+import { reqDeleteImg } from '@/api'
+import { BASE_URL, BASE_IMG } from '@/utils/constants'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import propTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
+/*
+  添加角色
+*/
 @Form.create()
 class AddForm extends Component {
   

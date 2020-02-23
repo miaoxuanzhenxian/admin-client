@@ -20,7 +20,7 @@ import { PRODUCT_PAGE_SIZE } from '@/utils/constants'
 const { Option } = Select
 
 /* 
-商品管理的首页组件
+  商品管理的首页组件
 */
 @connect(
   state => ({}),

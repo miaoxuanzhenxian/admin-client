@@ -11,7 +11,7 @@ const { Item } = Form
 const { Option } = Select
 
 /* 
-商品详情路由组件
+  商品详情路由组件
 */
 @connect(
   state => ({ product: state.product }),

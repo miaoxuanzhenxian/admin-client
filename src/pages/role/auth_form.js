@@ -6,6 +6,9 @@ import menuList from '@/config/menuConfig'
 
 const { TreeNode } = Tree
 
+/*
+  设置角色权限(角色授权)
+*/
 export default class AuthForm extends PureComponent {
 
   static propTypes = {

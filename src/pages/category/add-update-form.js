@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import propTypes from 'prop-types';
-import { Form, Input } from 'antd';
+import React, { Component } from 'react'
+import propTypes from 'prop-types'
+import { Form, Input } from 'antd'
 
 @Form.create()
 class AddUpdateForm extends Component {

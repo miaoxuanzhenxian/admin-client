@@ -3,4 +3,4 @@
 */
 export const BASE_URL = 'http://localhost:5000'
 export const BASE_IMG = 'http://localhost:5000/upload/'
-export const PRODUCT_PAGE_SIZE = 2
+export const PRODUCT_PAGE_SIZE = 4

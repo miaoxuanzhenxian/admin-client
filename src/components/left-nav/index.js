@@ -18,21 +18,21 @@ const { SubMenu } = Menu;
 class LeftNav extends Component {
   constructor(props) {//为第一次开始执行render()之前做一些同步的准备工作,初始化 state,组件的整个生命周期(从挂载到卸载)内只执行一次constructor生命周期函数
     super(props);
-    this.menuNodes = this.getMenuNodes2(menuList);//使得getMenuNodes2（）在LeftNav组件周期内只运行一次，提高运行效率
+    this.menuNodes = this.getMenuNodes(menuList);//使得getMenuNodes（）在LeftNav组件周期内只运行一次，提高运行效率
   }
   /* 
   第一次render()之后执行一次
   执行异步任务: 发ajax请求, 启动定时器
   */
   // componentDidMount() {
-  //   // this.menuNodes = this.getMenuNodes2(menuList)
+  //   // this.menuNodes = this.getMenuNodes(menuList)
   // }
   /* 
   第一次render()之前执行一次
   为第一次render()之前做一些同步的准备工作
   */
   // UNSAFE_componentWillMount() {// 官方不建议使用这个UNSAFE_componentWillMount()过时的生命周期方法了，而是建议使用constructor()生命周期方法代替。
-  //   this.menuNodes = this.getMenuNodes2(menuList);
+  //   this.menuNodes = this.getMenuNodes(menuList);
   // }
 
   /*
@@ -95,7 +95,7 @@ class LeftNav extends Component {
     根据指定菜单数据列表产生<Menu>的子节点数组
     使用 reduce() + 递归
   */
-  getMenuNodes2 = (menuList) => {
+  getMenuNodes = (menuList) => {
     const path = this.props.location.pathname;
     return menuList.reduce((pre, item) => {
       if (this.hasAuth(item)) { // 判断当前用户是否有此item对应的权限
@@ -129,7 +129,7 @@ class LeftNav extends Component {
                 </span>
               }
             >
-              {this.getMenuNodes2(item.children)}
+              {this.getMenuNodes(item.children)}
             </SubMenu>
           )
         }

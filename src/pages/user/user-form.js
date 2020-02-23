@@ -5,6 +5,9 @@ import { Form, Input, Select } from 'antd'
 const Item = Form.Item
 const Option = Select.Option
 
+/*
+  用户表单(创建或修改用户)
+*/
 @Form.create()
 class UserForm extends Component {
 
@@ -85,7 +88,7 @@ class UserForm extends Component {
             getFieldDecorator('email', {
               initialValue: user.email,
               rules: [
-                { pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/, message: '邮箱填写有误，请重填' },
+                { pattern: /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/, message: '邮箱填写有误，请重填' },
               ]
             })(
               <Input placeholder="请输入邮箱" />

@@ -1,6 +1,3 @@
-/*
-  前台404页面
- */
 import React, { Component } from 'react'
 import { Row, Col, Button } from 'antd'
 import { connect } from 'react-redux'
@@ -8,6 +5,9 @@ import { connect } from 'react-redux'
 import { setHeaderTitle } from '@/redux/actions'
 import style from './index.module.less'
 
+/*
+  前台404页面
+ */
 @connect(
   state => ({}),
   { setHeaderTitle }

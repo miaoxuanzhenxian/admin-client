@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import { Card, Button, Table, message, Modal } from 'antd';
+import React, { Component } from 'react'
+import { Card, Button, Table, message, Modal } from 'antd'
 
-import LinkButton from '@/components/link-button';
-import { reqUsers, reqAddOrUpdateUser, reqDeleteUser } from '@/api';
-import { formatDate } from '@/utils/dateUtils';
+import LinkButton from '@/components/link-button'
+import { reqUsers, reqAddOrUpdateUser, reqDeleteUser } from '@/api'
+import { formatDate } from '@/utils/dateUtils'
 import UserForm from './user-form'
 
+/*
+  用户管理
+*/
 export default class User extends Component {
 
   constructor(props) {

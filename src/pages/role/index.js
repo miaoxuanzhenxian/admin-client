@@ -8,6 +8,9 @@ import { reqRoles, reqAddRole, reqUpdateRole } from '@/api'
 import AddForm from './add-form'
 import AuthForm from './auth_form'
 
+/*
+  角色管理
+*/
 @connect(
   state => ({ user: state.user }),
   {}

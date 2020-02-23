@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Card, Button, Icon, Table, message, Modal } from 'antd';
-import LinkButton from '@/components/link-button';
+import React, { Component } from 'react'
+import { Card, Button, Icon, Table, message, Modal } from 'antd'
+import LinkButton from '@/components/link-button'
 
-import { reqCategorys, reqAddCategory, reqUpdateCategory } from '@/api';
-import AddUpdateForm from './add-update-form';
+import { reqCategorys, reqAddCategory, reqUpdateCategory } from '@/api'
+import AddUpdateForm from './add-update-form'
 
 export default class Category extends Component {
   constructor(props) {
