@@ -24,7 +24,8 @@ export const reqLogin = (username, password) => ajax.post(BASE_URL + '/login', {
 /* 发送jsonp请求得到天气信息 */
 export const reqWeather = (city) => {
   return new Promise((resolve, reject) => {// 执行器函数: 内部去执行异步任务, 成功了调用resolve(), 失败了不调用reject(), 直接提示错误
-    const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`;
+    const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2` // 网上找的以前的别人的百度地图平台的浏览器端类型的ak，因为浏览器端类型的ak现在不支持天气查询了，但以前的浏览器端类型的ak还支持天气查询，因此暂时用网上找的以前的别人的浏览器端类型的ak代替着练习一下（以前我自己没注册浏览器端类型的ak，现在再注册的浏览器端类型的ak已经不支持天气查询了），但实际工作中在pc端肯定不能用网上找的别人的浏览器端类型的ak
+    // const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=WvmttGBDHD6fRqeOOGPoshNl7SOfvUh5` // 百度地图平台的微信小程序类型的ak，因为浏览器端类型的ak现在不支持天气查询了，因此暂时用微信小程序类型的ak代替着练习一下，但实际工作中在pc端肯定不能用微信小程序类型的ak
     jsonp(url, { timeout: 7000 }, (err, data) => {
       if (!err && data.error === 0) {
         const { dayPictureUrl, weather } = data.results[0].weather_data[0]

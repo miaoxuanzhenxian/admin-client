@@ -26,7 +26,7 @@ class Header extends Component {
   }
 
   /*
-  获取天气信息显示
+    获取天气信息显示
   */
   getWeather = async (city) => {
     //发请求
@@ -52,19 +52,27 @@ class Header extends Component {
     })
   }
 
-  componentDidMount() {
-    //启动循环定时器
-    this.intertvalId = setInterval(() => {
+  /*
+    更新显示时间
+  */
+ updateTime = () => {
+    this.intertvalId = setInterval(() => { //启动循环定时器
       this.setState({
         currentTime: formatDate(Date.now())
-      });
-    }, 1000);
+      })
+    }, 1000)
+  }
+
+  componentDidMount() {
+    //更新显示时间
+    this.updateTime()
     //发jsonp请求获取天气信息显示
-    this.getWeather('北京');
+    this.getWeather('北京')
   }
 
   componentWillUnmount() {
-    clearInterval(this.intertvalId);
+    clearInterval(this.intertvalId) // 清除定时器，在react组件中只要有定时器，不管是循环定时器(时间间隔定时器)setInterval还是时间延迟定时器setTimeout，都要在componentWillUnmount()生命周期函数中清除所有的对应的定时器
+    this.setState = () => { } // 若组件中的请求中用了this.setState方法，则需在componentWillUnmount()生命周期函数中取消this.setState这个异步任务，即将this.setState方法置为空函数
   }
 
   render() {
