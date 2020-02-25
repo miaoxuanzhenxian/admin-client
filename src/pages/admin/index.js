@@ -39,7 +39,7 @@ class Admin extends Component {
         </Sider>
         <Layout>
           <Header />
-          <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px' }}>
+          <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px', minHeight: 'auto' }}>
             <Suspense fallback={<Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} />}>
               <Switch>
                 <Redirect from="/" to="/home" exact />

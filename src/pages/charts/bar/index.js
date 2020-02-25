@@ -60,7 +60,8 @@ export default class Bar extends Component {
 
         <Card title="柱状图一">
           {/* 全部导入 */}
-          {/* <ReactEcharts option={this.getOption()} /> */}
+          {/* <ReactEcharts option={this.getOption()} style={{ height: '300px' }} /> */}
+          
           {/*  按需导入 */}
           <ReactEchartsCore
             echarts={echarts}
