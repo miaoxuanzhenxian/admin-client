@@ -1,14 +1,14 @@
-/*
-应用根组件
-*/
-import React, { Component, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { Component, Suspense, lazy } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Loading from './components/loading';
+import Loading from './components/loading'
 //路由的懒加载，解决首屏加载过慢的问题
-const Login = lazy(() => import('./pages/login'));
-const Admin = lazy(() => import('./pages/admin'));
+const Login = lazy(() => import('./pages/login'))
+const Admin = lazy(() => import('./pages/admin'))
 
+/*
+  应用根组件
+*/
 export default class App extends Component {
 
   render() {

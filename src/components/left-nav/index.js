@@ -96,7 +96,7 @@ class LeftNav extends Component {
     使用 reduce() + 递归
   */
   getMenuNodes = (menuList) => {
-    const path = this.props.location.pathname;
+    const path = this.props.location.pathname.toLowerCase()
     return menuList.reduce((pre, item) => {
       if (this.hasAuth(item)) { // 判断当前用户是否有此item对应的权限
         if (!item.children) {
@@ -115,7 +115,7 @@ class LeftNav extends Component {
           );
         } else {
           // 如果当前请求路由与当前菜单的某个子菜单的key匹配, 将菜单的key保存为openKey
-          const cItem = item.children.find(cItem => cItem.key === path || path.indexOf(cItem.key + '/') === 0); // 使用path.indexOf主要是为了防止当路由路径path为/product/addupdate等时出现无法匹配/product而造成的无法打开对应的折叠表单项的问题；cItem.key + '/'中加'/'是为了防止如categoryxxx等路由路径匹配上，但此时还需在前面加上cItem.key === path条件，防止如category等对的路由路径匹配不上
+          const cItem = item.children.find(cItem => cItem.key === path || path.indexOf(cItem.key + '/') === 0) // 使用path.indexOf主要是为了防止当路由路径path为/product/addupdate等时出现无法匹配/product而造成的无法打开对应的折叠表单项的问题；cItem.key + '/'中加'/'是为了防止如categoryxxx等路由路径匹配上，但此时还需在前面加上cItem.key === path条件，防止如category等对的路由路径匹配不上
           if (cItem) {
             this.openKey = item.key
           }
@@ -134,13 +134,13 @@ class LeftNav extends Component {
           )
         }
       }
-      return pre;
+      return pre
     }, []);
   }
 
   render() {
     // 得到当前请求路径, 作为选中菜单项的key
-    let selectKey = this.props.location.pathname  // /product/xxx
+    let selectKey = this.props.location.pathname.toLowerCase()  // /product/xxx
     if (this.selectKey && selectKey.indexOf(this.selectKey) === 0) { // 使得category/xxx等这种路由路径能匹配上，能选中对应的/category表单项,因为indexOf毕竟是在做遍历，耗费效率较多，这样在前面加上this.selectKey条件，就表示是在this.selectKey存在即有值的时候再去执行后面的indexOf条件，this.selectKey为undefined、不存在、没值的时候就不去执行后面的indexOf条件了，这样可以提高效率
       selectKey = this.selectKey
     }

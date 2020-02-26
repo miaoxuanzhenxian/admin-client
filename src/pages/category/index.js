@@ -6,6 +6,7 @@ import { reqCategorys, reqAddCategory, reqUpdateCategory } from '@/api'
 import AddUpdateForm from './add-update-form'
 
 export default class Category extends Component {
+  
   constructor(props) {
     super(props)
 
@@ -15,7 +16,7 @@ export default class Category extends Component {
       showStatus: 0, // 0: 不显示, 1: 显示添加, 2: 显示修改
     }
 
-    this.initColumns();
+    this.initColumns() // 初始化Table的所有列信息的数组
   }
 
   /*
@@ -35,7 +36,7 @@ export default class Category extends Component {
           this.setState({ showStatus: 2 });
         }}>修改分类</LinkButton>
       },
-    ];
+    ]
   }
 
   /*

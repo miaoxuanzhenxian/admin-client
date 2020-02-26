@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Modal } from 'antd';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { Modal } from 'antd'
 import { connect } from 'react-redux'
 
 import { logout } from '@/redux/actions'
-import style from './index.module.less';
-import { formatDate } from '@/utils/dateUtils';
-import { reqWeather } from '@/api';
-import LinkButton from '@/components/link-button';
+import style from './index.module.less'
+import { formatDate } from '@/utils/dateUtils'
+import { reqWeather } from '@/api'
+import LinkButton from '@/components/link-button'
 
 @connect(
   state => ({

@@ -7,10 +7,10 @@ import { BASE_URL, BASE_IMG } from '@/utils/constants'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
   });
 }
 
@@ -34,7 +34,7 @@ export default class PicturesWall extends Component {
           url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', // 图片的url
         }, */
       ],
-    };
+    }
 
     this.initFileList() // 初始化this.state中的fileList状态
   }
@@ -62,7 +62,7 @@ export default class PicturesWall extends Component {
   */
   getImgs = () => this.state.fileList.map(file => file.name)
 
-  handleCancel = () => this.setState({ previewVisible: false });
+  handleCancel = () => this.setState({ previewVisible: false })
 
   /* 
     进行大图预览的回调函数
@@ -76,7 +76,7 @@ export default class PicturesWall extends Component {
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
-    });
+    })
   };
 
   /* 
@@ -107,7 +107,7 @@ export default class PicturesWall extends Component {
   }
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage, fileList } = this.state
 
     const uploadButton = (
       <div>

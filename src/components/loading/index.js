@@ -1,7 +1,7 @@
-import React from 'react';
-import { Spin, Icon } from 'antd';
+import React from 'react'
+import { Spin, Icon } from 'antd'
 
-import style from './index.module.less';
+import style from './index.module.less'
 
 export default function Loading(props) {
   const antIcon = <Icon type="loading" style={props.spinstyle} spin />;

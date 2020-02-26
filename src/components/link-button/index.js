@@ -1,5 +1,5 @@
-import React from 'react';
-import style from './index.module.less';
+import React from 'react'
+import style from './index.module.less'
 
 /* 
 自定义的看似链接实是button的组件

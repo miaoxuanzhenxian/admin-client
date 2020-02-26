@@ -32,7 +32,6 @@ const menuList = [
     key: '/role',
     icon: 'safety',
   },
-
   {
     title: '图形图表',
     key: '/charts',
@@ -54,6 +53,11 @@ const menuList = [
         icon: 'pie-chart'
       },
     ]
+  },
+  {
+    title: '百度地图',
+    key: '/baidu/map',
+    icon: 'environment',
   },
 ]
 
