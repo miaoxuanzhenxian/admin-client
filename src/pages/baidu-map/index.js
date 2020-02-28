@@ -19,7 +19,7 @@ export default class BaiduMap extends Component {
     // 添加地图类型控件
     map.addControl(new BMap.MapTypeControl({ mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP, BMAP_HYBRID_MAP] }))
     // 添加城市列表控件
-    map.addControl(new BMap.CityListControl({}))
+    map.addControl(new BMap.CityListControl())
     map.addControl(new BMap.OverviewMapControl({ isOpen: true }))
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true)
