@@ -181,11 +181,10 @@ export default class BaiduMap extends Component {
   }
 
   render() {
-    console.log('render')
     return (
-      <div className={style['baidu-map']}>
-        <div className={style['bike-count']}>{this.state.total_count ? `共${this.state.total_count}辆车` : null}</div>
-        <div id="container" className={style.container} />
+      <div className={style['bike-map']}>
+        <div className={style['bike-map-count']}>{this.state.total_count ? `共${this.state.total_count}辆车` : null}</div>
+        <div id="container" className={style['bike-map-container']} />
       </div>
     )
   }
