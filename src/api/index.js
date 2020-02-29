@@ -115,3 +115,10 @@ export const reqAddOrUpdateUser = (user) => ajax.post(
 
 /* 删除用户 */
 export const reqDeleteUser = (userId) => ajax.post(BASE_URL + '/manage/user/delete', { userId })
+
+/* 根据城市名获取百度地图上的城市共享单车 */
+export const reqCityBike = (city) => ajax(BASE_URL + '/manage/bmap/cityBike/info', {
+  params: {
+    city
+  }
+})

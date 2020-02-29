@@ -3,6 +3,7 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 import { Layout } from 'antd'
 import { connect } from 'react-redux'
 
+import style from './index.module.less'
 import LeftNav from '@/components/left-nav'
 import Header from '@/components/header'
 import Loading from '@/components/loading'
@@ -34,14 +35,14 @@ class Admin extends Component {
       return <Redirect to='/login' />
     }
     return (
-      <Layout style={{ height: '100%' }}>
+      <Layout style={{ height: '100%' }} className={style.admin}>
         <Sider>
           <LeftNav />
         </Sider>
         <Layout>
           <Header />
-          <Content style={{ backgroundColor: 'white', position: 'relative', margin: '20px', minHeight: 'auto' }}>
-            <Suspense fallback={<Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} />}>
+          <Content className={style.content}>
+            <Suspense fallback={<Loading className={style.loading} spinstyle={{ color: 'blue' }} />}>
               <Switch>
                 <Redirect from="/" to="/home" exact />
                 <Route path="/home" component={Home} />

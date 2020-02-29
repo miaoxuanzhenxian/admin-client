@@ -16,7 +16,7 @@ export default class App extends Component {
       <Router>
         <Suspense fallback={<Loading style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} spinstyle={{ color: 'blue' }} />}>
           <Switch>
-            <Route path="/login" exact component={Login} />
+            <Route path="/login" component={Login} />
             <Route path="/" component={Admin} />
           </Switch>
         </Suspense>
