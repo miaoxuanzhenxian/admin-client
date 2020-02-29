@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'antd'
 
-import { reqCityBike } from '@/api'
+import { reqBikeMap } from '@/api'
 import style from './index.module.less'
 import startIcon from './images/start_point.png'
 import endIcon from './images/end_point.png'
@@ -14,8 +14,8 @@ export default class BaiduMap extends Component {
   }
 
   /* 根据城市名渲染百度地图上的城市共享单车 */
-  renderCityBike = async (city) => {
-    const result = await reqCityBike(city)
+  renderBikeMap = async (city) => {
+    const result = await reqBikeMap(city)
     if (result.status === 0) {
       // 从window中取出所需的全局变量
       const { BMap } = window
@@ -98,11 +98,11 @@ export default class BaiduMap extends Component {
   }
 
   /* 渲染百度地图 */
-  renderMap = async () => {
+  renderMap = () => {
     // 从window中取出所需的全局变量
     const { BMap, BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP, BMAP_HYBRID_MAP } = window
     // 创建Map实例
-    this.map = new BMap.Map("container")
+    this.map = new BMap.Map("bike-map-container")
     // 初始化地图,用城市名设置地图中心点和地图级别
     // map.centerAndZoom("北京") // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
     this.map.centerAndZoom("北京市", 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
@@ -115,7 +115,7 @@ export default class BaiduMap extends Component {
     this.map.addControl(new BMap.CityListControl({
       onChangeSuccess: (e) => {
         // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
-        this.renderCityBike(e.city)
+        this.renderBikeMap(e.city)
       }
     }))
     this.map.addControl(new BMap.OverviewMapControl({ isOpen: true }))
@@ -123,7 +123,7 @@ export default class BaiduMap extends Component {
     this.map.enableScrollWheelZoom(true)
 
     // 根据城市名渲染百度地图上的城市共享单车
-    this.renderCityBike('北京市')
+    this.renderBikeMap('北京市')
 
 
     /* // 步行路线规划
@@ -184,7 +184,7 @@ export default class BaiduMap extends Component {
     return (
       <div className={style['bike-map']}>
         <div className={style['bike-map-count']}>{this.state.total_count ? `共${this.state.total_count}辆车` : null}</div>
-        <div id="container" className={style['bike-map-container']} />
+        <div id="bike-map-container" className={style['bike-map-container']} />
       </div>
     )
   }
