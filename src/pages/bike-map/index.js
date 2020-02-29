@@ -17,6 +17,7 @@ export default class BaiduMap extends Component {
   renderBikeMap = async (city) => {
     const result = await reqBikeMap(city)
     if (result.status === 0) {
+      // 清除地图上所有覆盖物
       this.map.clearOverlays()
       // 从window中取出所需的全局变量
       const { BMap } = window
