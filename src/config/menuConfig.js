@@ -56,7 +56,7 @@ const menuList = [
   },
   {
     title: '百度地图',
-    key: '/baidu/map',
+    key: '/bike_map',
     icon: 'environment',
   },
 ]
