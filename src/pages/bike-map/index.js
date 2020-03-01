@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 
 import { setBikeMapCity } from '@/redux/actions'
@@ -12,7 +12,7 @@ import bike from './images/bike.jpg'
   state => ({ bikeMapCity: state.bikeMapCity }),
   { setBikeMapCity }
 )
-class BikeMap extends Component {
+class BikeMap extends PureComponent {
 
   state = {
     total_count: null,
@@ -124,10 +124,10 @@ class BikeMap extends Component {
     // 添加城市列表控件
     // map.addControl(new BMap.CityListControl())
     this.map.addControl(new BMap.CityListControl({
-      onChangeSuccess: (c) => {
-        // console.log(c) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
-        this.renderBikeMap(c.city)
-        this.props.setBikeMapCity(c.city)
+      onChangeSuccess: (e) => {
+        // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
+        this.renderBikeMap(e.city)
+        this.props.setBikeMapCity(e.city)
       }
     }))
     this.map.addControl(new BMap.OverviewMapControl({ isOpen: true }))
@@ -136,6 +136,13 @@ class BikeMap extends Component {
 
     // 根据城市名渲染百度地图上的城市共享单车
     this.renderBikeMap(bikeMapCity)
+
+
+    /* // todo
+    this.map.addEventListener("dragend", (e) => {
+      this.renderBikeMap(e.target.Wg)
+    }) */
+
 
 
     /* // 步行路线规划
@@ -193,6 +200,7 @@ class BikeMap extends Component {
   }
 
   render() {
+    console.log('render')
     const { total_count, bikeMapError } = this.state
 
     return (
