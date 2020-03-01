@@ -111,12 +111,11 @@ class BikeMap extends PureComponent {
   renderMap = () => {
     // 从window中取出所需的全局变量
     const { BMap, BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP, BMAP_HYBRID_MAP } = window
-    const { bikeMapCity } = this.props
     // 创建Map实例
     this.map = new BMap.Map("bike-map-container")
     // 初始化地图,用城市名设置地图中心点和地图级别
     // map.centerAndZoom("北京") // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
-    this.map.centerAndZoom(bikeMapCity, 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
+    this.map.centerAndZoom(this.props.bikeMapCity, 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
     // 初始化地图,设置中心点坐标和地图级别
     // map.centerAndZoom(new BMap.Point(116.404, 39.915), 11)
     // 添加地图类型控件
@@ -130,19 +129,27 @@ class BikeMap extends PureComponent {
         this.props.setBikeMapCity(e.city)
       }
     }))
+    // 添加缩略地图控件，并设置为默认打开
     this.map.addControl(new BMap.OverviewMapControl({ isOpen: true }))
     //开启鼠标滚轮缩放
     this.map.enableScrollWheelZoom(true)
 
     // 根据城市名渲染百度地图上的城市共享单车
-    this.renderBikeMap(bikeMapCity)
+    this.renderBikeMap(this.props.bikeMapCity)
 
-
-    /* // todo
-    this.map.addEventListener("dragend", (e) => {
-      this.renderBikeMap(e.target.Wg)
+    /* 停止拖拽地图时 */
+    /* this.map.addEventListener("dragend", (e) => {
+      console.log(e)
+      const geoc = new BMap.Geocoder()
+      geoc.getLocation(e.point, (rs) => {
+        const city = rs.addressComponents.city
+        console.log(city)
+        if (city !== this.props.bikeMapCity) {
+          this.renderBikeMap(city)
+          this.props.setBikeMapCity(city)
+        }
+      })
     }) */
-
 
 
     /* // 步行路线规划
@@ -200,7 +207,6 @@ class BikeMap extends PureComponent {
   }
 
   render() {
-    console.log('render')
     const { total_count, bikeMapError } = this.state
 
     return (
