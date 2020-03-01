@@ -12,6 +12,7 @@ import {
   RECEIVE_PRODUCT,
   SHOW_PRODUCT_ERROR,
   CLEAR_PRODUCT,
+  SET_BIKE_MAP_CITY,
 } from './action-types'
 
 /*
@@ -61,6 +62,20 @@ function product(state = initProduct, action) {
   }
 }
 
+/*
+  管理车辆地图城市bikeMapCity的reducer函数
+*/
+const initBikeMapCity = '北京市'
+function bikeMapCity(state = initBikeMapCity, action) {
+  switch (action.type) {
+    case SET_BIKE_MAP_CITY:
+      return action.bikeMapCity
+    default:
+      return state
+  }
+}
+
+
 /* 
 combineReducers()返回的是一个新的reducer函数(总reducer函数)
 总的state的结构:
@@ -73,4 +88,5 @@ export default combineReducers({
   headerTitle,
   user,
   product,
+  bikeMapCity,
 })

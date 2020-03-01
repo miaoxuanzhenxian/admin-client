@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
-import { Modal } from 'antd'
+import { connect } from 'react-redux'
 
+import { setBikeMapCity } from '@/redux/actions'
 import { reqBikeMap } from '@/api'
 import style from './index.module.less'
 import startIcon from './images/start_point.png'
 import endIcon from './images/end_point.png'
 import bike from './images/bike.jpg'
 
-export default class BaiduMap extends Component {
+@connect(
+  state => ({ bikeMapCity: state.bikeMapCity }),
+  { setBikeMapCity }
+)
+class BikeMap extends Component {
 
   state = {
-    total_count: null
+    total_count: null,
+    bikeMapError: '',
   }
 
   /* 根据城市名渲染百度地图上的城市共享单车 */
@@ -24,7 +30,10 @@ export default class BaiduMap extends Component {
       // 从返回结果中取出所需数据
       const { total_count, bike_list, route_list, service_list } = result.data
       // 更新车辆总数状态
-      this.setState({ total_count })
+      this.setState({
+        total_count,
+        bikeMapError: ''
+      })
       /* 绘制车辆起点和终点 */
       // 车辆起点
       const startGps = route_list[0].split(',')
@@ -91,11 +100,10 @@ export default class BaiduMap extends Component {
         this.map.addOverlay(bikeMarker)
       })
     } else {
-      this.setState({ total_count: null })
-      Modal.error({
-        content: result.msg
+      this.setState({
+        total_count: null,
+        bikeMapError: result.msg
       })
-
     }
   }
 
@@ -103,11 +111,12 @@ export default class BaiduMap extends Component {
   renderMap = () => {
     // 从window中取出所需的全局变量
     const { BMap, BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP, BMAP_HYBRID_MAP } = window
+    const { bikeMapCity } = this.props
     // 创建Map实例
     this.map = new BMap.Map("bike-map-container")
     // 初始化地图,用城市名设置地图中心点和地图级别
     // map.centerAndZoom("北京") // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
-    this.map.centerAndZoom("北京市", 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
+    this.map.centerAndZoom(bikeMapCity, 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
     // 初始化地图,设置中心点坐标和地图级别
     // map.centerAndZoom(new BMap.Point(116.404, 39.915), 11)
     // 添加地图类型控件
@@ -115,9 +124,10 @@ export default class BaiduMap extends Component {
     // 添加城市列表控件
     // map.addControl(new BMap.CityListControl())
     this.map.addControl(new BMap.CityListControl({
-      onChangeSuccess: (e) => {
-        // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
-        this.renderBikeMap(e.city)
+      onChangeSuccess: (c) => {
+        // console.log(c) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
+        this.renderBikeMap(c.city)
+        this.props.setBikeMapCity(c.city)
       }
     }))
     this.map.addControl(new BMap.OverviewMapControl({ isOpen: true }))
@@ -125,7 +135,7 @@ export default class BaiduMap extends Component {
     this.map.enableScrollWheelZoom(true)
 
     // 根据城市名渲染百度地图上的城市共享单车
-    this.renderBikeMap('北京市')
+    this.renderBikeMap(bikeMapCity)
 
 
     /* // 步行路线规划
@@ -183,11 +193,16 @@ export default class BaiduMap extends Component {
   }
 
   render() {
+    const { total_count, bikeMapError } = this.state
+
     return (
       <div className={style['bike-map']}>
-        <div className={style['bike-map-count']}>{this.state.total_count ? `共${this.state.total_count}辆车` : null}</div>
+        <div className={style['error-msg'] + ' ' + (bikeMapError ? style.show : '')}>{bikeMapError}</div>
+        <div className={style['bike-map-count']}>共{total_count}辆车</div>
         <div id="bike-map-container" className={style['bike-map-container']} />
       </div>
     )
   }
 }
+
+export default BikeMap

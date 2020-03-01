@@ -9,9 +9,12 @@ import {
   RECEIVE_PRODUCT,
   SHOW_PRODUCT_ERROR,
   CLEAR_PRODUCT,
+  SET_BIKE_MAP_CITY,
 } from './action-types'
 import { reqLogin, reqProduct } from '../api'
 import { saveUser, removeUser } from '../utils/storageUtils'
+
+
 /* 
   设置头部标题的同步action
 */
@@ -84,3 +87,9 @@ export const productFromId = (productId) => async dispatch => {
     dispatch(showProductError(result.msg))
   }
 }
+
+/* 
+  设置车辆地图城市bikeMapCity的同步action
+*/
+export const setBikeMapCity = (bikeMapCity) => ({ type: SET_BIKE_MAP_CITY, bikeMapCity })
+
