@@ -139,7 +139,7 @@ class BikeMap extends PureComponent {
     // 根据城市名渲染百度地图上的城市共享单车
     this.renderBikeMap(this.props.bikeMapCity)
 
-    /* 地图移动结束时触发此事件,解决地图移动时导致城市变更出现的bug */
+    /* 地图移动结束时触发此事件,解决地图移动时导致城市名变更出现的bug */
     this.map.addEventListener("moveend", () => {
       new BMap.Geocoder().getLocation(this.map.getCenter(), rs => {
         const city = rs && rs.addressComponents.city
