@@ -125,8 +125,10 @@ class BikeMap extends PureComponent {
     this.map.addControl(new BMap.CityListControl({
       onChangeSuccess: (e) => {
         // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
-        this.renderBikeMap(e.city)
-        this.props.setBikeMapCity(e.city)
+        if (e.city !== this.props.bikeMapCity) {
+          this.renderBikeMap(e.city)
+          this.props.setBikeMapCity(e.city)
+        }
       }
     }))
     // 添加缩略地图控件，并设置为默认打开
@@ -137,19 +139,19 @@ class BikeMap extends PureComponent {
     // 根据城市名渲染百度地图上的城市共享单车
     this.renderBikeMap(this.props.bikeMapCity)
 
-    /* 停止拖拽地图时 */
-    /* this.map.addEventListener("dragend", (e) => {
-      console.log(e)
-      const geoc = new BMap.Geocoder()
-      geoc.getLocation(e.point, (rs) => {
+    /* 地图移动结束时触发此事件 */
+    this.map.addEventListener("moveend", (e) => {
+      // console.log(this.map.getCenter())
+      new BMap.Geocoder().getLocation(this.map.getCenter(), rs => {
+        //  console.log('rs.addressComponents.city', rs.addressComponents.city)
+        //  console.log('this.props.bikeMapCity', this.props.bikeMapCity)
         const city = rs.addressComponents.city
-        console.log(city)
         if (city !== this.props.bikeMapCity) {
           this.renderBikeMap(city)
           this.props.setBikeMapCity(city)
         }
       })
-    }) */
+    })
 
 
     /* // 步行路线规划
