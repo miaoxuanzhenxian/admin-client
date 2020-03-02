@@ -125,7 +125,7 @@ class BikeMap extends PureComponent {
     this.map.addControl(new BMap.CityListControl({
       onChangeSuccess: (e) => {
         // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
-        if (e.city !== this.props.bikeMapCity) {
+        if (e.city !== this.props.bikeMapCity) { // 加上该条件，可以减少不必要的发请求及不必要调用this.props.setBikeMapCity(e.city),提高效率
           this.renderBikeMap(e.city)
           this.props.setBikeMapCity(e.city)
         }
@@ -139,13 +139,10 @@ class BikeMap extends PureComponent {
     // 根据城市名渲染百度地图上的城市共享单车
     this.renderBikeMap(this.props.bikeMapCity)
 
-    /* 地图移动结束时触发此事件 */
-    this.map.addEventListener("moveend", (e) => {
-      // console.log(this.map.getCenter())
+    /* 地图移动结束时触发此事件,解决地图移动时导致城市变更出现的bug */
+    this.map.addEventListener("moveend", () => {
       new BMap.Geocoder().getLocation(this.map.getCenter(), rs => {
-        //  console.log('rs.addressComponents.city', rs.addressComponents.city)
-        //  console.log('this.props.bikeMapCity', this.props.bikeMapCity)
-        const city = rs.addressComponents.city
+        const city = rs && rs.addressComponents.city
         if (city !== this.props.bikeMapCity) {
           this.renderBikeMap(city)
           this.props.setBikeMapCity(city)
@@ -205,7 +202,7 @@ class BikeMap extends PureComponent {
   }
 
   componentDidMount() {
-    this.renderMap()
+    this.renderMap() // 渲染百度地图
   }
 
   render() {
