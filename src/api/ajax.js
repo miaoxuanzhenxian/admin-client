@@ -6,20 +6,20 @@ import qs from 'qs' // lodash和qs这两个库属于基本的工具库，在我�
 import { message } from 'antd'
 
 axios.interceptors.request.use(config => {
-  const { method, data } = config;
+  const { method, data } = config
   if (method.toLowerCase() === 'post' && Object.prototype.toString.call(data) === '[object Object]') {
-    config.data = qs.stringify(config.data);
+    config.data = qs.stringify(config.data)
   }
-  return config;
+  return config
 });
 
 axios.interceptors.response.use(response => {
-  return response.data;
+  return response.data
 }, error => {
-  message.error('请求出错 '+ error.message);
+  message.error('请求出错 '+ error.message)
   // return Promise.reject(error);
   // 返回一个pending状态的promise, 中断promise链
-  return new Promise(() => {});
+  return new Promise(() => {})
 });
 
-export default axios;
+export default axios

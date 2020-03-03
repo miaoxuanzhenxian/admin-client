@@ -9,7 +9,7 @@ import { message } from 'antd'
 import { BASE_URL } from '@/utils/constants'
 
 /* 请求登录 */
-export const reqLogin = (username, password) => ajax.post(BASE_URL + '/login', { username, password });
+export const reqLogin = (username, password) => ajax.post(BASE_URL + '/login', { username, password })
 /* export function reqLogin (username, password) {
   return ajax({
     method: 'post',
@@ -29,22 +29,22 @@ export const reqWeather = (city) => {
     jsonp(url, { timeout: 7000 }, (err, data) => {
       if (!err && data.error === 0) {
         const { dayPictureUrl, weather } = data.results[0].weather_data[0]
-        resolve({ dayPictureUrl, weather });
+        resolve({ dayPictureUrl, weather })
       } else {
-        message.error('获取天气信息失败');
+        message.error('获取天气信息失败')
       }
-    });
-  });
+    })
+  })
 }
 
 /* 获取分类列表 */
-export const reqCategorys = () => ajax(BASE_URL + '/manage/category/list');
+export const reqCategorys = () => ajax(BASE_URL + '/manage/category/list')
 
 /* 添加分类 */
-export const reqAddCategory = (categoryName) => ajax.post(BASE_URL + '/manage/category/add', { categoryName });
+export const reqAddCategory = (categoryName) => ajax.post(BASE_URL + '/manage/category/add', { categoryName })
 
 /* 修改分类（更新品类名称）*/
-export const reqUpdateCategory = ({ categoryId, categoryName }) => ajax.post(BASE_URL + '/manage/category/update', { categoryId, categoryName });
+export const reqUpdateCategory = ({ categoryId, categoryName }) => ajax.post(BASE_URL + '/manage/category/update', { categoryId, categoryName })
 
 /* 获取商品分页列表(后台分页) */
 export const reqProducts = (pageNum, pageSize) => ajax(BASE_URL + '/manage/product/list', {
