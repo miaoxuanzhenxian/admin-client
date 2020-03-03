@@ -2,11 +2,11 @@
   所有请求接口的函数：接口请求函数
   函数的返回值都是promise对象
 */
-import ajax from './ajax';
-import jsonp from 'jsonp';
-import { message } from 'antd';
+import ajax from './ajax'
+import jsonp from 'jsonp'
+import { message } from 'antd'
 
-import { BASE_URL } from '@/utils/constants';
+import { BASE_URL } from '@/utils/constants'
 
 /* 请求登录 */
 export const reqLogin = (username, password) => ajax.post(BASE_URL + '/login', { username, password });
