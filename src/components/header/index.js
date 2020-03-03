@@ -28,9 +28,9 @@ class Header extends Component {
   /*
     获取天气信息显示
   */
-  getWeather = async (city) => {
+  getWeather = async () => {
     //发请求
-    const { dayPictureUrl, weather } = await reqWeather(city);
+    const { dayPictureUrl, weather } = await reqWeather('北京')
     //更新状态
     this.setState({
       dayPictureUrl,
@@ -67,7 +67,7 @@ class Header extends Component {
     //更新显示时间
     this.updateTime()
     //发jsonp请求获取天气信息显示
-    this.getWeather('北京')
+    this.getWeather()
   }
 
   componentWillUnmount() {
@@ -98,4 +98,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default Header
