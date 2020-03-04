@@ -6,7 +6,7 @@ import { formatDate } from '@/utils/dateUtils'
 import LinkButton from '@/components/link-button'
 import { reqRoles, reqAddRole, reqUpdateRole } from '@/api'
 import AddForm from './add-form'
-import AuthForm from './auth_form'
+import AuthForm from './auth-form'
 
 /*
   角色管理

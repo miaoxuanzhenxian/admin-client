@@ -10,31 +10,77 @@ import moment from 'moment'
 
 import style from './index.module.less'
 
-// const dateFormat = 'YYYY/MM/DD'
-// const {RangePicker} = DatePicker
+const { RangePicker } = DatePicker
+
+const { Item } = Timeline
 
 export default class Home extends Component {
 
-  /* state = {
-    isVisited: true
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      key: 'app', // Card的默认显示的页签的标题的key
+    }
+
+    this.initTabList() // 初始化Card的页签标题列表
+    this.initContentList() // 初始化Card的页签内容列表
   }
 
-  handleChange = (isVisited) => {
-    return () => this.setState({isVisited})
-  } */
+  /* 初始化Card的页签标题列表 */
+  initTabList = () => {
+    this.tabList = [
+      {
+        key: 'article',
+        tab: 'article',
+      },
+      {
+        key: 'app',
+        tab: 'app',
+      },
+      {
+        key: 'project',
+        tab: 'project',
+      },
+    ]
+  }
+
+  /* 初始化Card的页签内容列表 */
+  initContentList = () => {
+    this.contentList = {
+      article: <p>article content</p>,
+      app: <p>app content</p>,
+      project: <p>project content</p>,
+    }
+  }
+
+  /* 页签切换的回调 */
+  handleTabChange = (key) => {
+    this.setState({ key })
+  }
 
   render() {
-    // const {isVisited} = this.state
-    const cardStatisticExtra = (
+
+    const { key } = this.state
+
+    const statisticCardExtra = (
       <Icon type="question-circle" style={{ color: 'rgba(0, 0, 0, .45)' }} />
+    )
+
+    const dateFormat = 'YYYY/MM/DD'
+    const contentCardExtra = (
+      <RangePicker
+        defaultValue={[moment('2019/01/01', dateFormat), moment('2020/03/06', dateFormat)]}
+        format={dateFormat}
+      />
     )
 
     return (
       <div className={style.home}>
         <Card
-          className={style['home-card-statistic']}
+          className={style['home-statistic-card']}
           title="商品总量"
-          extra={cardStatisticExtra}
+          extra={statisticCardExtra}
           headStyle={{ color: 'rgba(0, 0, 0, .45)' }}
         >
           <Statistic
@@ -55,72 +101,44 @@ export default class Home extends Component {
             suffix={<div>%<Icon type='arrow-up' style={{ color: '#3f8600', marginLeft: '10px' }} /></div>}
           />
         </Card>
-      </div>
-      
-      //  <div className='home'>
-      //   <Card
-      //     className="home-card"
-      //     title="商品总量"
-      //     extra={<Icon style={{color: 'rgba(0,0,0,.45)'}} type="question-circle"/>}
-      //     style={{width: 250}}
-      //     headStyle={{color: 'rgba(0,0,0,.45)'}}
-      //   >
-      //     <Statistic
-      //       value={1128163}
-      //       suffix="个"
-      //       style={{fontWeight: 'bolder'}}
-      //     />
-      //     <Statistic
-      //       value={15}
-      //       valueStyle={{fontSize: 15}}
-      //       prefix={'周同比'}
-      //       suffix={<div>%<Icon style={{color: 'red', marginLeft: 10}} type="arrow-down"/></div>}
-      //     />
-      //     <Statistic
-      //       value={10}
-      //       valueStyle={{fontSize: 15}}
-      //       prefix={'日同比'}
-      //       suffix={<div>%<Icon style={{color: '#3f8600', marginLeft: 10}} type="arrow-up"/></div>}
-      //     />
-      //   </Card>
 
-      //   <Card
-      //     className="home-content"
-      //     title={<div className="home-menu">
-      //       <span className={isVisited ? "home-menu-active home-menu-visited" : 'home-menu-visited'}
-      //             onClick={this.handleChange(true)}>访问量</span>
-      //       <span className={isVisited ? "" : 'home-menu-active'} onClick={this.handleChange(false)}>销售量</span>
-      //     </div>}
-      //     extra={<RangePicker
-      //       defaultValue={[moment('2019/01/01', dateFormat), moment('2019/06/01', dateFormat)]}
-      //       format={dateFormat}
-      //     />}
-      //   >
-      //     <Card
-      //       className="home-table-left"
-      //       title={isVisited ? '访问趋势' : '销售趋势'}
-      //       bodyStyle={{padding: 0, height: 275}}
-      //       extra={<Icon type="reload"/>}
-      //     >
-      //     </Card>
+        <Card
+          className={style['home-content']}
+          tabBarExtraContent={contentCardExtra}
+          tabList={this.tabList}
+          activeTabKey={key}
+          onTabChange={this.handleTabChange}
+        >
+          <Card
+            className={style['home-tab-left']}
+            title={this.tabList.find(item => item.key === key).tab}
+            extra={<Icon type="reload" />}
+            bodyStyle={{ height: '275px' }}
+          >
+            {this.contentList[key]}
+          </Card>
 
-      //     <Card title='任务' extra={<Icon type="reload"/>} className="home-table-right">
-      //       <Timeline>
-      //         <Timeline.Item color="green">新版本迭代会</Timeline.Item>
-      //         <Timeline.Item color="green">完成网站设计初版</Timeline.Item>
-      //         <Timeline.Item color="red">
-      //           <p>联调接口</p>
-      //           <p>功能验收</p>
-      //         </Timeline.Item>
-      //         <Timeline.Item>
-      //           <p>登录功能设计</p>
-      //           <p>权限验证</p>
-      //           <p>页面排版</p>
-      //         </Timeline.Item>
-      //       </Timeline>
-      //     </Card>
-      //   </Card>
-      // </div> 
+          <Card
+            className={style['home-tab-right']}
+            title="任务"
+            extra={<Icon type="reload" />}
+          >
+            <Timeline>
+              <Item color="green">新版本迭代会</Item>
+              <Item color="green">完成网站设计初版</Item>
+              <Item color="red">
+                <p>联调接口</p>
+                <p>功能验收</p>
+              </Item>
+              <Item>
+                <p>登录功能设计</p>
+                <p>权限验证</p>
+                <p>页面排版</p>
+              </Item>
+            </Timeline>
+          </Card>
+        </Card>
+      </div >
     )
   }
 }

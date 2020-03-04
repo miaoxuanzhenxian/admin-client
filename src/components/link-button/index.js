@@ -10,5 +10,5 @@ import style from './index.module.less'
   标签对象的数组: <LinkButton><span></span><span></span></LinkButton>
 */
 export default function LinkButton(props) {
-  return <button {...props} className={style["link-button"] + ` ${props.className}`} />
+  return <button {...props} className={style['link-button'] + ` ${props.className}`} />
 }
