@@ -19,8 +19,9 @@ class BikeMap extends PureComponent {
     bikeMapError: '',
   }
 
-  /* 根据城市名渲染百度地图上的城市共享单车 */
+  /* 根据城市名渲染百度地图上的城市共享单车地图 */
   renderBikeMap = async (city) => {
+    // 发请求
     const result = await reqBikeMap(city)
     if (result.status === 0) {
       // 清除地图上所有覆盖物
@@ -111,8 +112,17 @@ class BikeMap extends PureComponent {
   renderMap = () => {
     // 从window中取出所需的全局变量
     const { BMap, BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP, BMAP_HYBRID_MAP } = window
-    // 创建Map实例
-    this.map = new BMap.Map("bike-map-container")
+
+    try {
+      // 创建Map实例
+      this.map = new BMap.Map("bike-map-container")
+    } catch (error) {
+      this.setState({
+        total_count: null,
+        bikeMapError: '百度地图连接出错'
+      })
+      return
+    }
     // 初始化地图,用城市名设置地图中心点和地图级别
     // map.centerAndZoom("北京") // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
     this.map.centerAndZoom(this.props.bikeMapCity, 11) // 设初始化地图。如果center类型为Point时，zoom必须赋值，范围3-19级，若调用高清底图（针对移动端开发）时，zoom可赋值范围为3-18级。如果center类型为字符串时，比如“北京”，zoom可以有也可以忽略，zoom忽略时地图将自动根据center适配最佳zoom级别
@@ -126,8 +136,8 @@ class BikeMap extends PureComponent {
       onChangeSuccess: (e) => {
         // console.log(e) // city: "上海市",code:289,level:12,point:{lat: 31.236304654494646,lng: 121.48023738884737},title:"上海市",uid:"4141110d95d0f74fefe4a5f0"
         if (e.city !== this.props.bikeMapCity) { // 加上该条件，可以减少不必要的发请求及不必要调用this.props.setBikeMapCity(e.city),提高效率
-          this.renderBikeMap(e.city)
-          this.props.setBikeMapCity(e.city)
+          this.renderBikeMap(e.city) // 根据城市名渲染百度地图上的城市共享单车地图
+          this.props.setBikeMapCity(e.city) // 改变redux中的城市共享单车地图城市
         }
       }
     }))
@@ -136,7 +146,7 @@ class BikeMap extends PureComponent {
     //开启鼠标滚轮缩放
     this.map.enableScrollWheelZoom(true)
 
-    // 根据城市名渲染百度地图上的城市共享单车
+    // 根据城市名渲染百度地图上的城市共享单车地图
     this.renderBikeMap(this.props.bikeMapCity)
 
     /* 地图移动结束时触发此事件,解决地图移动时导致城市名变更出现的bug */
@@ -144,31 +154,31 @@ class BikeMap extends PureComponent {
       new BMap.Geocoder().getLocation(this.map.getCenter(), rs => {
         const city = rs && rs.addressComponents.city
         if (city !== this.props.bikeMapCity) {
-          this.renderBikeMap(city)
-          this.props.setBikeMapCity(city)
+          this.renderBikeMap(city) // 根据城市名渲染百度地图上的城市共享单车地图
+          this.props.setBikeMapCity(city) // 改变redux中的城市共享单车地图城市
         }
       })
     })
 
 
     /* // 步行路线规划
-    var walking = new BMap.WalkingRoute(map, { renderOptions: { map: map, autoViewport: true } })
+    const walking = new BMap.WalkingRoute(this.map, { renderOptions: { map: this.map, autoViewport: true } })
     walking.search('故宫', '清华大学') */
 
     /* // 骑行路线规划
-    var riding = new BMap.RidingRoute(map, { renderOptions: { map: map, autoViewport: true } })
+    const riding = new BMap.RidingRoute(this.map, { renderOptions: { map: this.map, autoViewport: true } })
     riding.search('故宫', '清华大学') */
 
     /* // 公交路线规划
-    var transit = new BMap.TransitRoute(map, { renderOptions: { map: map, autoViewport: true } }) // 百度地图3.0版本中的公交(TransitRoute)和驾车(DrivingRoute)的路线规划暂不支持起参数为关键字，只支持坐标点，开发者可以先用检索接口确认关键字的坐标点
-    var myGeo = new BMap.Geocoder()
+    const transit = new BMap.TransitRoute(this.map, { renderOptions: { map: this.map, autoViewport: true } }) // 百度地图3.0版本中的公交(TransitRoute)和驾车(DrivingRoute)的路线规划暂不支持起参数为关键字，只支持坐标点，开发者可以先用检索接口确认关键字的坐标点
+    const myGeo = new BMap.Geocoder()
     // 将地址解析为含经纬度的Point对象
     myGeo.getPoint("天安门", function (point) {
       if (point) {
-        var start = point
+        const start = point
         myGeo.getPoint("百度大厦", function (point) {
           if (point) {
-            var end = point
+            const end = point
             transit.search(start, end)
           } else {
             alert("您选择地址没有解析到结果!")
@@ -180,15 +190,15 @@ class BikeMap extends PureComponent {
     }, "北京市") */
 
     /* // 驾车路线规划
-    var driving = new BMap.DrivingRoute(map, { renderOptions: { map: map, autoViewport: true } }) // 百度地图3.0版本中的公交(TransitRoute)和驾车(DrivingRoute)的路线规划暂不支持起参数为关键字，只支持坐标点，开发者可以先用检索接口确认关键字的坐标点
-    var myGeo = new BMap.Geocoder()
+    const driving = new BMap.DrivingRoute(this.map, { renderOptions: { map: this.map, autoViewport: true } }) // 百度地图3.0版本中的公交(TransitRoute)和驾车(DrivingRoute)的路线规划暂不支持起参数为关键字，只支持坐标点，开发者可以先用检索接口确认关键字的坐标点
+    const myGeo = new BMap.Geocoder()
     // 将地址解析为含经纬度的Point对象
     myGeo.getPoint("天安门", function (point) {
       if (point) {
-        var start = point
+        const start = point
         myGeo.getPoint("百度大厦", function (point) {
           if (point) {
-            var end = point
+            const end = point
             driving.search(start, end)
           } else {
             alert("您选择地址没有解析到结果!")
@@ -198,7 +208,6 @@ class BikeMap extends PureComponent {
         alert("您选择地址没有解析到结果!")
       }
     }, "北京市") */
-
   }
 
   componentDidMount() {
