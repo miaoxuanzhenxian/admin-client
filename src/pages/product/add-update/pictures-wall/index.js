@@ -53,6 +53,7 @@ export default class PicturesWall extends Component {
       }))
 
       // 重新赋值给this.state中的fileList
+      // eslint-disable-next-line react/no-direct-mutation-state
       this.state.fileList = fileList
     }
   }

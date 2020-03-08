@@ -39,6 +39,7 @@ export default class RichTextEditor extends Component {
       const editorState = EditorState.createWithContent(contentState)
 
       // 重新赋值给this.state中的editorState
+      // eslint-disable-next-line react/no-direct-mutation-state
       this.state.editorState = editorState
     }
   }
