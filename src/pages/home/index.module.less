@@ -6,7 +6,7 @@
   .home-content {
     margin-top: 200px;
     width: 100%;
-    :global(.ant-tabs-tab) {
+    :global(.ant-tabs-tab) { // 用:global()包裹起来的意思就是使()括号里面的样式类名不less模块化，即不让其按照定义的less模块化规则编译，而是不编译，就是原本()括号里面的样子，就是原本()括号里面的样式类名，让其不再在局部、模块的内部起作用，而是在全局起作用。
       font-size: 18px;
     }
     .home-tab-left {

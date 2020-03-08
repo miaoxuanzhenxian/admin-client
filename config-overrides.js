@@ -2,7 +2,7 @@ const { override, fixBabelImports, addLessLoader, addWebpackAlias, addDecorators
 const path = require('path')
 
 //当打包上线时，打包后我们会发现静态文件夹中会有很多的css和js的map文件，那么我们该怎么关闭sourcemap呢？如下所示：
-process.env.GENERATE_SOURCEMAP = "false";
+process.env.GENERATE_SOURCEMAP = "false"
 
 module.exports = override(
   //配置根路径别名
