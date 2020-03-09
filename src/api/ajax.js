@@ -18,7 +18,7 @@ axios.interceptors.response.use(response => {
 }, error => {
   message.error('请求出错 '+ error.message)
   // return Promise.reject(error);
-  // 返回一个pending状态的promise, 中断promise链
+  // 返回一个pending状态(或者叫初始状态或者叫中断状态)的promise, 中断promise链
   return new Promise(() => {})
 });
 

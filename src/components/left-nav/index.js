@@ -8,7 +8,7 @@ import style from './index.module.less'
 import logo from '@/assets/images/logo.png'
 import menuList from '@/config/menuConfig'
 
-const { SubMenu } = Menu;
+const { SubMenu } = Menu
 
 @connect(
   state => ({ user: state.user }),

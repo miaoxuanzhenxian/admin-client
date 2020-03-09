@@ -13,13 +13,13 @@ class AddUpdateForm extends Component {
   constructor(props) {
     super(props);
 
-    this.props.setForm(this.props.form);
+    this.props.setForm(this.props.form)
   }
 
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { categoryName } = this.props;
+    const { getFieldDecorator } = this.props.form
+    const { categoryName } = this.props
     return (
       <Form>
         <Form.Item>

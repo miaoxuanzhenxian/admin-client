@@ -61,4 +61,4 @@ const menuList = [
   },
 ]
 
-export default menuList;
+export default menuList
