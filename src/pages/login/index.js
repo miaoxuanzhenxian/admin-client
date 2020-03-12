@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { login } from '@/redux/actions'
 import style from './index.module.less'
 import logo from '@/assets/images/logo.png'
-// import Loading from '@/components/loading'
+
 
 @connect(
   state => ({ user: state.user }),
@@ -73,7 +73,6 @@ class Login extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <div className={style.login}>
-        {/* <Loading className={style.loading} spinStyle={{ color: 'pink' }} /> */}
         <div className={style['login-header']}>
           <img src={logo} alt="logo" />
           <h1>后台管理系统</h1>
