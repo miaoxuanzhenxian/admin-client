@@ -6,6 +6,6 @@ export default (loader) => {
   return Loadable({
     loader,
     loading: Loading,
-    timeout: 10000,
+    timeout: 10000
   })
 }

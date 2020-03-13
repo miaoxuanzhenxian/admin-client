@@ -3,6 +3,7 @@ import { Button, Spin } from 'antd'
 
 import style from './index.module.less'
 
+
 export default function Loading(props) {
   if (props.error) {
     // When the loader has errored
