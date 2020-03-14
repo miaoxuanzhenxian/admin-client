@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Card, Button, Table, message, Modal } from 'antd'
+import moment from 'moment'
 import { connect } from 'react-redux'
 
-import { formatDate } from '@/utils/dateUtils'
 import LinkButton from '@/components/link-button'
 import { reqRoles, reqAddRole, reqUpdateRole } from '@/api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
+
 
 /*
   角色管理
@@ -42,13 +43,12 @@ class Role extends Component {
       {
         title: '创建时间',
         dataIndex: 'create_time',
-        // render: create_time => formateDate(create_time)
-        render: formatDate
+        render: this.formatTime
       },
       {
         title: '授权时间',
         dataIndex: 'auth_time',
-        render: formatDate
+        render: this.formatTime
       },
       {
         title: '授权人',
@@ -59,6 +59,12 @@ class Role extends Component {
         render: (role) => <LinkButton onClick={this.showAuth.bind(this, role)}>设置权限</LinkButton>
       },
     ]
+  }
+
+  /* 格式化时间 */
+  formatTime = (time) => {
+    if (!time) return ''
+    return moment(time).format('YYYY-MM-DD HH:mm:ss')
   }
 
   /*

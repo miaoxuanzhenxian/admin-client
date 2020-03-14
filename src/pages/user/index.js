@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Card, Button, Table, message, Modal } from 'antd'
+import moment from 'moment'
 
 import LinkButton from '@/components/link-button'
 import { reqUsers, reqAddOrUpdateUser, reqDeleteUser } from '@/api'
-import { formatDate } from '@/utils/dateUtils'
 import UserForm from './user-form'
+
 
 /*
   用户管理
@@ -18,7 +19,7 @@ export default class User extends Component {
       loading: false,
       users: [], // 所有用户列表
       roles: [], // 所有角色列表
-      isShow: false, // 是否显示确认框
+      isShow: false // 是否显示确认框
     }
 
     this.initColumns()
@@ -41,7 +42,7 @@ export default class User extends Component {
       {
         title: '注册时间',
         dataIndex: 'create_time',
-        render: formatDate
+        render: create_time => moment(create_time).format('YYYY-MM-DD HH:mm:ss')
       },
       {
         title: '所属角色',

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
+import moment from 'moment'
 import { connect } from 'react-redux'
 
 import { logout } from '@/redux/actions'
 import style from './index.module.less'
-import { formatDate } from '@/utils/dateUtils'
 import { reqWeather } from '@/api'
 import LinkButton from '@/components/link-button'
+
 
 @connect(
   state => ({
@@ -20,9 +21,9 @@ import LinkButton from '@/components/link-button'
 class Header extends Component {
 
   state = {
-    currentTime: formatDate(Date.now()),
-    dayPictureUrl: '', //天气白天图片url
-    weather: '' //天气文本
+    currentTime: moment().format('YYYY-MM-DD HH:mm:ss'), 
+    dayPictureUrl: '', // 天气白天图片url
+    weather: '' // 天气文本
   }
 
   /*
@@ -58,7 +59,7 @@ class Header extends Component {
  updateTime = () => {
     this.intertvalId = setInterval(() => { //启动循环定时器
       this.setState({
-        currentTime: formatDate(Date.now())
+        currentTime: moment().format('YYYY-MM-DD HH:mm:ss')
       })
     }, 1000)
   }
