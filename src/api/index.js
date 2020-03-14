@@ -102,7 +102,18 @@ export const reqRoles = () => ajax(BASE_URL + '/manage/role/list')
 export const reqAddRole = (roleName) => ajax.post(BASE_URL + '/manage/role/add', { roleName })
 
 /* 更新角色(给角色设置权限) */
-export const reqUpdateRole = (role) => ajax.post(BASE_URL + '/manage/role/update', role)
+// export const reqUpdateRole = (role) => ajax.post(BASE_URL + '/manage/role/update', role)
+export const reqUpdateRole = ({
+  _id,
+  menus,
+  auth_time,
+  auth_name
+}) => ajax.post(BASE_URL + '/manage/role/update', {
+  _id,
+  menus,
+  auth_time,
+  auth_name
+})
 
 /* 获取所有用户列表 */
 export const reqUsers = () => ajax(BASE_URL + '/manage/user/list')

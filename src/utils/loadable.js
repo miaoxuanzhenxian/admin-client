@@ -2,7 +2,7 @@ import Loadable from 'react-loadable'
 import Loading from '@/components/loading'
 
 
-export default (loader) => {
+export default function loadable(loader) {
   return Loadable({
     loader,
     loading: Loading,

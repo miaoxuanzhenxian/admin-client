@@ -56,7 +56,7 @@ class Role extends Component {
       },
       {
         title: '操作',
-        render: (role) => <LinkButton onClick={() => this.showAuth(role)}>设置权限</LinkButton>
+        render: (role) => <LinkButton onClick={this.showAuth.bind(this, role)}>设置权限</LinkButton>
       },
     ]
   }
