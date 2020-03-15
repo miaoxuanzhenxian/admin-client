@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import propTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
+
 @Form.create()
 class AddUpdateForm extends Component {
 
@@ -38,4 +39,4 @@ class AddUpdateForm extends Component {
     )
   }
 }
-export default AddUpdateForm;
+export default AddUpdateForm

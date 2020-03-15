@@ -6,11 +6,10 @@ import {
   Button,
   Icon,
   Table,
-  message,
+  message
 } from 'antd'
 import throttle from 'lodash.throttle' // lodash和qs这两个库属于基本的工具库，在我们前面所下的许多依赖包里都已经下载引用了这两个包，因此不需要再重新下载了，可以直接引用。并且lodash这个库可以模块化的按需引用。
 import { connect } from 'react-redux'
-
 import { receiveProduct, clearProduct } from '@/redux/actions'
 import style from './index.module.less'
 import LinkButton from '@/components/link-button'
@@ -18,6 +17,7 @@ import { reqProducts, reqSearchProducts, reqUpdateStatus } from '@/api'
 import { PRODUCT_PAGE_SIZE } from '@/utils/constants'
 
 const { Option } = Select
+
 
 /* 
   商品管理的首页组件
@@ -36,7 +36,7 @@ class ProductHome extends Component {
       total: 0, //商品的总数量
       products: [], //商品列表
       searchType: 'productName', // 默认是按商品名称搜索
-      searchName: '', // 搜索的关键字
+      searchName: '' // 搜索的关键字
     }
 
     this.initColumns()
@@ -101,7 +101,7 @@ class ProductHome extends Component {
             </LinkButton>
           </span>
         )
-      },
+      }
     ]
   }
 
@@ -136,7 +136,7 @@ class ProductHome extends Component {
     // 发请求获取数据
     if (!searchName) {
       // 发获取商品分页列表(后台分页)请求
-      result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE);
+      result = await reqProducts(pageNum, PRODUCT_PAGE_SIZE)
     } else {
       // 发搜索产品分页列表请求
       result = await reqSearchProducts({ pageNum, pageSize: PRODUCT_PAGE_SIZE, searchType, searchName })
@@ -148,7 +148,7 @@ class ProductHome extends Component {
       this.setState({
         loading: false, //成功了后关闭loading,不显示loading（其实就是删除loading组件）
         total,
-        products: list,
+        products: list
       })
     } else {
       message.error(`获取第${pageNum}页商品列表失败`)
@@ -217,7 +217,7 @@ class ProductHome extends Component {
               defaultPageSize: PRODUCT_PAGE_SIZE,
               showQuickJumper: true,
               onChange: this.getProducts,
-              current: this.pageNum,
+              current: this.pageNum
             }}
           />
         </Card>

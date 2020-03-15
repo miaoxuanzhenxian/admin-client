@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, Icon, Input, Button, } from 'antd'
+import { Form, Icon, Input, Button } from 'antd'
 import { connect } from 'react-redux'
 
 import { login } from '@/redux/actions'
@@ -8,6 +8,7 @@ import style from './index.module.less'
 import logo from '@/assets/images/logo.png'
 
 
+/* 登录 */
 @connect(
   state => ({ user: state.user }),
   { login }
@@ -19,7 +20,7 @@ class Login extends Component {
     处理表单提交的回调
   */
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     /* //取出输入的相关数据
     const form = this.props.form;
     const values = form.getFieldsValue();
@@ -45,13 +46,13 @@ class Login extends Component {
     // 4).必须是英文、数字或下划线组成
     // value = value.trim();
     if (!value) {
-      callback('密码是必须的');
+      callback('密码是必须的')
     } else if (value.length < 4) {
-      callback('密码不能小于4位');
+      callback('密码不能小于4位')
     } else if (value.length > 12) {
-      callback('密码不能大于12位');
+      callback('密码不能大于12位')
     } else if (!/^(\w)+$/.test(value)) {
-      callback('密码必须是英文、数字或下划线组成');
+      callback('密码必须是英文、数字或下划线组成')
     } else {
       callback() //验证通过
     }
@@ -136,4 +137,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Login

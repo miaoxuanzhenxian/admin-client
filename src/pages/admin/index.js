@@ -8,7 +8,6 @@ import style from './index.module.less'
 import LeftNav from '@/components/left-nav'
 import Header from '@/components/header'
 
-
 const { Sider, Content, Footer } = Layout
 
 //路由的懒加载，解决首屏加载过慢的问题
@@ -23,6 +22,8 @@ const Pie = loadable(() => import('../charts/pie'))
 const BikeMap = loadable(() => import('../bike-map'))
 const NotFound = loadable(() => import('../not-found'))
 
+
+/* 管理 */
 @connect(
   state => ({ user: state.user }),
   {}

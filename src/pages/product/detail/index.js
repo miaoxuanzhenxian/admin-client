@@ -10,6 +10,7 @@ import { reqCategory } from '@/api'
 
 const { Item } = List
 
+
 /* 
   商品详情路由组件
 */
@@ -22,7 +23,7 @@ const { Item } = List
 class ProductDetail extends Component {
 
   state = {
-    categoryName: '',
+    categoryName: ''
   }
 
   /* 根据分类ID获取分类 */

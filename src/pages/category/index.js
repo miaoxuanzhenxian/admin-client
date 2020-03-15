@@ -5,6 +5,7 @@ import LinkButton from '@/components/link-button'
 import { reqCategorys, reqAddCategory, reqUpdateCategory } from '@/api'
 import AddUpdateForm from './add-update-form'
 
+/* 品类管理 */
 export default class Category extends Component {
   
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Category extends Component {
         width: '300px',
         render: (category) => <LinkButton onClick={() => {
           this.category = category; //保存当前分类，使其它地方都可读取到
-          this.setState({ showStatus: 2 });
+          this.setState({ showStatus: 2 })
         }}>修改分类</LinkButton>
       },
     ]
@@ -44,20 +45,20 @@ export default class Category extends Component {
   */
   getCategorys = async () => {
     //开启loading，显示loading
-    this.setState({ loading: true });
+    this.setState({ loading: true })
     //发异步ajax请求
-    const result = await reqCategorys();
+    const result = await reqCategorys()
     if (result.status === 0) { //成功了
       //取出分类列表
-      const categorys = result.data;
+      const categorys = result.data
       //更新状态categorys数据
       this.setState({
         loading: false, //成功了后关闭loading，不显示loading（其实就是删除loading组件）
         categorys,
       });
     } else {
-      message.error('获取分类列表失败');
-      this.setState({ loading: false }); //获取分类列表失败后关闭loading，不显示loading（其实就是删除loading组件）
+      message.error('获取分类列表失败')
+      this.setState({ loading: false }) //获取分类列表失败后关闭loading，不显示loading（其实就是删除loading组件）
     }
   }
 
@@ -69,28 +70,28 @@ export default class Category extends Component {
     this.form.validateFields(async (err, values) => {
       if (!err) {
         //验证通过，得到输入数据
-        const { categoryName } = values;
+        const { categoryName } = values
 
-        const { showStatus } = this.state;
+        const { showStatus } = this.state
         let result, action
         if (showStatus === 1) { //添加分类
           action = '添加'
           //发添加分类的请求
-          result = await reqAddCategory(categoryName);
+          result = await reqAddCategory(categoryName)
         } else { //修改分类
           action = '修改'
-          const categoryId = this.category._id;
+          const categoryId = this.category._id
           //发修改（更新）分类的请求
-          result = await reqUpdateCategory({ categoryId, categoryName });
+          result = await reqUpdateCategory({ categoryId, categoryName })
         }
 
         // 根据相应结果，做不同处理
-        const { status, msg } = result;
+        const { status, msg } = result
         if (status === 0) {
-          message.success(action + '分类成功');
+          message.success(action + '分类成功')
 
           // 重置一组输入表单控件的值,即重置输入数据(变成了初始值),重置为initialVale的值,相当于没有输入，即相当于没有在表单框中输入过数据
-          this.form.resetFields();
+          this.form.resetFields()
 
           // 隐藏确认框(注意：这里antd框架是用display:none来隐藏Modal模态对话框实现的，而不是删除掉这个元素)
           this.setState({
@@ -98,16 +99,16 @@ export default class Category extends Component {
           });
 
           // 重新获取最新的分类列表显示
-          this.getCategorys();
+          this.getCategorys()
         } else if (status === 1) {
           message.error(msg);
           // 重新获取分类列表显示
-          this.getCategorys();
+          this.getCategorys()
         } else {
-          message.error(action + '分类失败');
+          message.error(action + '分类失败')
         }
       }
-    });
+    })
   }
 
   /*
@@ -116,13 +117,13 @@ export default class Category extends Component {
   handleCancel = () => {
     this.setState({
       showStatus: 0
-    });
+    })
     //重置一组输入表单控件的值,即重置输入数据(变成了初始值)，重置为initialVale的值，相当于没有输入，即相当于没有在表单框中输入过数据
-    this.form.resetFields();
+    this.form.resetFields()
   }
 
   componentDidMount() {
-    this.getCategorys();
+    this.getCategorys()
   }
 
   componentWillUnmount() {
@@ -134,14 +135,14 @@ export default class Category extends Component {
 
   render() {
     //取出状态数据
-    const { categorys, loading, showStatus } = this.state;
+    const { categorys, loading, showStatus } = this.state
     //读取修改(更新)名称
-    const category = this.category || {};
+    const category = this.category || {}
     //Card右上角的结构
     const extra = (
       <Button type="primary" onClick={() => {
-        this.setState({ showStatus: 1 }); //this.setSate()是异步的
-        this.category = null;
+        this.setState({ showStatus: 1 }) //this.setSate()是异步的
+        this.category = null
       }}>
         <Icon type="plus" />
         添加

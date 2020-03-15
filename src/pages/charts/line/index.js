@@ -8,6 +8,7 @@ import 'echarts/lib/component/title' // 按需导入
 import 'echarts/lib/component/tooltip' // 按需导入
 import 'echarts/lib/component/legend' // 按需导入
 
+
 /*
   后台管理的折线图路由组件
 */
@@ -15,7 +16,7 @@ export default class Line extends Component {
 
   state = {
     sales: [5, 20, 36, 10, 10, 20],
-    inventories: [15, 30, 46, 20, 20, 40],
+    inventories: [15, 30, 46, 20, 20, 40]
   }
 
   getOption = () => {

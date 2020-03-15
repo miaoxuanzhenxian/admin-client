@@ -8,6 +8,8 @@ import startIcon from './images/start_point.png'
 import endIcon from './images/end_point.png'
 import bike from './images/bike.jpg'
 
+
+/* 百度地图 */
 @connect(
   state => ({ bikeMapCity: state.bikeMapCity }),
   { setBikeMapCity }
@@ -16,7 +18,7 @@ class BikeMap extends PureComponent {
 
   state = {
     total_count: null,
-    bikeMapError: '',
+    bikeMapError: ''
   }
 
   /* 根据城市名渲染百度地图上的城市共享单车地图 */
@@ -68,7 +70,7 @@ class BikeMap extends PureComponent {
       // 车辆行驶路线的覆盖物
       const routePolyline = new BMap.Polyline(routeList, {
         strokeColor: '#ef4136',
-        strokeWeight: 2,
+        strokeWeight: 2
       })
       // 将车辆行驶路线的覆盖物添加到地图中
       this.map.addOverlay(routePolyline)
@@ -81,7 +83,7 @@ class BikeMap extends PureComponent {
       // 车辆行服务区的覆盖物
       const servicePolyline = new BMap.Polyline(serviceList, {
         strokeColor: '#ef4136',
-        strokeWeight: 3,
+        strokeWeight: 3
       })
       // 将车辆服务区的覆盖物添加到地图中
       this.map.addOverlay(servicePolyline)

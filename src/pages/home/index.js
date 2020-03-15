@@ -11,9 +11,10 @@ import moment from 'moment'
 import style from './index.module.less'
 
 const { RangePicker } = DatePicker
-
 const { Item } = Timeline
 
+
+/* 首页 */
 export default class Home extends Component {
 
   constructor(props) {

@@ -14,6 +14,7 @@ function getBase64(file) {
   })
 }
 
+
 export default class PicturesWall extends Component {
 
   static propTypes = {
@@ -33,7 +34,7 @@ export default class PicturesWall extends Component {
           status: 'done', // 状态有：uploading done error removed
           url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', // 图片的url
         }, */
-      ],
+      ]
     }
 
     this.initFileList() // 初始化this.state中的fileList状态
@@ -76,9 +77,9 @@ export default class PicturesWall extends Component {
 
     this.setState({
       previewImage: file.url || file.preview,
-      previewVisible: true,
+      previewVisible: true
     })
-  };
+  }
 
   /* 
     在file的状态发生改变的监听回调
@@ -132,7 +133,6 @@ export default class PicturesWall extends Component {
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
-    );
+    )
   }
 }
-

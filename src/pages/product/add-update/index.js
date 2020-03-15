@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon, Form, Input, Select, Button, message, } from 'antd'
+import { Card, Icon, Form, Input, Select, Button, message } from 'antd'
 import { connect } from 'react-redux'
 
 import LinkButton from '@/components/link-button'
@@ -9,6 +9,7 @@ import RichTextEditor from './rich-text-editor'
 
 const { Item } = Form
 const { Option } = Select
+
 
 /* 
   商品详情路由组件
@@ -142,16 +143,16 @@ class ProductAddUpdate extends Component {
               {getFieldDecorator('name', {
                 initialValue: product.name,
                 rules: [
-                  { required: true, message: '必须输入商品名称!' },
-                ],
+                  { required: true, message: '必须输入商品名称!' }
+                ]
               })(<Input placeholder="商品名称" />)}
             </Item>
             <Item label="商品描述">
               {getFieldDecorator('desc', {
                 initialValue: product.desc,
                 rules: [
-                  { required: true, message: '必须输入商品描述!' },
-                ],
+                  { required: true, message: '必须输入商品描述!' }
+                ]
               })(<Input placeholder="商品描述" />)}
             </Item>
             <Item label="商品价格">
@@ -160,15 +161,15 @@ class ProductAddUpdate extends Component {
                 rules: [
                   { required: true, message: '必须输入价格!' },
                   { validator: this.validatePrice },
-                ],
+                ]
               })(<Input type="number" placeholder="商品价格" addonAfter="元" />)}
             </Item>
             <Item label="商品分类">
               {getFieldDecorator('categoryId', {
                 initialValue: product.categoryId || '',
                 rules: [
-                  { required: true, message: '必须选择商品分类!' },
-                ],
+                  { required: true, message: '必须选择商品分类!' }
+                ]
               })(
                 <Select>
                   <Option value="">未选择</Option>
