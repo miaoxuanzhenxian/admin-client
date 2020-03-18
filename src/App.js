@@ -8,7 +8,6 @@ import loadable from './utils/loadable'
 const Login = loadable(() => import('./pages/login'))
 const Admin = loadable(() => import('./pages/admin'))
 
-
 /*
   应用根组件
 */

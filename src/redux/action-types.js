@@ -20,4 +20,3 @@ export const SHOW_PRODUCT_ERROR = 'show_product_error' // 显示获取商品prod
 export const CLEAR_PRODUCT = 'clear_product' // 清除商品product
 
 export const SET_BIKE_MAP_CITY = 'set_bike_map_city' // 设置车辆地图城市bikeMapCity
-

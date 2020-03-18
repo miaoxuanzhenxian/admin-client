@@ -92,4 +92,3 @@ export const productFromId = productId => async dispatch => {
   设置车辆地图城市bikeMapCity的同步action
 */
 export const setBikeMapCity = bikeMapCity => ({ type: SET_BIKE_MAP_CITY, bikeMapCity })
-
