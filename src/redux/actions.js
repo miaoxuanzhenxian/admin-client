@@ -18,17 +18,17 @@ import { saveUser, removeUser } from '../utils/storageUtils'
 /* 
   设置头部标题的同步action
 */
-export const setHeaderTitle = (headerTitle) => ({ type: SET_HEADER_TITLE, data: headerTitle })
+export const setHeaderTitle = headerTitle => ({ type: SET_HEADER_TITLE, data: headerTitle })
 
 /*
   接收用户的同步action
 */
-export const receiveUser = (user) => ({ type: RECEIVE_USER, user })
+export const receiveUser = user => ({ type: RECEIVE_USER, user })
 
 /*
   显示登录用户错误提示信息的同步action
 */
-export const showUserError = (msg) => ({ type: SHOW_USER_ERROR, msg })
+export const showUserError = msg => ({ type: SHOW_USER_ERROR, msg })
 
 /*
   退出登录的同步action
@@ -57,12 +57,12 @@ export const login = (username, password) => async dispatch => {
 /*
   接收商品product的同步action
 */
-export const receiveProduct = (product) => ({ type: RECEIVE_PRODUCT, product })
+export const receiveProduct = product => ({ type: RECEIVE_PRODUCT, product })
 
 /*
   显示获取商品product错误提示信息的同步action
 */
-export const showProductError = (msg) => ({ type: SHOW_PRODUCT_ERROR, msg })
+export const showProductError = msg => ({ type: SHOW_PRODUCT_ERROR, msg })
 
 /*
   清除商品product的同步action
@@ -72,7 +72,7 @@ export const clearProduct = () => ({ type: CLEAR_PRODUCT })
 /*
   根据id获取商品product的异步action
 */
-export const productFromId = (productId) => async dispatch => {
+export const productFromId = productId => async dispatch => {
   // 1. 发根据id获取商品product的异步ajax请求
   const result = await reqProduct(productId)
   // 2. 请求结束, 分发同步action
@@ -91,5 +91,5 @@ export const productFromId = (productId) => async dispatch => {
 /* 
   设置车辆地图城市bikeMapCity的同步action
 */
-export const setBikeMapCity = (bikeMapCity) => ({ type: SET_BIKE_MAP_CITY, bikeMapCity })
+export const setBikeMapCity = bikeMapCity => ({ type: SET_BIKE_MAP_CITY, bikeMapCity })
 

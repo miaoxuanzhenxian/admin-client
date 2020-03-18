@@ -82,7 +82,7 @@ export default class Category extends Component {
           action = '修改'
           const categoryId = this.category._id
           //发修改（更新）分类的请求
-          result = await reqUpdateCategory({ categoryId, categoryName })
+          result = await reqUpdateCategory(categoryId, categoryName)
         }
 
         // 根据相应结果，做不同处理
