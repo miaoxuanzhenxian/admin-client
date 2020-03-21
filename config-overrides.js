@@ -1,7 +1,7 @@
 const { override, fixBabelImports, addLessLoader, addWebpackAlias, addDecoratorsLegacy, addWebpackModuleRule } = require('customize-cra')
 const path = require('path')
 
-// 当打包上线时，打包后我们会发现静态文件夹中会有很多的css和js的map文件(这样子源文件就被暴露出来了，不安全，应该关掉源映射)，那么我们该怎么关闭sourcemap呢？如下所示：
+// 当打包上线时，打包后我们会发现静态文件夹中会有很多的css和js的map文件(这样子源文件就被暴露出来了，不安全，应该关掉源映射)，那么我们该怎么在生产环境打包上线时(前)关闭sourcemap呢？如下所示：
 process.env.GENERATE_SOURCEMAP = "false"
 
 module.exports = override(
