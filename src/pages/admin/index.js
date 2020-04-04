@@ -19,6 +19,7 @@ const Role = loadable(() => import('../role'))
 const User = loadable(() => import('../user'))
 const Bar = loadable(() => import('../charts/bar'))
 const Line = loadable(() => import('../charts/line'))
+// const Line = loadable(() => import('../charts/line'), () => null) // 不想渲染任何东西，什么都不想显示,不想显示过度的loading效果的话，只需要让loading方法返回null就可以啦,即loading: () => null,也就是说调用loadable()方法时，给其第二个参数传入() => null即可
 const Pie = loadable(() => import('../charts/pie'))
 const BikeMap = loadable(() => import('../bike-map'))
 const NotFound = loadable(() => import('../not-found'))
