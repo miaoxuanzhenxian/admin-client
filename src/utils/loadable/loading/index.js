@@ -20,7 +20,7 @@ export default function Loading(props) {
       </div>
     )
   } else if (props.pastDelay) {
-    // When the loader has taken longer than the delay,delay默认是200ms,但也可以在Loadable中自定义延迟
+    // When the loader has taken longer than the delay,delay默认是200ms,但也可以在Loadable中自定义delay延迟
     return (
       <div className={style.loading}>
         <Spin />加载中...
