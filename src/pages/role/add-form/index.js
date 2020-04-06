@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
 /*
@@ -9,7 +9,7 @@ import { Form, Input } from 'antd'
 class AddForm extends Component {
   
   static propTypes = {
-    setForm: propTypes.func.isRequired
+    setForm: PropTypes.func.isRequired
   }
 
   constructor(props) {

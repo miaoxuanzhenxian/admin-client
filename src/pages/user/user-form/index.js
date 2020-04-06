@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Form, Input, Select } from 'antd'
 
 const Item = Form.Item
@@ -12,9 +12,9 @@ const Option = Select.Option
 class UserForm extends Component {
 
   static propTypes = {
-    user: propTypes.object.isRequired,
-    roles: propTypes.array.isRequired,
-    setForm: propTypes.func.isRequired
+    user: PropTypes.object.isRequired,
+    roles: PropTypes.array.isRequired,
+    setForm: PropTypes.func.isRequired
   }
 
   constructor(props) {

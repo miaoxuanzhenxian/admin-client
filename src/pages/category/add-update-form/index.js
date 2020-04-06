@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Form, Input } from 'antd'
 
 
@@ -7,8 +7,8 @@ import { Form, Input } from 'antd'
 class AddUpdateForm extends Component {
 
   static propTypes = {
-    setForm: propTypes.func.isRequired,
-    categoryName: propTypes.string
+    setForm: PropTypes.func.isRequired,
+    categoryName: PropTypes.string
   }
 
   constructor(props) {

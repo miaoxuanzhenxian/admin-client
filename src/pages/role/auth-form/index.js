@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import { Form, Input, Tree } from 'antd'
 
 import menuList from '@/config/menuConfig'
@@ -12,7 +12,7 @@ const { TreeNode } = Tree
 export default class AuthForm extends PureComponent {
 
   static propTypes = {
-    role: propTypes.object.isRequired
+    role: PropTypes.object.isRequired
   }
 
   constructor(props) {
