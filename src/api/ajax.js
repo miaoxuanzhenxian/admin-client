@@ -1,6 +1,6 @@
 /*
   能发ajax任意请求的函数模块
-  封装axios, 函数的返回值是promise
+  封装axios, 函数的返回值是Promise
   1. 将post请求参数转换为urlencoded(默认json格式)  ===> 使用请求拦截器
   2. 请求成功的结果不是response, 而是response.data ===> 使用响应拦截器(成功回调)
   3. 统一处理请求错误  ===> 使用响应拦截器(失败回调)

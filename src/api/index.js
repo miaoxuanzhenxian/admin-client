@@ -1,6 +1,6 @@
 /*
   包含n个接口请求函数的模块
-  每个函数的返回值都是promise
+  每个函数的返回值都是Promise
   根据API文档编写(必须具备这个能力)
 */
 import ajax from './ajax'
