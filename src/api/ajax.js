@@ -21,10 +21,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   return response.data
 }, error => {
-  message.error('请求出错 '+ error.message)
+  message.error('请求出错 ' + error.message)
   // return Promise.reject(error);
   // 返回一个pending状态(或者叫初始状态或者叫中断状态)的promise, 中断promise链
-  return new Promise(() => {})
+  return new Promise(() => { })
 })
 
 export default axios
