@@ -1,6 +1,7 @@
 /*
-  所有请求接口的函数：接口请求函数
-  函数的返回值都是promise对象
+  包含n个接口请求函数的模块
+  函数的返回值是promise
+  根据API文档编写(必须具备这个能力)
 */
 import ajax from './ajax'
 import jsonp from 'jsonp'
